@@ -1,0 +1,231 @@
+#! /usr/bin/env python
+# vim: set ft=python:expandtab:textwidth=80:ts=4:sw=4:
+
+# MIT License
+#
+# Copyright (c) 2020 Andrew Zhou
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+"""
+Manage separate Git identities.
+"""
+
+from __future__ import print_function
+
+from os.path import basename
+import subprocess
+import sys
+
+USAGE = '''
+Usage
+    {prog} [ help | -h | --help ]
+    {prog} select <identity>
+    {prog} reset
+    {prog} list
+    {prog} show
+
+select
+    Locally set user config values from the given identity. Implicitly runs {prog} reset.
+
+reset
+    Locally remove the user section.
+
+list
+    Print all identities.
+
+show
+    Print the current local identity.
+'''.strip().format(
+    prog=basename(sys.argv[0])
+)
+
+
+def error(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
+
+def call_silent(cmd):
+    return subprocess.call(cmd, stderr=subprocess.DEVNULL)
+
+
+def set_config(key, value, location='local', add=False):
+    if location not in ('local', 'global'):
+        raise ValueError('Location must be local or global!')
+
+    cmd = ['git', 'config', '--' + location, key, value]
+    subprocess.check_call(cmd)
+
+
+def parse_line(line):
+    k, val = line.split('=', 1)
+    tup = k.split('.', 2)
+    if len(tup) == 3:
+        section, subsection, var = tup
+    elif len(tup) == 2:
+        section, subsection, var = tup[0], '', tup[1]
+    else:
+        raise ValueError('Could not parse key in line: %s' % line)
+    return section, subsection, var, val
+
+
+def get_config(location):
+    if location not in ('local', 'global'):
+        raise ValueError('Invalid location: %s' % location)
+
+    cmd = ['git', 'config', '--%s' % location, '--list']
+    output = subprocess.check_output(cmd).strip().splitlines()
+
+    config = {}
+    for line in output:
+        line = line.decode('utf-8')
+        section, subsection, var, val = parse_line(line)
+
+        section_dict = config.setdefault(section, {})
+        subsection_dict = (
+            section_dict.setdefault(subsection, {})
+            if subsection
+            else section_dict
+        )
+        values = subsection_dict.setdefault(var, [])
+        values.append(val)
+
+    return config
+
+
+def get_identities():
+    return get_config('global').get('x-identity', {})
+
+
+def format_identities():
+    output = []
+
+    ids = get_identities()
+    keys = sorted(ids.keys())
+
+    for key in keys:
+        identity = ids[key]
+        if output:
+            output.append('')
+        output.append('[x-identity "{}"]'.format(key))
+        for var, vals in identity.items():
+            for val in vals:
+                output.append('\t{var} = {val}'.format(var=var, val=val))
+    return '\n'.join(output)
+
+
+def list_identities():
+    print(format_identities())
+    return 0
+
+
+############
+# Commands #
+############
+
+
+def reset():
+    """
+    Reset the local context's identity.
+
+    This command should not fail.
+    """
+    cmd = ['git', 'config', '--local', '--remove-section']
+    call_silent(cmd + ['user'])
+    call_silent(cmd + ['x-identity'])
+    return 0
+
+
+def select(identity):
+    """
+    Select an identity for the local config context.
+    """
+    reset()
+    subsection = get_identities().get(identity)
+    if not subsection:
+        error('Identity {} does not exist!'.format(identity))
+        return 1
+
+    key = 'user.{}'
+    for var, vals in subsection.items():
+        for val in vals:
+            set_config(key.format(var), val, add=True)
+    set_config('x-identity.active', identity)
+    return 0
+
+
+def show():
+    config = get_config('local')
+    identity = config.get('x-identity', {}).get('active')
+    if not identity:
+        return 1
+    print(identity[0])
+    return 0
+
+
+def usage():
+    error(USAGE)
+    return 0
+
+
+########
+# Main #
+########
+
+
+def main():
+    if len(sys.argv) < 2:
+        usage()
+        return 1
+
+    command = sys.argv[1].lower()
+
+    if command in ('help', '-h', '--help'):
+        return usage()
+
+    if command == 'list':
+        if len(sys.argv) != 2:
+            usage()
+            return 1
+
+        list_identities()
+        return 0
+
+    if command == 'reset':
+        if len(sys.argv) != 2:
+            usage()
+            return 1
+
+        return reset()
+
+    if command == 'select':
+        if len(sys.argv) != 3:
+            error(USAGE)
+            return 1
+        return select(sys.argv[2])
+
+    if command == 'show':
+        return show()
+
+    usage()
+    return 1
+
+
+if __name__ == '__main__':
+    sys.exit(main())

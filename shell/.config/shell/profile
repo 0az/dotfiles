@@ -1,0 +1,160 @@
+# vim: set ft=sh:
+
+#######
+# TOC #
+#######
+
+###
+# Prelude
+##
+# TOC
+# Notes
+# Shell
+# XDG
+# PATH Setup
+
+###
+# Main
+##
+# Java
+# JavaScript: Including Node
+# Python
+# Rust
+# Other
+#   Vim
+
+###
+# Finale
+##
+# Other
+# Postscript
+
+########
+# Main #
+########
+
+#########
+# Notes #
+#########
+
+# Document everything!
+# - Prefix block labels with the section
+# - Label blocks with the configured program/utility/etc
+
+#########
+# Shell #
+#########
+export EDITOR=vi
+test -n "$BASH_VERSION" && export PS1='\u@\h:\W \\$ '
+# export LESS='-R'
+
+#######
+# XDG #
+#######
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+
+########
+# PATH #
+########
+
+# Initialize $PATH
+# path="$PATH"
+# Disabled because path_helper
+# path="/usr/local/bin:$PATH"
+
+# Homebrew sbin
+export PATH="/usr/local/sbin:$PATH"
+
+# MacPorts
+export PATH="/opt/local/bin:$PATH"
+
+# User local bin
+# Used by Pipsi
+export PATH="$HOME/.local/bin:$PATH"
+
+# Shell config bin
+# Used for cross-platform utility scripts
+export PATH="$XDG_CONFIG_HOME/shell/bin:$PATH"
+
+########
+# Java #
+########
+
+# Jenv: init
+export JENV_ROOT="$XDG_DATA_HOME/jenv"
+# FIXME: This breaks in subshell contexts
+test -n "$BASH_VERSION" && eval 'eval "$(jenv init -)"'
+test -n "$FISH_VERSION" && eval 'status --is-interactive && source (jenv init -|psub)'
+
+##############
+# JavaScript #
+##############
+
+# JavaScript: Node REPL XDG
+export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
+
+##########
+# Python #
+##########
+
+# Python: MacPorts system bin
+# - Disabled because pathhelper
+# path="/opt/local/Library/Frameworks/Python.framework/Versions/3.7/bin/:$PATH"
+
+# Python: Python 3.7 user bin
+# export PATH="/Users/az/Library/Python/3.7/bin:$PATH"
+
+# Python: Pipenv
+export PIPENV_VENV_IN_PROJECT=1
+export PIPENV_DEFAULT_PYTHON_VERSION='3.8'
+export PIPENV_IGNORE_VIRTUALENVS=1
+
+# Python: Pylint XDG
+export PYLINTHOME="$XDG_CACHE_HOME"/pylint
+
+# Python: NLTK Data Directory
+# export NLTK_DATA="$XDG_DATA_HOME"/nltk_data
+
+########
+# Rust #
+########
+
+# Rust: Rustup and Cargo XDG
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+
+# Rust: Cargo path
+export PATH="$CARGO_HOME/bin:$PATH"
+
+#########
+# Other #
+#########
+
+# path="/usr/local/opt/berkeley-db@4/bin:$PATH"
+
+# Vim: XDG
+# shellcheck disable=SC2016
+export VIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/vimrc | endif'
+
+# Byobu: Python
+# export BYOBU_PYTHON=/usr/local/bin/python3
+
+# fzf
+export FZF_DEFAULT_COMMAND='fd --hidden -L -E .git -E .venv -E node_modules -E Library -E .mypy_cache'
+export FZF_DEFAULT_OPTS='--bind=ctrl-k:kill-line'
+
+##########
+# Finale #
+##########
+
+# Bash Completion
+# [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+test -n "$BASH_VERSION" && [ -f /opt/local/etc/profile.d/bash_completion.sh ] && . /opt/local/etc/profile.d/bash_completion.sh
+
+##############
+# Postscript #
+##############
+
+# export PATH=$PATH

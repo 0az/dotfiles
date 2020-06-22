@@ -1,1 +1,8 @@
 # vim: set ft=gitignore:
+
+########
+# Shell
+####
+# litecli, pgcli, etc
+shell/.config/*cli/history
+shell/.config/*cli/log
