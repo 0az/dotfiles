@@ -1,6 +1,13 @@
 # vim: set ft=gitignore:
 
 ########
+# Fish
+####
+# Guard against generated completion scripts
+fish/.config/fish/completions/
+fish/.config/fish/fish_variables
+
+########
 # Shell
 ####
 # litecli, pgcli, etc
