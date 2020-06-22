@@ -1,0 +1,22 @@
+[core]
+	editor = vim
+
+[commit]
+	gpgSign = false
+
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+
+[filter "media"]
+	required = true
+	clean = git media clean %f
+	smudge = git media smudge %f
+
+[user]
+	useConfigOnly = true
+
+[include]
+	path = ~/.config/git/x-identity.conf
