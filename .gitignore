@@ -8,6 +8,12 @@ fish/.config/fish/completions/
 fish/.config/fish/fish_variables
 
 ########
+# Git
+####
+# git-identity config
+git/.config/git/x-identity.conf
+
+########
 # Shell
 ####
 # litecli, pgcli, etc
