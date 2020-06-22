@@ -14,6 +14,13 @@ fish/.config/fish/fish_variables
 git/.config/git/x-identity.conf
 
 ########
+# SSH
+####
+ssh/.ssh/known_hosts
+ssh/.ssh/hosts.d/
+ssh/.ssh/keys/
+
+########
 # Shell
 ####
 # litecli, pgcli, etc
