@@ -8,6 +8,7 @@ alias doctest='python -m doctest'
 # Mini-functions
 alias add-ssh-keys="ssh-add -t 6000 ~/.ssh/keys/autoload/*"
 alias fixup='git commit -m FIXUP'
+alias rebase='git rebase -i'
 
 # Configuration
 alias irssi='irssi --home="$XDG_CONFIG_HOME/irssi"'
