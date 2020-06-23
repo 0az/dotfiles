@@ -20,3 +20,5 @@
 
 [include]
 	path = ~/.config/git/x-identity.conf
+[pull]
+	ff = only
