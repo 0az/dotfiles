@@ -1,14 +1,21 @@
-alias add-ssh-keys="ssh-add -t 6000 ~/.ssh/keys/autoload/*"
+# vim: set ft=sh:
+
+# Abbreviations
+alias py=python3
+alias ipy=ipython
 alias doctest='python -m doctest'
+
+# Mini-functions
+alias add-ssh-keys="ssh-add -t 6000 ~/.ssh/keys/autoload/*"
+
+# Configuration
 alias irssi='irssi --home="$XDG_CONFIG_HOME/irssi"'
 alias ffprobe='ffprobe -hide_banner'
 
 # Editors
-alias e="$EDITOR"
-alias gd='mvimdiff'
-alias ge='mvim'
-alias view='mview'
-alias py='python'
-alias ipy='ipython'
-alias code='code-insiders'
-alias vsc='code-insiders'
+alias e="\$EDITOR"
+alias gd=mvimdiff
+alias ge=mvim
+alias vi=vim
+alias code=code-insiders
+alias vsc=code-insiders
