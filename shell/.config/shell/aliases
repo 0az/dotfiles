@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 
 # Abbreviations
-alias py=python3
+alias py=python
 alias ipy=ipython
 alias doctest='python -m doctest'
 
