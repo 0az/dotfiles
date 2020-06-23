@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>local.launchd.test</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>sh</string>
+    <string>-c</string>
+    <string>open -a Calculator.app; date >> $HOME/.test.txt</string>
+  </array>
+  <key>StandardOutPath</key>
+  <string>/tmp/test.stdout</string>
+  <key>RunAtLoad</key>
+  <true/>
+</dict>
+</plist>
