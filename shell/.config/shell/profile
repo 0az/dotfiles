@@ -137,6 +137,7 @@ export PATH="$CARGO_HOME/bin:$PATH"
 # Vim: XDG
 # shellcheck disable=SC2016
 export VIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/vimrc | endif'
+export GVIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/vimrc | endif'
 
 # Byobu: Python
 # export BYOBU_PYTHON=/usr/local/bin/python3
