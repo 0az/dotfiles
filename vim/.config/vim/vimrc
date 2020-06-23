@@ -1,0 +1,214 @@
+" vim: set tabstop=8 shiftwidth=8:
+
+" Prelude
+
+set nocompatible              		" Disable vi compat
+
+" Vim doesn't work very well with fish
+if &shell =~# 'fish$'
+    set shell=sh
+endif
+
+" XDG setup
+let use_xdg_config_home = strlen($XDG_CONFIG_HOME) > 0
+let use_xdg_data_home = strlen($XDG_DATA_HOME) > 0
+if use_xdg_data_home
+	" As suggested by Arch Wiki, but with some changes disabled
+	call mkdir($XDG_DATA_HOME . '/vim/', 'p', 0700)
+	call mkdir($XDG_DATA_HOME . '/vim/undo', 'p', 0700)
+	" mkdir($XDG_DATA_HOME . "/vim/swap", 'p', 0700)
+	" mkdir($XDG_DATA_HOME . "/vim/backup", 'p', 0700)
+	call mkdir($XDG_DATA_HOME . '/vim/view', 'p', 0700)
+	set undodir=$XDG_DATA_HOME/vim/undo
+	" set directory=$XDG_DATA_HOME/vim/swap
+	" set backupdir=$XDG_DATA_HOME/vim/backup
+	set viewdir=$XDG_DATA_HOME/vim/view
+	set viminfo+='1000,n$XDG_DATA_HOME/vim/viminfo
+endif
+if use_xdg_config_home
+	set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_DATA_HOME/vim,$VIMRUNTIME,$XDG_CONFIG_HOME/vim/after
+endif
+
+" Plugin Preload configuration
+" let g:ale_completion_enabled = 1
+" let g:ale_cursor_detail = 1
+let s:python_dll_script = ''
+" set pythonthreehome=system(python_dll_script)
+
+if use_xdg_data_home
+	let plug_path = $XDG_DATA_HOME . "/vim/autoload/plug.vim"
+else
+	let plug_path = '~/.vim/autoload/plug.vim'
+endif
+
+if empty(glob(plug_path))
+	echo "plug path: " . plug_path
+	let plug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	" silent execute '!curl -fLo ' . plug_path . ' --create-dirs ' . plug_url
+	execute '!curl -fLo ' . plug_path . ' --create-dirs ' . plug_url
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Initialize plug
+if use_xdg_data_home
+	call plug#begin($XDG_DATA_HOME . '/vim/plugged')
+else
+	call plug#begin('~/.vim/plugged')
+endif
+
+" Plug help:
+" | PlugInstall [name ...] [#threads]	| Install plugins
+" | PlugUpdate [name ...] [#threads]	| Install or update plugins
+" | PlugClean[!]			| Remove unused directories (bang version will clean without prompt)
+" | PlugUpgrade				| Upgrade vim-plug itself
+" | PlugStatus				| Check the status of plugins
+" | PlugDiff				| Examine changes from the previous update and the pending changes
+" | PlugSnapshot[!] [output path]	| Generate script for restoring the current snapshot of the plugins
+"
+" More plugins:
+" | https://vimawesome.com/
+
+" General Plugins
+Plug 'tpope/vim-sensible'		" vim-sensible
+
+" Editor plugins
+Plug 'scrooloose/nerdtree'		" Tree explorer
+Plug 'editorconfig/editorconfig-vim'	" Editorconfig support
+
+" Iterface plugins
+" Plug 'vim-airline/vim-airline'	" Improved status bar
+" Plug 'vim-airline/vim-airline-themes'	" Themes for Airline
+Plug 'itchyny/lightline.vim'		" Lightline
+Plug 'ctrlpvim/ctrlp.vim'		" Fuzzy finder
+Plug 'airblade/vim-gitgutter'		" Add git diff info to gutter
+Plug 'ap/vim-css-color'			" ???
+Plug 'junegunn/goyo.vim'		" Minimalist mode
+Plug 'junegunn/limelight.vim'		" Highlight current paragraph
+Plug 'tpope/vim-repeat'			" Repeat plugin maps
+
+" Color Scheme
+Plug 'arcticicestudio/nord-vim'		" Nord Theme
+Plug 'altercation/vim-colors-solarized'	" Solarized Theme
+
+" Text plugins
+Plug 'tpope/vim-surround'		" Quotes/Parens/Brackets
+Plug 'scrooloose/nerdcommenter'		" Commenting
+
+" Code plugins
+" Plug 'scrooloose/syntastic'		" Syntax checking
+Plug 'cespare/vim-toml'			" TOML
+Plug 'vim-pandoc/vim-pandoc'		" Pandoc support
+Plug 'vim-pandoc/vim-pandoc-syntax'	" Pandoc syntax
+Plug 'keith/swift.vim'			" Swift syntax
+
+" Completion plugins
+Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
+					" Completion
+Plug 'mattn/emmet-vim'			" Emmet
+
+" Integration plugins:
+Plug 'tpope/vim-fugitive'		" Git porcelain
+Plug 'w0rp/ale'				" Linting/Fixing, Language Server Protocol
+Plug 'lervag/vimtex'			" Tex
+Plug 'hashivim/vim-terraform'		" Terraform/HCL
+
+" Formatting Plugins
+Plug 'dimbleby/black.vim'		" Black!
+
+" Initialize plugin system
+call plug#end()
+
+
+" Settings
+
+" Line numbers
+set number
+
+" set list
+set listchars=eol:⏎,tab:␉·,trail:␠,nbsp:⎵
+set splitbelow
+set splitright
+
+" Spaces per tab
+set tabstop=4
+set shiftwidth=4
+set smarttab
+
+set modeline
+set laststatus=2
+
+let $BASH_ENV = "$HOME/.bash_aliases"
+
+" Mappings
+nmap <D-Bslash> :NERDTreeToggle<CR>
+if has("unix")
+	let s:uname = system("uname -s")
+	if s:uname == "Darwin"
+		echo "Setting up Darwin keymaps"
+	endif
+endif
+
+" Plugin Settings
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+
+let g:lightline = {
+	\ 'colorscheme': 'solarized',
+\}
+
+let g:ale_linters = {
+	\ 'java': [
+		\ 'checkstyle',
+		"\ 'eclipselsp',
+		\ 'javac',
+		"\ 'javalsp',
+		"\ 'pmd'
+	\ ],
+	\ 'javascript': [
+		"\  'eslint',
+		"\  'tsserver',
+		"\  'xo'
+	\ ],
+	\ 'python': [
+		\ 'flake8',
+		"\ 'mypy',
+		"\ 'pylint',
+	\ ],
+\ }
+" Enabled Linters: ['checkstyle', 'eclipselsp', 'javac', 'javalsp', 'pmd']
+
+let g:ale_fixers = {
+	\ 'java': [
+		\ 'google_java_format',
+	\ ],
+	\ 'python': [
+		\ 'isort',
+		\ 'add_blank_lines_for_python_control_statements',
+		\ 'remove_trailing_lines',
+		\ 'trim_whitespace',
+	\ ],
+\ }
+
+let g:ale_javascript_eslint_options = '--env browser,node --parser-options=ecmaVersion:7'
+let g:ale_python_auto_pipenv = 1
+let g:ale_python_flake8_auto_pipenv = 1
+
+let g:black_linelength = 79
+let g:black_skip_string_normalization = 1
+let g:black_virtualenv = $XDG_CACHE_HOME . '/vim/black'
+
+" let g:ycm_server_python_interpreter = '/opt/local/bin/python3'
+let g:ycm_filter_diagnostics = {
+	\ "javascript": {
+		\ "regex": [
+			\ ".*Cannot find Module.*"
+		\ ]
+	\ }
+\ }
+
+" Syntastic
+" let g:syntastic_swift_swiftlint_use_defaults = 1 
+" let g:syntastic_swift_checkers = ['swiftlint', 'swiftpm'] 
+
+" Init
+
+autocmd VimEnter * set nolazyredraw lazyredraw
