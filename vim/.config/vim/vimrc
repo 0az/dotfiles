@@ -108,7 +108,7 @@ Plug 'mattn/emmet-vim'			" Emmet
 
 " Integration plugins:
 Plug 'tpope/vim-fugitive'		" Git porcelain
-Plug 'w0rp/ale'				" Linting/Fixing, Language Server Protocol
+Plug 'dense-analysis/ale'		" Linting/Fixing, Language Server Protocol
 Plug 'lervag/vimtex'			" Tex
 Plug 'hashivim/vim-terraform'		" Terraform/HCL
 
@@ -141,6 +141,8 @@ let $BASH_ENV = "$HOME/.bash_aliases"
 
 " Mappings
 nmap <D-Bslash> :NERDTreeToggle<CR>
+nmap <F2> :ALERename<CR>
+
 if has("unix")
 	let s:uname = system("uname -s")
 	if s:uname == "Darwin"
@@ -172,9 +174,9 @@ let g:ale_linters = {
 		\ 'flake8',
 		"\ 'mypy',
 		"\ 'pylint',
+		\ 'pyls',
 	\ ],
 \ }
-" Enabled Linters: ['checkstyle', 'eclipselsp', 'javac', 'javalsp', 'pmd']
 
 let g:ale_fixers = {
 	\ 'java': [
@@ -190,11 +192,15 @@ let g:ale_fixers = {
 
 let g:ale_javascript_eslint_options = '--env browser,node --parser-options=ecmaVersion:7'
 let g:ale_python_auto_pipenv = 1
-let g:ale_python_flake8_auto_pipenv = 1
 
 let g:black_linelength = 79
 let g:black_skip_string_normalization = 1
-let g:black_virtualenv = $XDG_CACHE_HOME . '/vim/black'
+
+if use_xdg_data_home
+	let g:black_virtualenv = $XDG_DATA_HOME . '/vim/black'
+else
+	let g:black_virtualenv = '~/.vim/black'
+endif
 
 " let g:ycm_server_python_interpreter = '/opt/local/bin/python3'
 let g:ycm_filter_diagnostics = {
