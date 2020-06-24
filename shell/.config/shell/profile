@@ -29,17 +29,18 @@
 # Other
 # Postscript
 
-########
-# Main #
-########
-
 #########
 # Notes #
 #########
 
+# Make sure that this parses under POSIX shell and fish
 # Document everything!
-# - Prefix block labels with the section
-# - Label blocks with the configured program/utility/etc
+#   Prefix block labels with the section
+#   Label blocks with the configured program/utility/etc
+
+########
+# Main #
+########
 
 #########
 # Shell #
@@ -153,7 +154,14 @@ export FZF_DEFAULT_OPTS='--bind=ctrl-k:kill-line'
 
 # Bash Completion
 # [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+# shellcheck disable=1091
 test -n "$BASH_VERSION" && [ -f /opt/local/etc/profile.d/bash_completion.sh ] && . /opt/local/etc/profile.d/bash_completion.sh
+
+# Includes
+for f in ~/.config/shell/includes.d/*.sh; do
+	# shellcheck disable=SC1090
+	. "$f"
+done
 
 ##############
 # Postscript #
