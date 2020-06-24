@@ -157,12 +157,6 @@ export FZF_DEFAULT_OPTS='--bind=ctrl-k:kill-line'
 # shellcheck disable=1091
 test -n "$BASH_VERSION" && [ -f /opt/local/etc/profile.d/bash_completion.sh ] && . /opt/local/etc/profile.d/bash_completion.sh
 
-# Includes
-for f in ~/.config/shell/includes.d/*.sh; do
-	# shellcheck disable=SC1090
-	. "$f"
-done
-
 ##############
 # Postscript #
 ##############
