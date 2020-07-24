@@ -23,6 +23,9 @@ ssh/.ssh/keys/
 ########
 # Shell
 ####
+# Local includes
+shell/.config/shell/includes.d/*.sh
+
 # litecli, pgcli, etc
 shell/.config/*cli/history
 shell/.config/*cli/log
