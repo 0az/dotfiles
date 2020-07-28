@@ -32,6 +32,7 @@ endif
 " Plugin Preload configuration
 " let g:ale_completion_enabled = 1
 " let g:ale_cursor_detail = 1
+let g:ale_set_balloons = 1
 let s:python_dll_script = ''
 " set pythonthreehome=system(python_dll_script)
 
@@ -99,7 +100,8 @@ Plug 'scrooloose/nerdcommenter'		" Commenting
 Plug 'cespare/vim-toml'			" TOML
 Plug 'vim-pandoc/vim-pandoc'		" Pandoc support
 Plug 'vim-pandoc/vim-pandoc-syntax'	" Pandoc syntax
-Plug 'keith/swift.vim'			" Swift syntax
+" Plug 'keith/swift.vim'		" Swift syntax
+Plug 'udalov/kotlin-vim'		" Kotlin syntax
 
 " Completion plugins
 Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
@@ -170,6 +172,9 @@ let g:ale_linters = {
 		"\  'tsserver',
 		"\  'xo'
 	\ ],
+	\ 'go': [
+		\ 'gopls'
+	\ ],
 	\ 'python': [
 		\ 'flake8',
 		"\ 'mypy',
@@ -181,6 +186,10 @@ let g:ale_linters = {
 let g:ale_fixers = {
 	\ 'java': [
 		\ 'google_java_format',
+	\ ],
+	\ 'go': [
+		\ 'gofmt',
+		\ 'goimports'
 	\ ],
 	\ 'python': [
 		\ 'isort',
