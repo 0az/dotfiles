@@ -87,7 +87,7 @@ export PATH="$XDG_CONFIG_HOME/shell/bin:$PATH"
 export JENV_ROOT="$XDG_DATA_HOME/jenv"
 # FIXME: This breaks in subshell contexts
 test -n "$BASH_VERSION" && eval 'eval "$(jenv init -)"'
-test -n "$FISH_VERSION" && eval 'status --is-interactive && source (jenv init -|psub)'
+test -n "$FISH_VERSION" && eval 'status --is-interactive && source (jenv init - | psub)'
 
 ##############
 # JavaScript #
