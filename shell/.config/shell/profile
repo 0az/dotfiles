@@ -145,8 +145,9 @@ export GVIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/gvimrc | endif'
 # export BYOBU_PYTHON=/usr/local/bin/python3
 
 # fzf
-export FZF_DEFAULT_COMMAND='fd --hidden -L -E .git -E .venv -E node_modules -E Library -E .mypy_cache'
+export FZF_DEFAULT_COMMAND='fd -HL -E .git -E .venv -E Library -E node_modules'
 export FZF_DEFAULT_OPTS='--bind=ctrl-k:kill-line'
+export FZF_CTRL_T_COMMAND='fd -HL -E .git -E .venv -E Library/Caches -E node_modules'
 
 ##########
 # Finale #
