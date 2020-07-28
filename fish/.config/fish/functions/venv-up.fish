@@ -1,5 +1,12 @@
 function venv-up --description 'Activate a Python venv'
-	argparse --name=venv-up 'd/dir=' 'e/env=+' -- $argv
+	argparse --name=venv-up 'd/dir=' 'e/env=+' 'h/help' -- $argv
+
+	if set -q _flag_h
+		echo 'Usage' >&2
+		printf '\tvenv-up [ -h | --help ]\n' >&2
+		printf '\tvenv-up [ -d | --dir ] [ -e | --env ] COMMAND ...\n' >&2
+		return 0
+	end
 
 	set -l prefix
 	if ! set -q _flag_d
