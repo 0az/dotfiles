@@ -147,7 +147,8 @@ export GVIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/gvimrc | endif'
 # fzf
 export FZF_DEFAULT_COMMAND='fd -HL -E .git -E .venv -E Library -E node_modules'
 export FZF_DEFAULT_OPTS='--bind=ctrl-k:kill-line'
-export FZF_CTRL_T_COMMAND='fd -HL -E .git -E .venv -E Library/Caches -E node_modules'
+# shellcheck disable=SC2016
+export FZF_CTRL_T_COMMAND='fd -HL -E .git -E .venv -E Library/Caches -E node_modules . $dir'
 
 ##########
 # Finale #
