@@ -72,7 +72,7 @@ export PATH="/usr/local/sbin:$PATH"
 export PATH="/opt/local/bin:$PATH"
 
 # User local bin
-# Used by Pipsi
+# Used by Pipx
 export PATH="$HOME/.local/bin:$PATH"
 
 # Shell config bin
