@@ -13,9 +13,15 @@ alias rebase='git rebase -i'
 # Configuration
 alias irssi='irssi --home="$XDG_CONFIG_HOME/irssi"'
 alias ffprobe='ffprobe -hide_banner'
+# ptpython is blocked on appdirs
+alias ptpython='ptpython --config-file=$XDG_CONFIG_HOME/ptpython/config.py'
+alias ptipython='ptipython --config-file=$XDG_CONFIG_HOME/ptpython/config.py'
+alias ptpy=ptpython
+alias ptipy=ptipython
+
 
 # Editors
-alias e="\$EDITOR"
+alias e='$EDITOR'
 alias gd=mvimdiff
 alias ge=mvim
 alias vi=vim
