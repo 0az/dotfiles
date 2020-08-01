@@ -79,6 +79,9 @@ export PATH="$HOME/.local/bin:$PATH"
 # Used for cross-platform utility scripts
 export PATH="$XDG_CONFIG_HOME/shell/bin:$PATH"
 
+# Git scripts bin
+export PATH="$XDG_CONFIG_HOME/git/bin:$PATH"
+
 ########
 # Java #
 ########
