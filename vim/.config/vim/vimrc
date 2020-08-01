@@ -76,7 +76,7 @@ Plug 'tpope/vim-sensible'		" vim-sensible
 Plug 'scrooloose/nerdtree'		" Tree explorer
 Plug 'editorconfig/editorconfig-vim'	" Editorconfig support
 
-" Iterface plugins
+" Interface plugins
 " Plug 'vim-airline/vim-airline'	" Improved status bar
 " Plug 'vim-airline/vim-airline-themes'	" Themes for Airline
 Plug 'itchyny/lightline.vim'		" Lightline
