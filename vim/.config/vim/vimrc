@@ -102,6 +102,7 @@ Plug 'vim-pandoc/vim-pandoc'		" Pandoc support
 Plug 'vim-pandoc/vim-pandoc-syntax'	" Pandoc syntax
 " Plug 'keith/swift.vim'		" Swift syntax
 Plug 'udalov/kotlin-vim'		" Kotlin syntax
+Plug 'GutenYe/json5.vim'		" JSON5 syntax
 
 " Completion plugins
 Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
