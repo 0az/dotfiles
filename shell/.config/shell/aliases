@@ -7,7 +7,7 @@ alias doctest='python -m doctest'
 
 # Mini-functions
 alias add-ssh-keys="ssh-add -t 6000 ~/.ssh/keys/autoload/*"
-alias fixup='git commit -m FIXUP'
+alias fixup='git commit -m "fixup!"'
 alias rebase='git rebase -i'
 
 # Configuration
@@ -18,7 +18,6 @@ alias ptpython='ptpython --config-file=$XDG_CONFIG_HOME/ptpython/config.py'
 alias ptipython='ptipython --config-file=$XDG_CONFIG_HOME/ptpython/config.py'
 alias ptpy=ptpython
 alias ptipy=ptipython
-
 
 # Editors
 alias e='$EDITOR'
