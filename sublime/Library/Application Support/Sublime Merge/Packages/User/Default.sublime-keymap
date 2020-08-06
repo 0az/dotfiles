@@ -1,0 +1,10 @@
+[
+	{ "keys": ["super+shift+enter"], "command": "commit", "args": { "mode": "commit" },
+		"context": [{ "key": "setting.commit_message" }, { "key": "can_commit" }]
+	},
+	{ "keys": ["super+shift+enter"], "command": "edit_commit",
+		"context": [{ "key": "setting.commit_message" }, { "key": "read_only" }]
+	},
+	{ "keys": ["super+shift+enter"], "command": "save_commit_message",
+		"context": [{ "key": "setting.commit_message" }, { "key": "is_editing_commit" }]},
+]
