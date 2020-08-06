@@ -46,8 +46,26 @@
 # Shell #
 #########
 export EDITOR=vi
-test -n "$BASH_VERSION" && export PS1='\u@\h:\W \\$ '
-# export LESS='-R'
+
+# Polyglot support
+alias _if_bash=false
+alias _if_fish=false
+
+test -n "$BASH_VERSION" && eval 'alias _if_bash_eval=eval; alias _if_fish_eval=false'
+test -n "$FISH_VERSION" && eval 'alias _if_fish_eval=eval; alias _if_bash_eval="false && echo -n"'
+
+_if_bash_eval alias _if_bash=true
+_if_fish_eval alias _if_fish=true
+
+# shellcheck disable=SC2016
+_if_bash_eval '_set() { eval "$1=$2"; }'
+_if_fish_eval 'alias _set="set -g"'
+# shellcheck disable=SC2016
+_if_bash_eval '_unset() { unset "$1"; }'
+_if_fish_eval 'alias _unset="set -ge"'
+
+# PS1
+_if_bash && export PS1='\u@\h:\W \\$ '
 
 #######
 # XDG #
@@ -89,8 +107,8 @@ export PATH="$XDG_CONFIG_HOME/git/bin:$PATH"
 # Jenv: init
 export JENV_ROOT="$XDG_DATA_HOME/jenv"
 # FIXME: This breaks in subshell contexts
-test -n "$BASH_VERSION" && eval 'eval "$(jenv init -)"'
-test -n "$FISH_VERSION" && eval 'status --is-interactive && source (jenv init - | psub)'
+_if_bash_eval 'eval "$(jenv init -)"'
+_if_fish_eval 'status --is-interactive && source (jenv init - | psub)'
 
 ##############
 # JavaScript #
@@ -147,11 +165,18 @@ export GVIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/gvimrc | endif'
 # Byobu: Python
 # export BYOBU_PYTHON=/usr/local/bin/python3
 
-# fzf
-export FZF_DEFAULT_COMMAND='fd -HL -E .git -E .venv -E Library -E node_modules'
+# FZF: fzf
+_set fzf_common "fd -HL -E .git -E .venv -E Library -E go -E node_modules"
+
+# shellcheck disable=SC2154
+export FZF_DEFAULT_COMMAND="$fzf_common"
 export FZF_DEFAULT_OPTS='--bind=ctrl-k:kill-line'
 # shellcheck disable=SC2016
-export FZF_CTRL_T_COMMAND='fd -HL -E .git -E .venv -E Library/Caches -E node_modules . $dir'
+export FZF_CTRL_T_COMMAND="$fzf_common"' . $dir'
+# shellcheck disable=SC2016
+export FZF_ALT_C_COMMAND="$fzf_common"' . $dir'
+
+_unset fzf_common
 
 ##########
 # Finale #
@@ -160,10 +185,16 @@ export FZF_CTRL_T_COMMAND='fd -HL -E .git -E .venv -E Library/Caches -E node_mod
 # Bash Completion
 # [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 # shellcheck disable=1091
-test -n "$BASH_VERSION" && [ -f /opt/local/etc/profile.d/bash_completion.sh ] && . /opt/local/etc/profile.d/bash_completion.sh
+_if_bash && [ -f /opt/local/etc/profile.d/bash_completion.sh ] && . /opt/local/etc/profile.d/bash_completion.sh
 
 ##############
 # Postscript #
 ##############
 
-# export PATH=$PATH
+_if_bash_eval 'unset -f _set'
+_if_fish_eval 'functions -e _set'
+_if_bash_eval 'unset -f _unset'
+_if_fish_eval 'functions -e _unset'
+
+_if_bash_eval 'unalias _if_bash _if_fish _if_bash_eval _if_fish_eval'
+_if_fish_eval 'functions -e _if_bash _if_fish _if_bash_eval _if_fish_eval'
