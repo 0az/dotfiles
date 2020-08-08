@@ -166,17 +166,17 @@ export GVIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/gvimrc | endif'
 # export BYOBU_PYTHON=/usr/local/bin/python3
 
 # FZF: fzf
-_set fzf_common "fd -HL -E .git -E .venv -E Library -E go -E node_modules"
+_set fzf_fd_common "fd -HL -E .git -E .local/pipx/venvs -E .venv -E .wine -E Applications -E Library -E go -E node_modules"
 
 # shellcheck disable=SC2154
-export FZF_DEFAULT_COMMAND="$fzf_common"
+export FZF_DEFAULT_COMMAND="$fzf_fd_common"
 export FZF_DEFAULT_OPTS='--bind=ctrl-k:kill-line'
 # shellcheck disable=SC2016
-export FZF_CTRL_T_COMMAND="$fzf_common"' . $dir'
+export FZF_CTRL_T_COMMAND="$fzf_fd_common"' . $dir'
 # shellcheck disable=SC2016
-export FZF_ALT_C_COMMAND="$fzf_common"' . $dir'
+export FZF_ALT_C_COMMAND="$fzf_fd_common"' -t d . $dir'
 
-_unset fzf_common
+_unset fzf_fd_common
 
 ##########
 # Finale #
