@@ -1,0 +1,11 @@
+*.swp
+.build
+.cache
+.git
+.gradle
+.mypy_cache
+.next
+.terraform
+.venv
+.yarn
+node_modules
