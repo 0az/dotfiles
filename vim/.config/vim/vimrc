@@ -73,16 +73,14 @@ endif
 Plug 'tpope/vim-sensible'		" vim-sensible
 
 " Editor plugins
-Plug 'scrooloose/nerdtree'		" Tree explorer
 Plug 'editorconfig/editorconfig-vim'	" Editorconfig support
+Plug 'scrooloose/nerdtree'		" Tree explorer
 
 " Interface plugins
-" Plug 'vim-airline/vim-airline'	" Improved status bar
-" Plug 'vim-airline/vim-airline-themes'	" Themes for Airline
-Plug 'itchyny/lightline.vim'		" Lightline
-Plug 'ctrlpvim/ctrlp.vim'		" Fuzzy finder
 Plug 'airblade/vim-gitgutter'		" Add git diff info to gutter
 Plug 'ap/vim-css-color'			" ???
+Plug 'ctrlpvim/ctrlp.vim'		" Fuzzy finder
+Plug 'itchyny/lightline.vim'		" Lightline
 Plug 'junegunn/goyo.vim'		" Minimalist mode
 Plug 'junegunn/limelight.vim'		" Highlight current paragraph
 Plug 'tpope/vim-repeat'			" Repeat plugin maps
@@ -96,24 +94,25 @@ Plug 'tpope/vim-surround'		" Quotes/Parens/Brackets
 Plug 'scrooloose/nerdcommenter'		" Commenting
 
 " Code plugins
-" Plug 'scrooloose/syntastic'		" Syntax checking
+Plug 'GutenYe/json5.vim'		" JSON5 syntax
 Plug 'cespare/vim-toml'			" TOML
+" Plug 'keith/swift.vim'		" Swift syntax
+" Plug 'scrooloose/syntastic'		" Syntax checking
+Plug 'udalov/kotlin-vim'		" Kotlin syntax
 Plug 'vim-pandoc/vim-pandoc'		" Pandoc support
 Plug 'vim-pandoc/vim-pandoc-syntax'	" Pandoc syntax
-" Plug 'keith/swift.vim'		" Swift syntax
-Plug 'udalov/kotlin-vim'		" Kotlin syntax
-Plug 'GutenYe/json5.vim'		" JSON5 syntax
 
 " Completion plugins
-Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
-					" Completion
 Plug 'mattn/emmet-vim'			" Emmet
+Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 ./install.py' }
+					" Completion
 
 " Integration plugins:
-Plug 'tpope/vim-fugitive'		" Git porcelain
 Plug 'dense-analysis/ale'		" Linting/Fixing, Language Server Protocol
-Plug 'lervag/vimtex'			" Tex
+Plug 'maximbaz/lightline-ale'		" ALE support for Lightline
 Plug 'hashivim/vim-terraform'		" Terraform/HCL
+Plug 'lervag/vimtex'			" Tex
+Plug 'tpope/vim-fugitive'		" Git porcelain
 
 " Formatting Plugins
 Plug 'dimbleby/black.vim'		" Black!
