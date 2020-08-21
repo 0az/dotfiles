@@ -51,14 +51,14 @@ export EDITOR=vi
 alias _if_bash=false
 alias _if_fish=false
 
-test -n "$BASH_VERSION" && eval 'alias _if_bash_eval=eval; alias _if_fish_eval=false'
-test -n "$FISH_VERSION" && eval 'alias _if_fish_eval=eval; alias _if_bash_eval="false && echo -n"'
+test -n "$BASH_VERSION" && eval 'alias _if_bash_eval="eval"; alias _if_fish_eval=false'
+test -n "$FISH_VERSION" && eval 'alias _if_fish_eval="eval"; alias _if_bash_eval="false && echo -n"'
 
 _if_bash_eval alias _if_bash=true
 _if_fish_eval alias _if_fish=true
 
 # shellcheck disable=SC2016
-_if_bash_eval '_set() { eval "$1=$2"; }'
+_if_bash_eval '_set() { eval "$1=\"$2\""; }'
 _if_fish_eval 'alias _set="set -g"'
 # shellcheck disable=SC2016
 _if_bash_eval '_unset() { unset "$1"; }'
@@ -196,5 +196,5 @@ _if_fish_eval 'functions -e _set'
 _if_bash_eval 'unset -f _unset'
 _if_fish_eval 'functions -e _unset'
 
-_if_bash_eval 'unalias _if_bash _if_fish _if_bash_eval _if_fish_eval'
-_if_fish_eval 'functions -e _if_bash _if_fish _if_bash_eval _if_fish_eval'
+test -n "$BASH_VERSION" && eval 'unalias _if_bash _if_fish _if_bash_eval _if_fish_eval'
+test -n "$FISH_VERSION" && eval 'functions -e _if_bash _if_fish _if_bash_eval _if_fish_eval'
