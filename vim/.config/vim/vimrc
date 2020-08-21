@@ -30,11 +30,17 @@ if use_xdg_config_home
 endif
 
 " Plugin Preload configuration
+"
 " let g:ale_completion_enabled = 1
 " let g:ale_cursor_detail = 1
 let g:ale_set_balloons = 1
-let s:python_dll_script = ''
+
+" let s:python_dll_script = ''
 " set pythonthreehome=system(python_dll_script)
+"
+let g:tex_flavor = 'latex'
+
+" Plug Preload
 
 if use_xdg_data_home
 	let plug_path = $XDG_DATA_HOME . "/vim/autoload/plug.vim"
