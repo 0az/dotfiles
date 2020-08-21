@@ -44,7 +44,10 @@ function venv-up --description 'Activate a Python venv'
 	end
 
 	if test -n "$argv"
-		set -a subshell_args -C "$argv"
+		if test $argv[1] = '--'
+			shift
+		end
+		set -a subshell_args -c "$argv"
 	end
 
 	fish $subshell_args $argv
