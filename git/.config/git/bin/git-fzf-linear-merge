@@ -1,0 +1,89 @@
+#! /bin/bash
+# vim: set ft=sh:
+
+set +euxo pipefail
+
+cleanup() {
+	:
+}
+
+trap cleanup EXIT
+
+if test "$(uname -s)" == Darwin; then
+	alias sed=gsed
+fi
+
+fzf=(fzf --ansi --reverse --height 40%)
+
+selector() {
+	"${fzf[@]}" "$@"
+	return $?
+}
+
+check-linear() {
+	base="$(git rev-parse --verify "$1")"
+	other="$(git rev-parse --verify "$2")"
+
+	git merge-base --is-ancestor "$base" "$other"
+	return $?
+}
+
+list-linear() {
+	base="$1"
+	other="$2"
+	check-linear "$base" "$other" || return 2
+
+	git log --color=always --pretty=oneline --decorate=short --abbrev-commit "$base~1..$other"
+}
+
+select-linear() {
+	base="$1"
+	other="$2"
+	check-linear "$base" "$other" || return 2
+
+	list-linear "$base" "$other" | selector --prompt='commit> ' +s | cut -d' ' -f 1 | grep -E '[0-9a-f]+' -o
+}
+
+select-branch() {
+	if test $# -eq 0; then
+		args=(--prompt 'branch> ')
+	else
+		args=("$@")
+	fi
+
+	git branch --color=always | selector "${args[@]}"
+}
+
+if test "$(git branch --list | wc -l)" -lt 2; then
+	exit 1
+fi
+
+list_branches=(git branch --color=always)
+if test $# -lt 1; then
+	if ! \
+		"${list_branches[@]}" \
+		| selector --prompt 'branch (base)> ' \
+		| read -r base \
+	; then
+		exit 4
+	fi
+	if test -z "$base"; then
+		exit 1
+	fi
+else
+	base="$1"
+fi
+if test $# -lt 2; then
+	list_branches+=()
+	if ! \
+		"${list_branches[@]}" \
+		| selector --prompt 'branch (other)> ' \
+		| read -r other \
+	; then
+		exit 4
+	fi
+else
+	other="$2"
+fi
+
+select-linear "$base" "$other"
