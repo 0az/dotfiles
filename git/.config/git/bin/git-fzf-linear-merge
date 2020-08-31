@@ -4,13 +4,40 @@
 set +euxo pipefail
 
 cleanup() {
-	:
+	tput rmcup
+	tput ed || tput cd
 }
 
 trap cleanup EXIT
 
+script_name='fzf-linear-merge'
+confirm_format=''
+confirm_format+="$(git config --get-color color.diff.commit yellow)%h%Creset %C(bold)%s%Creset"
+confirm_format+='%n'
+confirm_format+='%x09'
+# confirm_format+='Author: '
+confirm_format+='%aN (%C(italic)%ad%C(reset))%Creset'
+# confirm_format+='%n'
+# confirm_format+='%x09Committer: %cN (%C(italic)%cd%C(reset))%Creset'
+
 if test "$(uname -s)" == Darwin; then
-	alias sed=gsed
+	# Check for GNU sed -- default sed does not support hex escapes or pcre
+	if command -v gsed >/dev/null 2>&1; then
+		alias sed=gsed
+	elif sed --version >/dev/null 2>&1 | grep -iq 'GNU sed'; then
+		:
+	else
+		echo 'Unsupported version of sed' >&2
+		exit 3
+	fi
+	if command -v ggrep >/dev/null 2>&1; then
+		alias grep=ggrep
+	elif grep --version >/dev/null 2>&1 | grep -iq 'GNU grep'; then
+		:
+	else
+		echo 'Unsupported version of grep' >&2
+		exit 3
+	fi
 fi
 
 fzf=(fzf --ansi --reverse --height 40%)
@@ -20,18 +47,34 @@ selector() {
 	return $?
 }
 
+# XXX: This is hot-path code, look into some sort of LRU cache
 check-linear() {
-	base="$(git rev-parse --verify "$1")"
-	other="$(git rev-parse --verify "$2")"
+	base="$1"
+	other="$(git rev-parse -q --verify "$2")" || return 1
+	git rev-parse -q --verify "$base" >/dev/null 2>&1 || return 1
 
 	git merge-base --is-ancestor "$base" "$other"
 	return $?
 }
 
+find-children() {
+	base="$1"
+	base_commit="$(git rev-parse --verify "$1")"
+
+	git show-ref --heads \
+	| cut -d' ' -f 2- \
+	| cut -d'/' -f 3- \
+	| while read -r branch; do
+		if test "$branch" != "$base" && check-linear "$base_commit" "$branch"; then
+			echo "$branch"
+		fi
+	done
+}
+
 list-linear() {
 	base="$1"
 	other="$2"
-	check-linear "$base" "$other" || return 2
+	check-linear "$base" "$other" || return 1
 
 	git log --color=always --pretty=oneline --decorate=short --abbrev-commit "$base~1..$other"
 }
@@ -39,9 +82,9 @@ list-linear() {
 select-linear() {
 	base="$1"
 	other="$2"
-	check-linear "$base" "$other" || return 2
+	check-linear "$base" "$other" || return 1
 
-	list-linear "$base" "$other" | selector --prompt='commit> ' +s | cut -d' ' -f 1 | grep -E '[0-9a-f]+' -o
+	list-linear "$base" "$other" | selector --tac --prompt='commit> ' +s | cut -d' ' -f 1
 }
 
 select-branch() {
@@ -54,18 +97,30 @@ select-branch() {
 	git branch --color=always | selector "${args[@]}"
 }
 
+fast-forward() {
+	base="$1"
+	other="$2"
+	check-linear "$base" "$other" || return 1
+	
+	git update-ref -m "$script_name" --create-reflog "refs/heads/$base" "$other"
+}
+
 if test "$(git branch --list | wc -l)" -lt 2; then
 	exit 1
 fi
 
 list_branches=(git branch --color=always)
+escape_pattern='\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?m'
+
 if test $# -lt 1; then
 	if ! \
-		"${list_branches[@]}" \
-		| selector --prompt 'branch (base)> ' \
-		| read -r base \
+		read -r base < <(
+			"${list_branches[@]}" \
+			| selector --prompt 'branch (base)> ' --no-clear \
+			| sed -E 's/^[ *]+//' \
+		) \
 	; then
-		exit 4
+		exit 2
 	fi
 	if test -z "$base"; then
 		exit 1
@@ -73,17 +128,41 @@ if test $# -lt 1; then
 else
 	base="$1"
 fi
+
+# cat >/dev/null <<"EOF"
 if test $# -lt 2; then
 	list_branches+=()
 	if ! \
-		"${list_branches[@]}" \
-		| selector --prompt 'branch (other)> ' \
-		| read -r other \
+		read -r other < <(
+			find-children "$base" \
+			| xargs git branch --list \
+			| grep -Ev "^\*? *($escape_pattern)?$base($escape_pattern)?$" \
+			| selector --prompt 'branch (other)> ' --no-clear \
+			| sed -E 's/^[ *]+//' \
+		) \
 	; then
-		exit 4
+		exit 2
+	fi
+	if test -z "$base"; then
+		exit 1
 	fi
 else
 	other="$2"
 fi
 
-select-linear "$base" "$other"
+branch_head="$(select-linear "$base" "$other")" || exit 2
+
+if test -z "$branch_head"; then
+	exit 2
+fi
+if test "$(git rev-parse -q --verify "$base")" = "$(git rev-parse -q --verify "$branch_head")"; then
+	echo 'ERROR: Selected commit is in branch.' >&2
+	exit 1
+fi
+
+# TODO: Add confirmation
+# git --no-pager show --pretty="$confirm_format" --date=short --no-patch "$base~..$branch_head"
+git --no-pager show --oneline --no-patch "$base~..$branch_head"
+
+fast-forward "$base" "$branch_head" || exit 5
+# EOF
