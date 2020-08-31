@@ -102,7 +102,8 @@ fast-forward() {
 	other="$2"
 	check-linear "$base" "$other" || return 1
 	
-	git update-ref -m "$script_name" --create-reflog "refs/heads/$base" "$other"
+	msg="$script_name: moving $base to $(git rev-parse --short "$other")" 
+	git update-ref -m "$msg" --create-reflog "refs/heads/$base" "$other"
 }
 
 if test "$(git branch --list | wc -l)" -lt 2; then
