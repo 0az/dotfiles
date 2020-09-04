@@ -107,7 +107,7 @@ fast-forward() {
 	msg="$script_name: moving $base to $(git rev-parse --short "$other")" 
 	git update-ref -m "$msg" --create-reflog "refs/heads/$base" "$other"
 	git update-index --refresh >/dev/null
-    git read-tree -m -u --exclude-per-directory=.gitignore
+    git read-tree -m -u --exclude-per-directory=.gitignore HEAD "$other"
 }
 
 if test "$(git branch --list | wc -l)" -lt 2; then
