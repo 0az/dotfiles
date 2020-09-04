@@ -23,17 +23,17 @@ confirm_format+='%aN (%C(italic)%ad%C(reset))%Creset'
 if test "$(uname -s)" == Darwin; then
 	# Check for GNU sed -- default sed does not support hex escapes or pcre
 	if command -v gsed >/dev/null 2>&1; then
-		alias sed=gsed
+		sed='gsed'
 	elif sed --version >/dev/null 2>&1 | grep -iq 'GNU sed'; then
-		:
+		sed='sed'
 	else
 		echo 'Unsupported version of sed' >&2
 		exit 3
 	fi
 	if command -v ggrep >/dev/null 2>&1; then
-		alias grep=ggrep
+		grep='ggrep'
 	elif grep --version >/dev/null 2>&1 | grep -iq 'GNU grep'; then
-		:
+		grep='grep'
 	else
 		echo 'Unsupported version of grep' >&2
 		exit 3
@@ -61,9 +61,11 @@ find-children() {
 	base="$1"
 	base_commit="$(git rev-parse --verify "$1")"
 
+	# git show-ref --heads \
+	# | "$grep" -Eo 'refs/heads/.+' \
+	# | cut -d'/' -f 3- \
 	git show-ref --heads \
-	| cut -d' ' -f 2- \
-	| cut -d'/' -f 3- \
+	| "$grep" -Po '(?<=refs/heads/).+$' \
 	| while read -r branch; do
 		if test "$branch" != "$base" && check-linear "$base_commit" "$branch"; then
 			echo "$branch"
@@ -104,6 +106,8 @@ fast-forward() {
 	
 	msg="$script_name: moving $base to $(git rev-parse --short "$other")" 
 	git update-ref -m "$msg" --create-reflog "refs/heads/$base" "$other"
+	git update-index --refresh >/dev/null
+    git read-tree -m -u --exclude-per-directory=.gitignore
 }
 
 if test "$(git branch --list | wc -l)" -lt 2; then
@@ -118,7 +122,7 @@ if test $# -lt 1; then
 		read -r base < <(
 			"${list_branches[@]}" \
 			| selector --prompt 'branch (base)> ' --no-clear \
-			| sed -E 's/^[ *]+//' \
+			| "$sed" -E 's/^[ *]+//' \
 		) \
 	; then
 		exit 2
@@ -137,9 +141,9 @@ if test $# -lt 2; then
 		read -r other < <(
 			find-children "$base" \
 			| xargs git branch --list \
-			| grep -Ev "^\*? *($escape_pattern)?$base($escape_pattern)?$" \
+			| "$grep" -Ev "^\*? *($escape_pattern)?$base($escape_pattern)?$" \
 			| selector --prompt 'branch (other)> ' --no-clear \
-			| sed -E 's/^[ *]+//' \
+			| "$sed" -E 's/^[ *]+//' \
 		) \
 	; then
 		exit 2
