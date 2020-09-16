@@ -207,6 +207,7 @@ let g:ale_fixers = {
 
 let g:ale_javascript_eslint_options = '--env browser,node --parser-options=ecmaVersion:7'
 let g:ale_python_auto_pipenv = 1
+let g:ale_python_pyls_use_global = 1
 
 let g:black_linelength = 79
 let g:black_skip_string_normalization = 1
