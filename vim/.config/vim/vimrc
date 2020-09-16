@@ -93,7 +93,7 @@ Plug 'tpope/vim-repeat'			" Repeat plugin maps
 
 " Color Scheme
 Plug 'arcticicestudio/nord-vim'		" Nord Theme
-Plug 'altercation/vim-colors-solarized'	" Solarized Theme
+Plug 'lifepillar/vim-solarized8'	" Solarized Theme
 
 " Text plugins
 Plug 'tpope/vim-surround'		" Quotes/Parens/Brackets
@@ -162,8 +162,14 @@ endif
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 let g:lightline = {
-	\ 'colorscheme': 'solarized',
 \}
+" XXX: Maybe move to gvimrc
+if has('gui_running')
+	let g:lightline.colorscheme = 'solarized'
+else
+	let g:lightline.colorscheme = 'wombat'
+	" Wombat has a sensibly neutral look
+endif
 
 let g:ale_linters = {
 	\ 'java': [
