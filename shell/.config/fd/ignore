@@ -1,10 +1,13 @@
+*.part
 *.swp
+.DS_Store
 .build
 .cache
 .git
 .gradle
 .mypy_cache
 .next
+.pytest_cache
 .terraform
 .venv
 .yarn
