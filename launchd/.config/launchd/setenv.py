@@ -3,14 +3,14 @@ from __future__ import print_function
 
 import argparse
 import logging
-from logging import StreamHandler
-from logging.handlers import SysLogHandler
+import os
 import pprint
 import shlex
 import string
 import subprocess
 import sys
-import os
+from logging import StreamHandler
+from logging.handlers import SysLogHandler
 
 ALPHABET = frozenset(string.ascii_letters)
 IDENTIFIER_START = ALPHABET | set('_')
