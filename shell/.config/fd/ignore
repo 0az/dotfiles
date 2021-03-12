@@ -5,10 +5,12 @@
 .cache
 .git
 .gradle
+.ipynb_checkpoints/*
 .mypy_cache
 .next
 .pytest_cache
 .terraform
 .venv
 .yarn
+__pycache__
 node_modules
