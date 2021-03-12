@@ -1,9 +1,14 @@
 # vim: set ft=sh:
 
 # Abbreviations
+alias l='ls -CFG'
+alias lx='exa --git-ignore'
 alias py=python
+alias py38=python3.8
+alias py39=python3.9
 alias ipy=ipython
 alias doctest='python -m doctest'
+alias ungron='gron --ungron'
 
 # Mini-functions
 alias add-ssh-keys="ssh-add -t 6000 ~/.ssh/keys/autoload/*"
