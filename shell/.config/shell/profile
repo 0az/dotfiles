@@ -42,30 +42,30 @@
 # Main #
 ########
 
+# Polyglot support
+alias if_bash=false
+alias if_fish=false
+
+test -n "$BASH_VERSION" && eval 'alias if_bash_eval="eval"; alias if_fish_eval=false'
+test -n "$FISH_VERSION" && eval 'alias if_fish_eval="eval"; alias if_bash_eval="false && echo -n"'
+
+if_bash_eval alias if_bash=true
+if_fish_eval alias if_fish=true
+
+# shellcheck disable=SC2016
+if_bash_eval 'set_() { eval "$1=\"$2\""; }'
+if_fish_eval 'alias set_="set -g"'
+# shellcheck disable=SC2016
+if_bash_eval 'unset_() { unset "$1"; }'
+if_fish_eval 'alias unset_="set -ge"'
+
 #########
 # Shell #
 #########
 export EDITOR=vi
 
-# Polyglot support
-alias _if_bash=false
-alias _if_fish=false
-
-test -n "$BASH_VERSION" && eval 'alias _if_bash_eval="eval"; alias _if_fish_eval=false'
-test -n "$FISH_VERSION" && eval 'alias _if_fish_eval="eval"; alias _if_bash_eval="false && echo -n"'
-
-_if_bash_eval alias _if_bash=true
-_if_fish_eval alias _if_fish=true
-
-# shellcheck disable=SC2016
-_if_bash_eval '_set() { eval "$1=\"$2\""; }'
-_if_fish_eval 'alias _set="set -g"'
-# shellcheck disable=SC2016
-_if_bash_eval '_unset() { unset "$1"; }'
-_if_fish_eval 'alias _unset="set -ge"'
-
 # PS1
-_if_bash && export PS1='\u@\h:\W \\$ '
+if_bash && export PS1='\u@\h:\W \\$ '
 
 #######
 # XDG #
@@ -113,8 +113,8 @@ export PATH="$GOPATH/bin:$PATH"
 # Jenv: init
 export JENV_ROOT="$XDG_DATA_HOME/jenv"
 # FIXME: This breaks in subshell contexts
-_if_bash_eval 'eval "$(jenv init -)"'
-_if_fish_eval 'status --is-interactive && source (jenv init - | psub)'
+if_bash_eval 'eval "$(jenv init -)"'
+if_fish_eval 'status --is-interactive && source (jenv init - | psub)'
 
 ##############
 # JavaScript #
@@ -172,7 +172,7 @@ export GVIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/gvimrc | endif'
 # export BYOBU_PYTHON=/usr/local/bin/python3
 
 # FZF: fzf
-_set fzf_fd_common "fd -HL -E .git -E .venv -E '*.app' -E node_modules"
+set_ fzf_fd_common "fd -HL -E .git -E .venv -E '*.app' -E node_modules"
 
 # shellcheck disable=SC2154
 export FZF_DEFAULT_COMMAND="$fzf_fd_common"
@@ -182,7 +182,13 @@ export FZF_CTRL_T_COMMAND="$fzf_fd_common"' . $dir'
 # shellcheck disable=SC2016
 export FZF_ALT_C_COMMAND="$fzf_fd_common"' -t d . $dir'
 
-_unset fzf_fd_common
+unset_ fzf_fd_common
+
+############
+# Includes #
+############
+
+# TODO: Implement includes
 
 ##########
 # Finale #
@@ -191,16 +197,16 @@ _unset fzf_fd_common
 # Bash Completion
 # [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 # shellcheck disable=1091
-_if_bash && [ -f /opt/local/etc/profile.d/bash_completion.sh ] && . /opt/local/etc/profile.d/bash_completion.sh
+if_bash && [ -f /opt/local/etc/profile.d/bash_completion.sh ] && . /opt/local/etc/profile.d/bash_completion.sh
 
 ##############
 # Postscript #
 ##############
+# Teardown polyglot support
+if_bash_eval 'unset -f set_'
+if_fish_eval 'functions -e set_'
+if_bash_eval 'unset -f unset_'
+if_fish_eval 'functions -e unset_'
 
-_if_bash_eval 'unset -f _set'
-_if_fish_eval 'functions -e _set'
-_if_bash_eval 'unset -f _unset'
-_if_fish_eval 'functions -e _unset'
-
-test -n "$BASH_VERSION" && eval 'unalias _if_bash _if_fish _if_bash_eval _if_fish_eval'
-test -n "$FISH_VERSION" && eval 'functions -e _if_bash _if_fish _if_bash_eval _if_fish_eval'
+test -n "$BASH_VERSION" && eval 'unalias if_bash if_fish if_bash_eval if_fish_eval'
+test -n "$FISH_VERSION" && eval 'functions -e if_bash if_fish if_bash_eval if_fish_eval'
