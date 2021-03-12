@@ -1,0 +1,92 @@
+snippet fanno "Future: Annotations" b
+from __future__ import annotations
+$0
+endsnippet
+
+snippet impath "Import: pathlib.Path" b
+from pathlib import Path
+$0
+endsnippet
+
+snippet impnp "Import: pathlib.Path" b
+import numpy as np
+$0
+endsnippet
+
+snippet nprand "Import: pathlib.Path" b
+from numpy.random import Generator, PCG64, SeedSequence
+$0
+endsnippet
+
+snippet pysci "Boilerplate: Data Science" b
+import numpy as np
+import pandas as pd
+$0
+endsnippet
+
+snippet pyplot "Boilerplate: Plotting" b
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import seaborn as sns
+$0
+endsnippet
+
+snippet pyscript "Boilerplate: Python Script" b
+#! /usr/bin/env python3
+
+from __future__ import annotations
+
+import sys
+from typing import List
+
+
+def main(argv: List[str]) -> int:
+	$0
+	return 0
+
+
+if __name__ == '__main__':
+	sys.exit(main(sys.argv))
+endsnippet
+
+snippet pysap "Boilerplate: Python Argparse Script" b
+#! /usr/bin/env python3
+
+from __future__ import annotations
+
+import argparse
+import sys
+from typing import List
+
+
+def main() -> int:
+	ap = argparse.ArgumentParser()
+	$1
+	args = ap.parse_args()
+
+	$0
+	return 0
+
+
+if __name__ == '__main__':
+	sys.exit(main())
+endsnippet
+
+snippet PROJECT_ROOT "Snippet: Project Root" b
+PROJECT_ROOT = Path(__file__).resolve().parent$1
+$0
+endsnippet
+
+snippet out_dir "Snippet: Ensure Out Directory" b
+OUT_DIR = PROJECT_ROOT / ${1:'out'}
+
+def _ensure_out_dir():
+	if not OUT_DIR.exists():
+		OUT_DIR.mkdir(parents=True, exist_ok=True)
+$0
+endsnippet
+
+snippet rnie "Snippet: Raise NotImplementedError" b
+raise NotImplementedError
+$0
+endsnippet

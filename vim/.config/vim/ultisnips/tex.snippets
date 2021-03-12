@@ -1,0 +1,198 @@
+# TODO: Add variants for Pandoc vs Tex
+
+global !p
+class Latex:
+    _suffixes = (
+        'A AS B BS C CS D DS E ES F FS G GS H HS I IS J JS K KS L LS V W X Y Z'
+    ).split(' ')
+    _ams_suffixes = (
+        'Ams%s' % s for s in 'A AS B BS C CS D DS E ES F FS G GS'.split()
+    )
+    _suffixes.extend(_ams_suffixes)
+
+    math_zones = ['texMathZone%s' % x for x in _suffixes]
+    text_zones = ['texMathText']
+    pandoc_zones = ['pandocLaTeXRegion']
+
+    math_zone_ids = set(vim.eval('map(%s, "hlID(v:val)")' % math_zones))
+    text_zone_ids = set(vim.eval('map(%s, "hlID(v:val)")' % text_zones))
+    pandoc_zone_ids = set(vim.eval('map(%s, "hlID(v:val)")' % pandoc_zones))
+
+    @classmethod
+    def math(cls):
+        synstack_ids = vim.eval(
+            'synstack(line("."), col(".") - (col(".") >= 2 ? 1 : 0))'
+        )
+        try:
+            first = next(
+                i
+                for i in reversed(synstack_ids)
+                if i in cls.text_zone_ids or i in cls.math_zone_ids or i in cls.pandoc_zone_ids
+            )
+            return first not in cls.text_zone_ids
+        except StopIteration:
+            return False
+
+    @classmethod
+    def text(cls):
+        return not cls.math()
+
+def has_prefix(s: str) -> bool:
+	return snip.buffer[snip.line][:snip.column].endswith(s)
+endglobal
+
+snippet beg "Latex: Begin/End Environment" b
+\begin{$1}
+	$0
+\end{$1}
+endsnippet
+
+context "Latex.text()"
+snippet im "Latex: Inline Math" w
+$${1}$`!p
+if t[2] and t[2][0] not in [',', '.', '?', '-', ' ']:
+    snip.rv = ' '
+else:
+    snip.rv = ''
+`$2
+endsnippet
+
+context "Latex.text()"
+snippet dm "Latex: Display Math" bw
+\begin{equation*}
+	$1
+	.
+\end{equation*}
+$0
+endsnippet
+
+context "Latex.text()"
+snippet bees "Latex: Equation*" bw
+\begin{equation*}
+	$1
+	.
+\end{equation*}
+$0
+endsnippet
+
+context "Latex.text()"
+snippet beas "Latex: Align*" bw
+\begin{align*}
+	$1
+	.
+\end{align*}
+$0
+endsnippet
+
+context "Latex.math()"
+snippet '([A-Za-z])(\d)' "Latex: Auto Subscript" wrA
+`!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
+endsnippet
+
+context "Latex.math()"
+snippet '([A-Za-z])_(\d\d)' "Latex: Auto Subscript Extended" wrA
+`!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}
+endsnippet
+
+context "Latex.math()"
+snippet '\^-(\d)' "Latex: Reciprocal" rA
+^{-`!p snip.rv = match.group(1)`}
+endsnippet
+
+context "Latex.math()"
+snippet sqrt "Latex: Square Root (\sqrt)" wi
+\sqrt{$1}$0
+endsnippet
+
+context "Latex.math()"
+priority 10
+snippet 'sqrt(\d)' "Latex: Auto Square Root (\sqrt)" wrA
+\sqrt{`!p snip.rv = match.group(1)`}
+endsnippet
+
+context "Latex.math()"
+priority 10
+snippet bar "Latex: Bar (Overline)" wi
+\overline{$1}$0
+endsnippet
+
+context "Latex.math()"
+priority 100
+snippet "([a-zA-Z])bar" "Latex: Bar (Overline) Postfix" ri
+\overline{`!p snip.rv=match.group(1)`}
+endsnippet
+
+context "Latex.math()"
+priority 10
+snippet hat "Latex: Hat" wi
+\hat{$1}$0
+endsnippet
+
+context "Latex.math()"
+priority 100
+snippet "([a-zA-Z])hat" "Latex: Hat Postfix" ri
+\hat{`!p snip.rv=match.group(1)`}
+endsnippet
+
+context "Latex.math() and not has_prefix(r'\vec{')"
+priority 10
+snippet v "Latex: Vector (Manual)" wi
+\vec{$1}$0
+endsnippet
+
+context "Latex.math()"
+priority 10
+snippet vec "Latex: Vector" wi
+\vec{$1}$0
+endsnippet
+
+context "Latex.math()"
+snippet "(\\?\w+)(,\.|\.,)" "Latex: Vector Postfix" ri
+\vec{`!p snip.rv=match.group(1)`}
+endsnippet
+
+context "Latex.math()"
+snippet // "Latex: Fraction" iA
+\\frac{$1}{$2}$0
+endsnippet
+
+context "Latex.math()"
+snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "Latex: Fraction Postfix" wr
+\\frac{`!p snip.rv = match.group(1)`}{$1}$0
+endsnippet
+
+context "Latex.math()"
+priority 1000
+snippet '^.*\)/' "Latex: Fraction Smart Postfix" wr
+`!p
+text = match.string[:-1]
+depth = 0
+i = len(text) - 1
+
+for c in reversed(text):
+	if c == ')':
+		depth += 1
+	elif c == '(':
+		depth -= 1
+	if depth == 0:
+		break
+	i -= 1
+
+snip.rv = '%s\\frac{%s}' % (text[0:i], text[i + 1 : -1])
+`{$1}$0
+endsnippet
+
+context "Latex.math()"
+snippet pdv "Latex: Partial Derivative" w
+\\frac{\partial$1}{\partial$2}$0
+endsnippet
+
+context "Latex.math()"
+snippet dv "Latex: Derivative" w
+\\frac{d$1}{d$2}$0
+endsnippet
+
+context "Latex.text()"
+snippet " "Latex Quote" w
+\`\`$1''$0
+endsnippet
