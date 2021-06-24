@@ -14,10 +14,15 @@ alias ungron='gron --ungron'
 alias add-ssh-keys="ssh-add -t 6000 ~/.ssh/keys/autoload/*"
 alias fixup='git commit -m "fixup!"'
 alias rebase='git rebase -i'
+alias open-mpv='mpv --video-unscaled=yes --idle=once --force-window=yes'
 
 # Configuration
+alias bat="bat --pager=less"
+alias black='black -l 80 -S'
+alias exa='exa --group-directories-first'
 alias irssi='irssi --home="$XDG_CONFIG_HOME/irssi"'
 alias ffprobe='ffprobe -hide_banner'
+alias ncdu='ncdu --exclude /System --exclude /Library'
 # ptpython is blocked on appdirs
 alias ptpython='ptpython --config-file=$XDG_CONFIG_HOME/ptpython/config.py'
 alias ptipython='ptipython --config-file=$XDG_CONFIG_HOME/ptpython/config.py'
