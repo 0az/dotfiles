@@ -21,3 +21,9 @@
 
 [user]
 	useConfigOnly = true
+
+[mergetool]
+	vimdiff3 = --edit
+
+[advice]
+	detachedHead = false
