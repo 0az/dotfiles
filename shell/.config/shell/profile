@@ -146,6 +146,16 @@ export PYLINTHOME="$XDG_CACHE_HOME"/pylint
 # export NLTK_DATA="$XDG_DATA_HOME"/nltk_data
 
 ########
+# Ruby #
+########
+
+export GEM_HOME="$XDG_DATA_HOME/gem"
+export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem"
+export BUNDLE_USER_CONFIG="$XDG_CONFIG_HOME/bundle"
+export BUNDLE_USER_CACHE="$XDG_CACHE_HOME/bundle"
+export BUNDLE_USER_PLUGIN="$XDG_DATA_HOME/bundle"
+
+########
 # Rust #
 ########
 
@@ -161,6 +171,9 @@ export PATH="$CARGO_HOME/bin:$PATH"
 #########
 
 # path="/usr/local/opt/berkeley-db@4/bin:$PATH"
+
+# Unison: XDG
+export UNISON="$XDG_DATA_HOME"/unison
 
 # Vim: XDG
 # shellcheck disable=SC2016
