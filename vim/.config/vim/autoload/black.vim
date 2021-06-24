@@ -205,7 +205,12 @@ def BlackVersion():
 EndPython3
 
 function! black#Black()
-	py3 Black()
+python3 << EndPy3
+try:
+	Black()
+except NameError:
+	print('Error: Black not loaded')
+EndPy3
 endfunc
 
 func! black#BlackUpgrade()
