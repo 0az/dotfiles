@@ -62,6 +62,14 @@ let g:ale_fixers = {
 let g:ale_javascript_eslint_options = '--env browser,node --parser-options=ecmaVersion:7'
 let g:ale_python_auto_pipenv = 1
 let g:ale_python_pyls_use_global = 1
+let s:yaml_lint_options =<< END
+--config-data "
+indentation:
+  space: 2
+  indent-sequences: consistent
+"
+END
+let g:ale_yaml_yamllint_options  = join(s:yaml_lint_options)
 
 let g:black_linelength = 79
 let g:black_skip_string_normalization = 1
