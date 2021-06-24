@@ -28,7 +28,7 @@ function venv-up --description 'Activate a Python venv'
 			return 1
 		end
 	else
-		set prefix (echo $_flag_d | sed 's@/$@@')
+		set prefix (echo $_flag_d | string trim -r -c '/')
 		if ! test -e "$prefix/bin/activate.fish"
 			echo "No venv detected at $prefix" >&2
 			return 1
