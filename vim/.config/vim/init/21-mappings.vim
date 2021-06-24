@@ -11,6 +11,9 @@ let maplocalleader = '+'
 nmap <D-Bslash> :NERDTreeToggle<CR>
 nmap <F2> :ALERename<CR>
 
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
 if has("unix")
 	let s:uname = system("uname -s")
 	if s:uname == "Darwin"
