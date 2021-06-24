@@ -29,9 +29,9 @@ Manage separate Git identities.
 
 from __future__ import print_function
 
-from os.path import basename
 import subprocess
 import sys
+from os.path import basename
 
 USAGE = '''
 Usage
