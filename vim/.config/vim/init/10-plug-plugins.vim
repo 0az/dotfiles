@@ -64,7 +64,7 @@ Plug 'ycm-core/YouCompleteMe', {
 					" Completion
 
 " Integration plugins:
-" Plug 'dense-analysis/ale'		" Linting/Fixing, Language Server Protocol
+Plug 'dense-analysis/ale'		" Linting/Fixing, Language Server Protocol
 Plug 'neoclide/coc.nvim', {
 	\ 'branch': 'release',
 	\ 'for': [
