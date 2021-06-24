@@ -1,1 +1,1 @@
-setlocal formatprg=black\ -q\ -
+" setlocal formatprg=black\ -q\ -
