@@ -52,7 +52,7 @@ Plug 'GutenYe/json5.vim'		" JSON5 syntax
 Plug 'cespare/vim-toml'			" TOML
 " Plug 'keith/swift.vim'		" Swift syntax
 " Plug 'scrooloose/syntastic'		" Syntax checking
-Plug 'udalov/kotlin-vim'		" Kotlin syntax
+" Plug 'udalov/kotlin-vim'		" Kotlin syntax
 Plug 'vim-pandoc/vim-pandoc'		" Pandoc support
 Plug 'vim-pandoc/vim-pandoc-syntax'	" Pandoc syntax
 
