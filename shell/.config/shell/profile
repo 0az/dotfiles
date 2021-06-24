@@ -197,6 +197,10 @@ export FZF_ALT_C_COMMAND="$fzf_fd_common"' -t d . $dir'
 
 unset_ fzf_fd_common
 
+# Homebrew
+export HOMEBREW_AUTO_UPDATE_SECS=1200
+export HOMEBREW_UPDATE_REPORT_ONLY_INSTALLED=1
+
 ############
 # Includes #
 ############
