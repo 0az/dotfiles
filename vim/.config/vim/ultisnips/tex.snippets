@@ -9,6 +9,7 @@ class Latex:
         'Ams%s' % s for s in 'A AS B BS C CS D DS E ES F FS G GS'.split()
     )
     _suffixes.extend(_ams_suffixes)
+    _suffixes.append('Env')
 
     math_zones = ['texMathZone%s' % x for x in _suffixes]
     text_zones = ['texMathText']
@@ -195,4 +196,9 @@ endsnippet
 context "Latex.text()"
 snippet " "Latex Quote" w
 \`\`$1''$0
+endsnippet
+
+context "Latex.math()"
+snippet rm "Latex: Text Roman" w
+\\textrm{$1}$0
 endsnippet
