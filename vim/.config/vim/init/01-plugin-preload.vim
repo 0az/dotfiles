@@ -14,3 +14,5 @@ let g:tex_flavor = 'latex'
 if executable('fd')
 	let g:ctrlp_user_command = 'fd -HL -E .git -E .venv -E "*.app" -E node_modules'
 endif
+
+let g:pandoc#filetypes#pandoc_markdown = 0
