@@ -1,6 +1,6 @@
 BSD 2-Clause License
 
-Copyright (c) 2020, Andrew Zhou
+Copyright (c) 2021, 0az
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
