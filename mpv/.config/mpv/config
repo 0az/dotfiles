@@ -1,0 +1,82 @@
+[default]
+msg-module
+msg-color
+
+# vo=opengl-hq:icc-profile-auto
+# profile=opengl-hq
+# opengl-backend=cocoa
+
+framedrop=vo
+hwdec=auto-safe
+
+# Track Priority
+slang=en,eng
+alang=ja,jp,jpn,en,eng
+
+screenshot-directory="~/Pictures/Screenshots/mpv"
+screenshot-template="%F-%P-%#04n"
+screenshot-template="%F-%wH%wM%wS.%wT-%#04n"
+screenshot-format=png
+
+########
+# OSD
+####
+
+title=${media-title} [${time-pos}${!duration==0: / ${duration}}] - ${mpv-version}
+osd-font="Noto Sans"
+cursor-autohide=500
+osd-duration=500
+
+########
+# Audio
+####
+
+ao=coreaudio
+audio-file-auto=fuzzy
+audio-pitch-correction=yes
+# af=scaletempo
+# af=rubberband
+# volume-max=200
+
+########
+# Subs
+####
+
+sub-ass-override=no
+sub-font='Open Sans'
+sub-blur=0.2
+sub-color=0.95
+sub-border-color=0.05/0.05/0.05
+sub-border-size=2.5
+sub-bold
+sub-spacing=.25
+sub-margin-x=160
+sub-margin-y=40
+sub-font-size=48
+# sub-font-provider=none
+# embeddedfonts=no
+demuxer-mkv-subtitle-preroll=yes
+sub-ass-vsfilter-blur-compat=no
+sub-fix-timing=no
+
+sub-auto=fuzzy
+
+sub-file-paths-append=ass
+sub-file-paths-append=pgs
+sub-file-paths-append=srt
+sub-file-paths-append=sub
+sub-file-paths-append=subs
+sub-file-paths-append=subtitles
+sub-file-paths-append=vob
+
+########
+# YTDL
+####
+
+ytdl
+ytdl-raw-options-append=write-auto-sub=
+ytdl-raw-options-append=sub-lang=en,jp
+ytdl-format=bestvideo+bestaudio/best
+
+[youtube-audio]
+ytdl-format=bestaudio
