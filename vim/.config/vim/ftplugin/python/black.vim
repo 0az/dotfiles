@@ -13,3 +13,5 @@ endif
 command! Black call black#Black()
 command! BlackUpgrade call black#BlackUpgrade()
 command! BlackVersion call black#BlackVersion()
+
+nnoremap <Plug>(python-black) :Black<Return>
