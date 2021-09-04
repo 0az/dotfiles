@@ -86,6 +86,7 @@ Plug 'tpope/vim-fugitive'		" Git porcelain
 
 " Misc Plugins
 Plug 'gerw/vim-hilinktrace'		" Highlight Debug
+Plug 'andrewradev/bufferize.vim'	" Send command output to buffer
 
 " Initialize plugin system
 call plug#end()
