@@ -44,7 +44,8 @@ Plug 'lifepillar/vim-solarized8'	" Solarized Theme
 
 " Text plugins
 Plug 'tpope/vim-surround'		" Quotes/Parens/Brackets
-Plug 'scrooloose/nerdcommenter'		" Commenting
+" Plug 'scrooloose/nerdcommenter'	" Commenting
+" Plug 'tpope/vim-commentary'		" Commenting
 Plug 'sirver/ultisnips'			" Snippets
 
 " Code plugins
