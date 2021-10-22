@@ -2,8 +2,11 @@
 
 " Settings
 
-" Line numbers
+" Gutter
 set number
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+  set signcolumn=number
+endif
 
 " set list
 set listchars=eol:⏎,tab:␉·,trail:␠,nbsp:⎵
