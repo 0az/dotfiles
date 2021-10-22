@@ -19,19 +19,31 @@ else
 	" Wombat has a sensibly neutral look
 endif
 
+let s:js_ale_linters = [
+	\ 'importjs',
+	\ 'prettier',
+	\ 'eslint',
+	\ 'tsserver',
+	\ 'xo',
+\ ]
+let s:js_ale_fixers = [
+	\ 'importjs',
+	\ 'prettier',
+	\ 'eslint',
+	\ 'xo',
+\ ]
 let g:ale_linters = {
 	\ 'java': [
 		\ 'checkstyle',
 		"\ 'eclipselsp',
 		\ 'javac',
 		"\ 'javalsp',
-		"\ 'pmd'
+		"\ 'pmd',
 	\ ],
-	\ 'javascript': [
-		"\  'eslint',
-		"\  'tsserver',
-		"\  'xo'
-	\ ],
+	"\ 'javascript': s:js_ale_linters,
+	"\ 'javascriptreact': s:js_ale_linters,
+	"\ 'typescript': s:js_ale_linters,
+	"\ 'typescriptreact': s:js_ale_linters,
 	\ 'go': [
 		\ 'gopls'
 	\ ],
@@ -51,6 +63,10 @@ let g:ale_fixers = {
 	\ 'java': [
 		\ 'google_java_format',
 	\ ],
+	\ 'javascript': s:js_ale_fixers,
+	\ 'javascriptreact': s:js_ale_fixers,
+	\ 'typescript': s:js_ale_fixers,
+	\ 'typescriptreact': s:js_ale_fixers,
 	\ 'go': [
 		\ 'gofmt',
 		\ 'goimports'
@@ -63,7 +79,8 @@ let g:ale_fixers = {
 	\ ],
 \ }
 
-let g:ale_javascript_eslint_options = '--env browser,node --parser-options=ecmaVersion:7'
+let g:ale_javascript_eslint_options = '--env browser,node --parser-options=ecmaVersion:latest'
+let g:ale_javascript_eslint_use_global = 0
 let g:ale_python_auto_pipenv = 1
 let g:ale_python_pyls_use_global = 1
 let s:yaml_lint_options =<< END
