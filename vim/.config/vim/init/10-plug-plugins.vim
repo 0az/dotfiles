@@ -57,6 +57,7 @@ Plug 'wellle/targets.vim'		" Extra text objects
 " Plug 'udalov/kotlin-vim'		" Kotlin syntax
 Plug 'sheerun/vim-polyglot'		" Syntax pack
 Plug 'vieira/vim-javascript'		" Better JS syntax
+Plug 'herringtondarkholme/yats.vim'	" Better TS syntax
 Plug 'vim-pandoc/vim-pandoc'		" Pandoc support
 Plug 'vim-pandoc/vim-pandoc-syntax'	" Pandoc syntax
 
