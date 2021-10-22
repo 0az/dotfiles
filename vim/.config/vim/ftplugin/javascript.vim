@@ -20,3 +20,12 @@ endfunc
 
 nnoremap <silent> <buffer> <localleader>b :call <SID>prettier()<CR>
 inoremap <silent> <buffer> <localleader>b <C-o>call <SID>prettier()<CR>
+
+nmap <silent> <C-k> <Plug>(coc-diagnostic-prev)
+nmap <silent> <C-j> <Plug>(coc-diagnostic-next)
+nmap <silent> <F12> <Plug>(coc-definition)
+nmap <silent> <M-F12> <Plug>(coc-type-definition)
+nmap <silent> <C-F12> <Plug>(coc-implementation)
+nmap <silent> <S-F12> <Plug>(coc-references)
+
+nmap <F2> <Plug>(coc-rename)
