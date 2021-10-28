@@ -55,6 +55,7 @@ Plug 'wellle/targets.vim'		" Extra text objects
 " Plug 'keith/swift.vim'		" Swift syntax
 " Plug 'scrooloose/syntastic'		" Syntax checking
 " Plug 'udalov/kotlin-vim'		" Kotlin syntax
+Plug 'rust-lang/rust.vim'		" Rust support
 Plug 'sheerun/vim-polyglot'		" Syntax pack
 Plug 'vieira/vim-javascript'		" Better JS syntax
 Plug 'herringtondarkholme/yats.vim'	" Better TS syntax
