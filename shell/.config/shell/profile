@@ -17,7 +17,7 @@
 # Main
 ##
 # Java
-# JavaScript: Including Node
+# JavaScript/Node
 # Python
 # Rust
 # Other
@@ -122,6 +122,8 @@ if_fish_eval 'command -v jenv &>/dev/null && status --is-interactive && source (
 
 # JavaScript: Node REPL XDG
 export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
+export VOLTA_HOME="$XDG_DATA_HOME/volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
 
 ##########
 # Python #
