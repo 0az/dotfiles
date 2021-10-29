@@ -41,6 +41,10 @@ let g:ale_linters = {
 		"\ 'pylint',
 		\ 'pyls',
 	\ ],
+	\ 'rust': [
+		\ 'analyzer',
+		\ 'clippy',
+	\ ],
 \ }
 
 let g:ale_fixers = {
