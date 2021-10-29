@@ -8,6 +8,11 @@ function venv-up --description 'Activate a Python venv'
 		return 0
 	end
 
+	if set -q VIRTUAL_ENV
+		echo "Error: venv already active: $VIRTUAL_ENV"
+		return 1
+	end
+
 	set -l prefix
 	if ! set -q _flag_d
 		if test -e .venv/bin/activate.fish
@@ -17,14 +22,21 @@ function venv-up --description 'Activate a Python venv'
 		else if test -e ./bin/activate.fish
 			set prefix .
 		else if test -e Pipfile
-			echo 'No venv found, but Pipfile detected.' >&2
+			echo 'Error: No venv found, but Pipfile detected.' >&2
+			if set -q _flag_e
+				echo 'Warning: Skipped loading .env files.' >&2
+			end
+			pipenv shell
+			return $status
+		else if test -e Poetry.lock
+			echo 'Error: No venv found, but Poetry.lock detected.' >&2
 			if set -q _flag_e
 				echo 'Warning: Skipped loading .env files.' >&2
 			end
 			poetry shell
 			return $status
 		else
-			echo 'No venv detected' >&2
+			echo 'Error: No venv detected' >&2
 			return 1
 		end
 	else
@@ -35,7 +47,13 @@ function venv-up --description 'Activate a Python venv'
 		end
 	end
 
-	set subshell_args -i -C "source $prefix/bin/activate.fish" 
+	set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
+
+	set subshell_args -i \
+		-C "source $prefix/bin/activate.fish" \
+		-C "source "(status -f) \
+		-C _venv_up_config_prompt \
+		;
 
 	if set -q _flag_e
 		for file in $_flag_e
@@ -51,4 +69,62 @@ function venv-up --description 'Activate a Python venv'
 	end
 
 	fish $subshell_args $argv
+end
+
+function _venv_up_config_prompt
+	if not set -q VIRTUAL_ENV_PROMPT
+		set -gx VIRTUAL_ENV_PROMPT (
+			python --version \
+			| awk '
+				BEGIN {
+					IGNORECASE = 1;
+					version = "";
+					suffix = "";
+				}
+				1 {
+					version = $2;
+					gsub("\.[0-9]+$", "", version);
+				}
+				/pypy/ {
+					suffix = "-pypy";
+				}
+				/jython/ {
+					suffix = "-jython";
+				}
+				END {
+					printf("py%s%s", version, suffix);
+				}
+			'
+		)
+	end
+
+	# The following is taken from venv's activate.fish
+	# Copyright (c) 2001-2021 Python Software Foundation; All Rights Reserved
+	# SPDX: PSF-2.0
+	# BEGIN VENV CODE
+
+	# fish uses a function instead of an env var to generate the prompt.
+	# Save the current fish_prompt function as the function _old_fish_prompt.
+	functions -c fish_prompt _old_fish_prompt
+
+	# With the original prompt function renamed, we can override with our own.
+	function fish_prompt
+		# Save the return status of the last command.
+		set -l old_status $status
+
+		# Output the venv prompt; color taken from the blue of the Python logo.
+		printf "%s%s%s" (set_color 4B8BBE) "($VIRTUAL_ENV_PROMPT) " (set_color normal)
+
+		# Restore the return status of the previous command.
+		echo "exit $old_status" | .
+		# Output the original/"old" prompt.
+		_old_fish_prompt
+	end
+	function deactivate
+		exit 0
+	end
+
+	set -gx _OLD_FISH_PROMPT_OVERRIDE "$VIRTUAL_ENV"
+
+	# END VENV CODE
 end
