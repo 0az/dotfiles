@@ -113,6 +113,7 @@ export PATH="$GOPATH/bin:$PATH"
 # Jenv: init
 export JENV_ROOT="$XDG_DATA_HOME/jenv"
 # FIXME: This breaks in subshell contexts
+# shellcheck disable=SC2016
 if_bash_eval 'command -v jenv &>/dev/null && eval "$(jenv init -)"'
 if_fish_eval 'command -v jenv &>/dev/null && status --is-interactive && source (jenv init - | psub)'
 
