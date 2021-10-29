@@ -102,6 +102,10 @@ else
 	let g:black_virtualenv = '~/.vim/black'
 endif
 
+" Javascript
+let g:javascript_plugin_jsdoc = 1
+
+" YouCompleteMe
 " let g:ycm_server_python_interpreter = '/opt/local/bin/python3'
 let g:ycm_filter_diagnostics = {
 	\ "javascript": {
