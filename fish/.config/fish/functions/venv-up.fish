@@ -14,6 +14,7 @@ function venv-up --description 'Activate a Python venv'
 	end
 
 	set -l prefix
+	# TODO: Clean up handling of special cases
 	if ! set -q _flag_d
 		if test -e .venv/bin/activate.fish
 			set prefix .venv
