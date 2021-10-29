@@ -75,6 +75,7 @@ indentation:
 END
 let g:ale_yaml_yamllint_options  = join(s:yaml_lint_options)
 
+" Python
 let g:black_linelength = 79
 let g:black_skip_string_normalization = 1
 
@@ -101,8 +102,13 @@ let g:ycm_filetype_blacklist = {
 " let g:syntastic_swift_swiftlint_use_defaults = 1 
 " let g:syntastic_swift_checkers = ['swiftlint', 'swiftpm'] 
 
+" UltiSnips
 let g:UltiSnipsExpandTrigger = '<c-j>'
 " let g:UltiSnipsJumpForwardTrigger = '<tab>'
 " let g:UltiSnipsJumpBackwardTrigger = '<s-tab>' 
 
+" Tex
 let g:vimtex_compiler_method = 'latexmk'
+
+" Markdown
+let g:vim_markdown_new_list_item_indent = 0
