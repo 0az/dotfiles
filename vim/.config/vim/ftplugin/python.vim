@@ -1,2 +1,1 @@
-" setlocal formatprg=black\ -q\ -
-nnoremap <buffer> <localleader>b <Plug>(python-black)
+nmap <buffer> <localleader>b <Plug>(python-black)
