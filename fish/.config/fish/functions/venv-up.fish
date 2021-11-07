@@ -76,20 +76,25 @@ function _venv_up_config_prompt
 	if not set -q VIRTUAL_ENV_PROMPT
 		set -gx VIRTUAL_ENV_PROMPT (
 			python --version \
-			| awk '
+			&| awk '
 				BEGIN {
-					IGNORECASE = 1;
 					version = "";
 					suffix = "";
 				}
-				1 {
+				NR == 1 {
 					version = $2;
 					gsub("\.[0-9]+$", "", version);
 				}
-				/pypy/ {
+				NR == 2 {
+					$1 = tolower($1)
+				}
+				NR > 2 {
+					exit;
+				}
+				$1 ~ /pypy/ {
 					suffix = "-pypy";
 				}
-				/jython/ {
+				$1 ~ /jython/ {
 					suffix = "-jython";
 				}
 				END {
