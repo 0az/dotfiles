@@ -38,8 +38,8 @@ exe "set viminfo+='1000,n" . g:vim_data_home . '/viminfo'
 let &rtp = join([g:vim_config_home, g:vim_data_home, $VIMRUNTIME, g:vim_config_home . '/after'], ',')
 
 " Plugin Preload Settings
-source <sfile>:h/init/00-plug-preload.vim
-source <sfile>:h/init/01-plugin-preload.vim
+source <sfile>:h/init/01-plug-preload.vim
+source <sfile>:h/init/02-plugin-preload.vim
 
 " Plugins
 source <sfile>:h/init/10-plug-plugins.vim
