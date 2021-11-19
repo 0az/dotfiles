@@ -29,6 +29,7 @@ alias ptpython='ptpython --config-file=$XDG_CONFIG_HOME/ptpython/config.py'
 alias ptipython='ptipython --config-file=$XDG_CONFIG_HOME/ptpython/config.py'
 alias ptpy=ptpython
 alias ptipy=ptipython
+alias wget="wget --hsts-file=\$XDG_CACHE_HOME/wget-hsts"
 
 # Editors
 alias e='$EDITOR'
