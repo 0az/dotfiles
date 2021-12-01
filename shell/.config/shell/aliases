@@ -18,7 +18,6 @@ alias rebase='git rebase -i'
 alias open-mpv='mpv --video-unscaled=yes --idle=once --force-window=yes'
 
 # Configuration
-alias bat="bat --pager=less"
 alias black='black -l 80 -S'
 alias exa='exa --group-directories-first'
 alias irssi='irssi --home="$XDG_CONFIG_HOME/irssi"'
