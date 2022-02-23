@@ -29,6 +29,7 @@ log_level = INFO
 # Default pager.
 # By default '$PAGER' environment variable is used
 # pager = less -SRXF
+pager = less --RAW-CONTROL-CHARS --quit-if-one-screen --no-lessopen --mouse
 
 # Table format. Possible values:
 # ascii, double, github, psql, plain, simple, grid, fancy_grid, pipe, orgtbl,
