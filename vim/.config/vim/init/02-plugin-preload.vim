@@ -18,4 +18,4 @@ endif
 
 let g:pandoc#filetypes#pandoc_markdown = 0
 
-let g:polyglot_disabled = ['javascript.plugin', 'typescript.plugin']
+let g:polyglot_disabled = ['javascript.plugin', 'typescript.plugin', 'rust']
