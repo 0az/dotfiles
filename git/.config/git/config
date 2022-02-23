@@ -27,3 +27,6 @@
 
 [advice]
 	detachedHead = false
+
+[tar "zst"]
+	command = zstdmt -z
