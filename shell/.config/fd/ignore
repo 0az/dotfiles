@@ -7,6 +7,7 @@
 .gradle
 .hypothesis
 .ipynb_checkpoints/*
+.localized
 .mypy_cache
 .next
 .pytest_cache
