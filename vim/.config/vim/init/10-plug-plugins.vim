@@ -37,6 +37,7 @@ Plug 'junegunn/goyo.vim'		" Minimalist mode
 Plug 'junegunn/limelight.vim'		" Highlight current paragraph
 Plug 'tpope/vim-repeat'			" Repeat plugin maps
 Plug 'unblevable/quick-scope'		" Quick character motion
+Plug 'preservim/tagbar'			" Tagbar
 
 " Color Scheme
 Plug 'arcticicestudio/nord-vim'		" Nord Theme
@@ -83,6 +84,7 @@ Plug 'maximbaz/lightline-ale'		" ALE support for Lightline
 Plug 'hashivim/vim-terraform'		" Terraform/HCL
 Plug 'lervag/vimtex'			" Tex
 Plug 'tpope/vim-fugitive'		" Git porcelain
+Plug 'xolox/vim-easytags'		" Magical ctags support
 
 " Formatting Plugins
 " Plug 'dimbleby/black.vim'		" Black!
@@ -91,6 +93,7 @@ Plug 'tpope/vim-fugitive'		" Git porcelain
 " Misc Plugins
 Plug 'gerw/vim-hilinktrace'		" Highlight Debug
 Plug 'andrewradev/bufferize.vim'	" Send command output to buffer
+Plug 'xolox/vim-misc'			" Required for vim-easytags
 
 " Initialize plugin system
 call plug#end()

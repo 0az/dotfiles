@@ -26,6 +26,8 @@ imap <F12> <C-\><C-O><Plug>(ale_go_to_definition_in_split)
 nmap <S-F12> <Plug>(ale_find_references)
 imap <S-F12> <C-\><C-O><Plug>(ale_find_references)
 
+nnoremap <silent> <F8> :TagbarToggle<CR>
+
 if has("unix")
 	let s:uname = system("uname -s")
 	if s:uname == "Darwin"

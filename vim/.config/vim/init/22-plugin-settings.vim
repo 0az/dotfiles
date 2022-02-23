@@ -163,3 +163,6 @@ let g:vimtex_compiler_method = 'latexmk'
 
 " Markdown
 let g:vim_markdown_new_list_item_indent = 0
+
+" EasyTags
+let g:easytags_file = g:vim_data_home . '/tags'
