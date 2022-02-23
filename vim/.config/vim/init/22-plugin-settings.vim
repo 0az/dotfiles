@@ -103,6 +103,7 @@ let g:ale_fixers = {
 let g:ale_javascript_eslint_options = '--env browser,node --parser-options=ecmaVersion:latest'
 let g:ale_javascript_eslint_use_global = 0
 let g:ale_python_auto_pipenv = 1
+let g:ale_python_auto_poetry = 1
 let g:ale_python_pyls_use_global = 1
 let s:yaml_lint_options =<< END
 --config-data "
@@ -114,7 +115,7 @@ END
 let g:ale_yaml_yamllint_options  = join(s:yaml_lint_options)
 
 " Python
-let g:black_linelength = 79
+let g:black_linelength = 80
 let g:black_skip_string_normalization = 1
 
 if use_xdg_data_home
@@ -127,7 +128,15 @@ endif
 let g:javascript_plugin_jsdoc = 1
 
 " YouCompleteMe
-" let g:ycm_server_python_interpreter = '/opt/local/bin/python3'
+let g:ycm_python_interpreter_path = exepath('python3')
+
+let g:ycm_python_sys_path = []
+let g:ycm_extra_conf_vim_data = [
+	\ 'g:ycm_python_interpreter_path',
+	\ 'g:ycm_python_sys_path'
+\]
+let g:ycm_global_ycm_extra_conf = g:vim_config_home . '/ycm_global_extra_conf.py'
+
 let g:ycm_filter_diagnostics = {
 	\ "javascript": {
 		\ "regex": [
