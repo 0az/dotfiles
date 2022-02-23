@@ -1,3 +1,5 @@
+" vim: set expandtab ts=2 sw=2 sts=2:
+
 " black.vim
 " Author: Łukasz Langa
 " Created: Mon Mar 26 23:27:53 2018 -0700
@@ -54,6 +56,9 @@ import sys
 import vim
 from distutils.util import strtobool
 
+def parse_bool(o):
+  return bool(strtobool(str(o)))
+
 class Flag(collections.namedtuple("FlagBase", "name, cast")):
   @property
   def var_name(self):
@@ -68,9 +73,9 @@ class Flag(collections.namedtuple("FlagBase", "name, cast")):
 
 FLAGS = [
   Flag(name="line_length", cast=int),
-  Flag(name="fast", cast=strtobool),
-  Flag(name="string_normalization", cast=strtobool),
-  Flag(name="quiet", cast=strtobool),
+  Flag(name="fast", cast=parse_bool),
+  Flag(name="string_normalization", cast=parse_bool),
+  Flag(name="quiet", cast=parse_bool),
 ]
 
 def _get_python_binary(exec_prefix):
@@ -207,16 +212,16 @@ EndPython3
 function! black#Black()
 python3 << EndPy3
 try:
-	Black()
+    Black()
 except NameError:
-	print('Error: Black not loaded')
+    print('Error: Black not loaded')
 EndPy3
 endfunc
 
 func! black#BlackUpgrade()
-	py3 BlackUpgrade()
+    py3 BlackUpgrade()
 endfunc
 
 func! black#BlackVersion()
-	py3 BlackVersion()
+    py3 BlackVersion()
 endfunc
