@@ -48,6 +48,8 @@ mpv
 Certain stow packages depend on others. Specifically, assume that everything
 depends on `shell`.
 
+Vim depends on a recent version of Python 3 installed, including distutils.
+
 ### Roadmap
 
 - Write a portable zero-dep stow replacement (Python)
