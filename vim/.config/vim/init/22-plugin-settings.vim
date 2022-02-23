@@ -11,13 +11,34 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 let g:lightline = {
 \}
-" XXX: Maybe move to gvimrc
-if has('gui_running')
-	let g:lightline.colorscheme = 'solarized'
-else
-	let g:lightline.colorscheme = 'wombat'
+
+if ! has('gui_running') || ! exists('g:colors_name')
 	" Wombat has a sensibly neutral look
+	let g:lightline.colorscheme = 'wombat'
+elseif g:colors_name =~? '\v.*solarized.*'
+	let g:lightline.colorscheme = 'solarized'
+	" let g:lightline.colorscheme = 'wombat'
 endif
+
+augroup LightlineColorscheme
+	autocmd!
+	autocmd ColorScheme * call s:lightline_update()
+augroup END
+function! s:lightline_update()
+	if !exists('g:loaded_lightline')
+		return
+	endif
+	try
+		if g:colors_name =~# '\vwombat|solarized\|landscape\|jellybeans\|seoul256\|Tomorrow'
+			let g:lightline.colorscheme =
+			\ substitute(substitute(g:colors_name, '-', '_', 'g'), '256.*', '', '')
+			call lightline#init()
+			call lightline#colorscheme()
+			call lightline#update()
+		endif
+	catch
+	endtry
+endfunction
 
 let s:js_ale_linters = [
 	\ 'importjs',
