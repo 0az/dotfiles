@@ -205,6 +205,9 @@ unset_ fzf_fd_common
 export HOMEBREW_AUTO_UPDATE_SECS=1200
 export HOMEBREW_UPDATE_REPORT_ONLY_INSTALLED=1
 
+# Packer
+export PACKER_PLUGIN_PATH="$XDG_DATA_HOME/packer/plugins"
+
 ############
 # Includes #
 ############
