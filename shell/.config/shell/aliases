@@ -13,15 +13,16 @@ alias icat='kitty +kitten icat'
 
 # Mini-functions
 alias add-ssh-keys="ssh-add -t 6000 ~/.ssh/keys/autoload/*"
-alias fixup='git commit -m "fixup!"'
+alias fixup='git commit --fixup HEAD'
 alias rebase='git rebase -i'
 alias open-mpv='mpv --video-unscaled=yes --idle=once --force-window=yes'
 
 # Configuration
 alias black='black -l 80 -S'
 alias exa='exa --group-directories-first'
-alias irssi='irssi --home="$XDG_CONFIG_HOME/irssi"'
 alias ffprobe='ffprobe -hide_banner'
+alias irssi='irssi --home="$XDG_CONFIG_HOME/irssi"'
+alias kssh='kitty +kitten ssh'
 alias ncdu='ncdu --exclude /System --exclude /Library'
 # ptpython is blocked on appdirs
 alias ptpython='ptpython --config-file=$XDG_CONFIG_HOME/ptpython/config.py'
