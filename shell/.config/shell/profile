@@ -231,18 +231,35 @@ export GVIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/gvimrc | endif'
 # export BYOBU_PYTHON=/usr/local/bin/python3
 
 # FZF: fzf
-set_ fzf_fd_common "command fd -HL -E .git -E .venv -E '*.app' -E node_modules -E /dev -E /sys -E /proc"
-set_ fzf_fd_trim 'sed -E s@^./@@'
+set_ finder_common "command fd -HL -E .git -E .venv -E '*.app' -E node_modules -E /dev -E /sys -E /proc"
+set_ finder_trim 'sed -E s@^./@@'
+# shellcheck disable=SC2016,SC2154
+set_ finder_ctrl_t_command "$finder_common"' . "$dir" | '"$finder_trim"
+# shellcheck disable=SC2016,SC2154
+set_ finder_alt_c_command "$finder_common"' -t d . "$dir" | '"$finder_trim"
 
-# shellcheck disable=SC2154
-export FZF_DEFAULT_COMMAND="$fzf_fd_common"
-export FZF_DEFAULT_OPTS='--bind ctrl-k:kill-line'
-# shellcheck disable=SC2016
-export FZF_CTRL_T_COMMAND='sh -c "'"$fzf_fd_common"' . $dir | '"$fzf_fd_trim"'"'
-# shellcheck disable=SC2016
-export FZF_ALT_C_COMMAND='sh -c "'"$fzf_fd_common"' -t d . $dir | '"$fzf_fd_trim"'"'
+# shellcheck disable=SC2016,SC2154
+command_ sk && export \
+	SKIM_DEFAULT_COMMAND="$finder_common" \
+	SKIM_DEFAULT_OPTS='--bind ctrl-k:kill-line' \
+	SKIM_CTRL_T_COMMAND="$finder_ctrl_t_command" \
+	SKIM_ALT_C_COMMAND="$finder_alt_c_command" \
+;
 
-unset_ fzf_fd_common
+# shellcheck disable=SC2016,SC2154
+command_ fzf && export \
+	FZF_DEFAULT_COMMAND="$finder_common" \
+	FZF_DEFAULT_OPTS='--bind ctrl-k:kill-line' \
+	FZF_CTRL_T_COMMAND="$finder_ctrl_t_command" \
+	FZF_ALT_C_COMMAND="$finder_alt_c_command" \
+;
+
+if_fish_eval 'sk_key_bindings || fzf_key_bindings || true'
+
+unset_ finder_common
+unset_ finder_trim
+unset_ finder_ctrl_t_command
+unset_ finder_alt_c_command
 
 # Homebrew
 export HOMEBREW_AUTO_UPDATE_SECS=1200
