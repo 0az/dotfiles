@@ -14,5 +14,8 @@
 .terraform
 .venv
 .yarn
+.Trashes
+/.bash_sessions
+/.zsh_sessions
 __pycache__
 node_modules
