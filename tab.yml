@@ -2,6 +2,7 @@ repo: dotfiles
 
 tabs:
   - tab: shell
+    dir: ./shell
   - tab: fish
     dir: ./fish/.config/fish
   - tab: vim
