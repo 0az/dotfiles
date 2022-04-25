@@ -1,3 +1,0 @@
-[submodule "shell/.config/shell/modules/git-fuzzy"]
-	path = git/.config/git/modules/git-fuzzy
-	url = https://github.com/bigH/git-fuzzy.git
