@@ -6,6 +6,7 @@
 # Guard against generated completion scripts
 fish/.config/fish/completions/
 fish/.config/fish/fish_variables
+fish/.config/fish/fishd.*
 
 ########
 # Git
@@ -16,9 +17,10 @@ git/.config/git/x-identity.conf
 ########
 # SSH
 ####
-ssh/.ssh/known_hosts
 ssh/.ssh/hosts.d/
+ssh/.ssh/id_*
 ssh/.ssh/keys/
+ssh/.ssh/known_hosts*
 
 ########
 # Shell
