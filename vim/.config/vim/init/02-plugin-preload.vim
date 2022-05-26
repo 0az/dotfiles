@@ -13,7 +13,7 @@ let g:coc_config_home = g:vim_config_home
 let g:tex_flavor = 'latex'
 
 if executable('fd')
-	let g:ctrlp_user_command = 'fd -HL -E .git -E .venv -E "*.app" -E node_modules'
+	let g:ctrlp_user_command = 'command fd -HL -E .git -E .venv -E "*.app" -E node_modules -E /dev -E /sys -E /proc'
 endif
 
 let g:pandoc#filetypes#pandoc_markdown = 0
