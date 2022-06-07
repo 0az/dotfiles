@@ -64,6 +64,8 @@ if_bash_eval alias if_bash=true if_posixish=true
 if_fish_eval alias if_fish=true
 if_zsh_eval alias if_zsh=true if_posixish=true
 
+if_fish || eval 'test -z "${0##*dash}" && alias if_posixish=true'
+
 if_bash_eval if_posixish=true
 if_zsh_eval if_posixish=true
 
@@ -83,7 +85,7 @@ if_posixish_eval 'command_() { command -v "$2" >/dev/null; }'
 if_fish_eval 'alias command_="command -q"'
 
 # Define Teardown
-set_ aliases 'if_bash if_fish if_zsh if_bash_eval if_fish_eval if_zsh_eval if_posixish'
+set_ aliases 'if_bash if_fish if_zsh if_bash_eval if_fish_eval if_zsh_eval if_posixish if_posixish_eval'
 set_ functions 'set_ unset_ command_'
 set_ variables aliases functions variables
 # shellcheck disable=SC2016,2154
