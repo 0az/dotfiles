@@ -2,3 +2,7 @@
 	path = fish/.config/fish/plugins/z
 	url = https://github.com/jethrokuan/z.git
 	shallow = true
+[submodule "fish/.config/fish/plugins/plugin-foreign-env"]
+	path = fish/.config/fish/plugins/plugin-foreign-env
+	url = https://github.com/oh-my-fish/plugin-foreign-env.git
+	shallow = true
