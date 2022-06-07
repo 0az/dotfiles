@@ -1,0 +1,4 @@
+[submodule "fish/.config/fish/plugins/z"]
+	path = fish/.config/fish/plugins/z
+	url = https://github.com/jethrokuan/z.git
+	shallow = true
