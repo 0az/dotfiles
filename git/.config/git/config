@@ -30,3 +30,6 @@
 
 [tar "zst"]
 	command = zstdmt -z
+
+[url "https://github.com/"]
+	insteadOf = git://github.com/
