@@ -1,12 +1,13 @@
 function z_key_bindings
-	if not command -q z; or functions -q z
+	if not command -q z; and not functions -q z
 		return
 	end
-	if not command -q sk; or functions -q sk
+	if not command -q sk; and not functions -q sk
 		return
 	end
+
 	function z-cd-widget
-		z -l | sed -E 's/^[[:digit:]]+ +//' | sk | read -l result
+		z -l | sed -E 's/^[0-9.]+ +//' | sk | read -l result
 		if test -n "$result"
 			cd -- $result
 		end
