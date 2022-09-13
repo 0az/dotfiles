@@ -48,6 +48,7 @@ source <sfile>:h/init/10-plug-plugins.vim
 source <sfile>:h/init/20-settings.vim
 source <sfile>:h/init/21-mappings.vim
 source <sfile>:h/init/22-plugin-settings.vim
+source <sfile>:h/init/23-autocommands.vim
 
 " Init
 autocmd VimEnter * set nolazyredraw lazyredraw
