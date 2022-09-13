@@ -4,6 +4,12 @@
 let mapleader = '\'
 let maplocalleader = '+'
 
+map <C-Tab> :tabnext<CR>
+nmap <C-Tab> :tabnext<CR>
+
+map <C-S-Tab> :tabprevious<CR>
+nmap <C-S-Tab> :tabprevious<CR>
+
 " Move across wrapped lines like regular lines
 " noremap 0 ^ " Go to the first non-blank character of a line
 " noremap ^ 0 " Just in case you need to go to the very beginning of a line
