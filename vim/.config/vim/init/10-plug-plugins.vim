@@ -40,7 +40,7 @@ Plug 'unblevable/quick-scope'		" Quick character motion
 Plug 'preservim/tagbar'			" Tagbar
 
 " Color Scheme
-Plug 'arcticicestudio/nord-vim'		" Nord Theme
+" Plug 'arcticicestudio/nord-vim'		" Nord Theme
 Plug 'lifepillar/vim-solarized8'	" Solarized Theme
 
 " Text plugins
