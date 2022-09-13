@@ -2,6 +2,7 @@
 *.swp
 .DS_Store
 .Trashes
+.bash_sessions
 .build
 .cache
 .git
@@ -15,7 +16,7 @@
 .terraform
 .venv
 .yarn
-/.bash_sessions
+.zsh_sessions
 /.config/bat
 /.config/fd
 /.config/fish
@@ -31,6 +32,5 @@
 /.nix-defexpr
 /.nix-profile
 /.npm/_*
-/.zsh_sessions
 __pycache__
 node_modules
