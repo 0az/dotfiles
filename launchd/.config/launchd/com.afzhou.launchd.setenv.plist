@@ -8,7 +8,7 @@
 	<array>
 		<string>sh</string>
 		<string>-c</string>
-		<string>/usr/bin/python $HOME/.config/launchd/setenv.py</string>
+		<string>/usr/bin/python3 $HOME/.config/launchd/setenv.py</string>
 		</array>
 	<key>RunAtLoad</key>
 	<true/>
