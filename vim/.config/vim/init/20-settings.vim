@@ -19,4 +19,4 @@ set modeline
 set laststatus=2
 set updatetime=800
 
-let $BASH_ENV = "$HOME/.bash_aliases"
+" let $BASH_ENV = "$HOME/.bash_aliases"
