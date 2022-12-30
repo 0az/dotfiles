@@ -1,0 +1,29 @@
+#! /bin/bash
+# Move commits to a new PR branch, resetting the current branch to upstream.
+
+set -euo pipefail
+
+if test $# -lt 1 -o $# -gt 2; then
+	exit 1
+fi
+
+target_branch="$1"
+
+# Quickly check that the target branch doesn't exist
+git rev-parse --verify --quiet "$target_branch" >/dev/null \
+	&& exit 1
+# Make sure that there's no pending changes
+git diff -q || exit 1
+
+current_branch_sha="$(git rev-parse HEAD)"
+current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
+upstream_value="origin/$current_branch_name"
+
+git update-ref --stdin <<EOF
+start
+create refs/heads/$target_branch $current_branch_sha
+update refs/heads/$current_branch_name $upstream_value $current_branch_sha
+update HEAD 'ref: refs/heads/$target_branch'
+prepare
+commit
+EOF
