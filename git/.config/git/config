@@ -1,11 +1,18 @@
 [include]
 	path = ~/.config/git/x-identity.conf
+	path = ~/.config/git/_urls.conf
+
+[advice]
+	detachedHead = false
 
 [commit]
 	gpgSign = false
 
 [core]
 	editor = vim
+
+[diff]
+	tool = vimdiff
 
 [filter "lfs"]
 	process = git-lfs filter-process
@@ -16,20 +23,17 @@
 [init]
 	defaultBranch = main
 
-[pull]
-	ff = only
-
-[user]
-	useConfigOnly = true
-
 [mergetool]
 	vimdiff3 = --edit
 
-[advice]
-	detachedHead = false
+[pull]
+	ff = only
+
+[rebase]
+	updateRefs = true
 
 [tar "zst"]
 	command = zstdmt -z
 
-[url "https://github.com/"]
-	insteadOf = git://github.com/
+[user]
+	useConfigOnly = true
