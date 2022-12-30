@@ -1,0 +1,1 @@
+../../../../_vendor/nix-env.fish
