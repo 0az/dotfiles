@@ -8,11 +8,10 @@ setlocal wrap
 function! s:prettier()
 	if &modified || ! &modifiable
 		let pos = winsaveview()
-		exe '%!pnpm -- prettier --stdin-filepath %'
+		exe '%!prettier --stdin-filepath %'
 		call winrestview(pos)
 	else
-		" call system('silent !pnpm -- prettier --write %')
-		exe 'silent !pnpm -- prettier --write %'
+		exe 'silent !prettier --write %'
 		exe 'redraw!'
 
 	endif
