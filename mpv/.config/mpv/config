@@ -74,6 +74,7 @@ sub-file-paths-append=vob
 ####
 
 ytdl
+script-opts-append=ytdl_hook-ytdl_path=yt-dlp
 ytdl-raw-options-append=write-auto-sub=
 ytdl-raw-options-append=sub-lang=en,jp
 ytdl-format=bestvideo+bestaudio/best
