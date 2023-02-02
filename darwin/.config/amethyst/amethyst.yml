@@ -1,0 +1,220 @@
+layouts:
+  - fullscreen
+  - tall
+  - wide
+  - two-pane
+  - bsp
+
+mod1:
+  # default
+  - option
+  - shift
+
+mod2:
+  # default
+  - option
+  - shift
+  - control
+
+mod3:
+  # default
+
+mod4:
+  # default
+
+window-max-count: 0  # default
+window-margins: true
+smart-window-margins: true
+window-margin-size: 4
+
+window-minimum-height: 500
+window-minimum-width: 500
+
+floating:
+  - com.apple.systempreferences
+  - com.apple.backup.launcher
+  - com.colliderli.iina
+  - com.apple.FaceTime
+  - com.michaelvillar.Timer
+  - org.multimc.MultiMC5
+floating-is-blacklist: true
+
+ignore-menu-bar: false  # default
+float-small-windows: true  # default
+
+mouse-follows-focus: false  # default
+focus-follows-mouse: false  # default
+
+mouse-swaps-windows: true
+mouse-resizes-windows: false  # default
+
+enables-layout-hud: true  # default
+enables-layout-hud-on-space-change: false
+
+use-canary-build: true  # default
+new-windows-to-main: false  # default
+
+follow-space-thrown-windows: true  # default
+
+window-resize-step: 5  # default
+
+screen-padding-left: 0  # default
+screen-padding-right: 0  # default
+screen-padding-top: 0  # default
+screen-padding-bottom: 0  # default
+
+restore-layouts-on-launch: true  # default
+debug-layout-info: false  # default
+disable-screen-padding-on-inbuilt: false  # default
+
+# Commands
+
+cycle-layout:
+cycle-layout-backward:
+
+shrink-main:
+  mod: mod1
+  key: h
+expand-main:
+  mod: mod1
+  key: l
+increase-main:
+decrease-main:
+
+command1:
+command2:
+command3:
+command4:
+
+focus-ccw:
+  mod: mod1
+  key: j
+focus-cw:
+  mod: mod1
+  key: k
+focus-main:
+  mod: mod1
+  key: m
+
+focus-screen-ccw:
+  mod: mod1
+  key: p
+focus-screen-cw:
+  mod: mod1
+  key: n
+swap-screen-ccw:
+  mod: mod2
+  key: h
+swap-screen-cw:
+  mod: mod2
+  key: l
+
+swap-ccw:
+  mod: mod2
+  key: j
+swap-cw:
+  mod: mod2
+  key: k
+swap-main:
+  mod: mod1
+  key: enter
+
+focus-screen-1:
+  mod: mod1
+  key: q
+focus-screen-2:
+  mod: mod1
+  key: w
+focus-screen-3:
+  mod: mod1
+  key: e
+focus-screen-4:
+  mod: mod1
+  key: r
+
+throw-screen-1:
+  mod: mod2
+  key: q
+throw-screen-2:
+  mod: mod2
+  key: w
+throw-screen-3:
+  mod: mod2
+  key: e
+throw-screen-4:
+  mod: mod2
+  key: r
+
+throw-space-1:
+  mod: mod2
+  key: 1
+throw-space-2:
+  mod: mod2
+  key: 2
+throw-space-3:
+  mod: mod2
+  key: 3
+throw-space-4:
+  mod: mod2
+  key: 4
+throw-space-5:
+  mod: mod2
+  key: 5
+throw-space-6:
+  mod: mod2
+  key: 6
+throw-space-7:
+  mod: mod2
+  key: 7
+throw-space-8:
+  mod: mod2
+  key: 8
+throw-space-9:
+  mod: mod2
+  key: 9
+throw-space-10:
+  mod: mod2
+  key: 10
+
+throw-space-left:
+  mod: mod2
+  key: left
+throw-space-right:
+  mod: mod2
+  key: right
+
+toggle-float:
+  mod: mod1
+  key: t
+display-current-layout:
+  mod: mod1
+  key: i
+
+toggle-tiling: 
+  mod: mod2
+  key: t
+reevaluate-windows:
+  mod: mod1
+  key: z
+toggle-focus-follows-mouse:
+relaunch-amethyst:
+  mod: mod2
+  key: z
+
+# Layout Selector Commands
+# select-{layout_key}-layout
+select-tall-layout:
+  mod: mod1
+  key: a
+select-wide-layout:
+  mod: mod1
+  key: s
+select-fullscreen-layout:
+  mod: mod1
+  key: f
+select-two-pane-layout:
+  mod: mod1
+  key: d
+select-bsp-layout:
+  mod: mod1
+  key: b
