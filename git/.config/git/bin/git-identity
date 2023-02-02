@@ -1,27 +1,9 @@
 #! /usr/bin/env python
 # vim: set ft=python:expandtab:textwidth=80:ts=4:sw=4:
 
-# MIT License
+# SPDX-License-Identifier: MIT
 #
-# Copyright (c) 2021 0az
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
+# Copyright (c) 2023 0az
 
 """
 Manage separate Git identities.
@@ -189,18 +171,18 @@ def usage():
 ########
 
 
-def main():
-    if len(sys.argv) < 2:
+def main(argv):
+    if len(argv) < 2:
         usage()
         return 1
 
-    command = sys.argv[1].lower()
+    command = argv[1].lower()
 
     if command in ('help', '-h', '--help'):
         return usage()
 
     if command == 'list':
-        if len(sys.argv) != 2:
+        if len(argv) != 2:
             usage()
             return 1
 
@@ -208,17 +190,17 @@ def main():
         return 0
 
     if command == 'reset':
-        if len(sys.argv) != 2:
+        if len(argv) != 2:
             usage()
             return 1
 
         return reset()
 
     if command == 'select':
-        if len(sys.argv) != 3:
+        if len(argv) != 3:
             error(USAGE)
             return 1
-        return select(sys.argv[2])
+        return select(argv[2])
 
     if command == 'show':
         return show()
@@ -228,4 +210,4 @@ def main():
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    sys.exit(main(sys.argv))
