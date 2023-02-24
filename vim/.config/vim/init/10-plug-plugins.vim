@@ -17,6 +17,7 @@ call plug#begin(g:vim_data_home . '/plugged')
 " | https://vimawesome.com/
 
 " General Plugins
+Plug 'tpope/vim-sleuth'			" Automatically set buffer options
 Plug 'tpope/vim-sensible'		" vim-sensible
 
 " Editor plugins
@@ -83,6 +84,7 @@ Plug 'lervag/vimtex'			" Tex
 Plug 'tpope/vim-fugitive'		" Git porcelain
 " Plug 'xolox/vim-easytags'		" Magical ctags support
 					" ^ High init time!
+Plug 'jeetsukumaran/vim-pythonsense'	" Better Python textobjs/motions
 
 " Formatting Plugins
 " Plug 'dimbleby/black.vim'		" Black!
@@ -93,6 +95,7 @@ Plug 'gerw/vim-hilinktrace'		" Highlight Debug
 Plug 'andrewradev/bufferize.vim'	" Send command output to buffer
 " Plug 'xolox/vim-misc'			" Required for vim-easytags
 					" ^ High init time!
+Plug 'dylnmc/synstack.vim'		" Syntax debugging
 
 " Initialize plugin system
 call plug#end()

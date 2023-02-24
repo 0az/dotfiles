@@ -24,3 +24,8 @@ let g:polyglot_disabled = [
 	\ 'typescript.plugin',
 	\ 'rust'
 \]
+
+let g:no_synstack_maps = 0
+if has('popupwin')
+	let g:synstack_popup = 1
+endif
