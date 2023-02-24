@@ -21,7 +21,8 @@ Plug 'tpope/vim-sensible'		" vim-sensible
 
 " Editor plugins
 Plug 'editorconfig/editorconfig-vim'	" Editorconfig support
-Plug 'scrooloose/nerdtree'		" Tree explorer
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+					" Tree explorer
 
 " Interface plugins
 Plug 'airblade/vim-gitgutter'		" Add git diff info to gutter
@@ -80,7 +81,8 @@ Plug 'maximbaz/lightline-ale'		" ALE support for Lightline
 Plug 'hashivim/vim-terraform'		" Terraform/HCL
 Plug 'lervag/vimtex'			" Tex
 Plug 'tpope/vim-fugitive'		" Git porcelain
-Plug 'xolox/vim-easytags'		" Magical ctags support
+" Plug 'xolox/vim-easytags'		" Magical ctags support
+					" ^ High init time!
 
 " Formatting Plugins
 " Plug 'dimbleby/black.vim'		" Black!
@@ -89,7 +91,8 @@ Plug 'xolox/vim-easytags'		" Magical ctags support
 " Misc Plugins
 Plug 'gerw/vim-hilinktrace'		" Highlight Debug
 Plug 'andrewradev/bufferize.vim'	" Send command output to buffer
-Plug 'xolox/vim-misc'			" Required for vim-easytags
+" Plug 'xolox/vim-misc'			" Required for vim-easytags
+					" ^ High init time!
 
 " Initialize plugin system
 call plug#end()
