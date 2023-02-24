@@ -60,6 +60,7 @@ Plug 'vieira/vim-javascript'		" Better JS syntax
 Plug 'herringtondarkholme/yats.vim'	" Better TS syntax
 Plug 'vim-pandoc/vim-pandoc'		" Pandoc support
 Plug 'vim-pandoc/vim-pandoc-syntax'	" Pandoc syntax
+Plug 'ipkiss42/xwiki.vim'		" XWiki syntax
 
 " Completion plugins
 Plug 'mattn/emmet-vim'			" Emmet
