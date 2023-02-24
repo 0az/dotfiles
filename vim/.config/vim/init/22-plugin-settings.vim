@@ -98,6 +98,9 @@ let g:ale_fixers = {
 		"\ 'remove_trailing_lines',
 		"\ 'trim_whitespace',
 	\ ],
+	\ 'rust': [
+		\ 'rustfmt',
+	\ ],
 \ }
 
 let g:ale_javascript_eslint_options = '--env browser,node --parser-options=ecmaVersion:latest'
@@ -149,6 +152,7 @@ let g:ycm_filetype_blacklist = {
 	\ "typescript": 1,
 	\ "javascriptreact": 1,
 	\ "typescriptreact": 1,
+	\ "rust": 1,
 \ }
 
 " Syntastic
