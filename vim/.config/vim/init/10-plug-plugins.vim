@@ -2,11 +2,7 @@
 
 " Plugins (Plug)
 
-if use_xdg_data_home
-	call plug#begin($XDG_DATA_HOME . '/vim/plugged')
-else
-	call plug#begin('~/.vim/plugged')
-endif
+call plug#begin(g:vim_data_home . '/plugged')
 
 " Plug help:
 " | PlugInstall [name ...] [#threads]	| Install plugins
@@ -65,14 +61,14 @@ Plug 'vim-pandoc/vim-pandoc-syntax'	" Pandoc syntax
 
 " Completion plugins
 Plug 'mattn/emmet-vim'			" Emmet
-Plug 'ycm-core/YouCompleteMe', {
+VimPlug 'ycm-core/YouCompleteMe', {
 	\ 'do': 'python3 ./install.py',
 \ }
 					" Completion
 
 " Integration plugins:
 Plug 'dense-analysis/ale'		" Linting/Fixing, Language Server Protocol
-Plug 'neoclide/coc.nvim', {
+VimPlug 'neoclide/coc.nvim', {
 	\ 'branch': 'release',
 	\ 'for': [
 		\ 'javascript',

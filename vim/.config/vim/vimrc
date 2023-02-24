@@ -9,31 +9,38 @@ if &shell =~# 'fish$'
     set shell=sh
 endif
 
+" Neovim compat
+let g:has_nvim = has('nvim')
+let g:not_nvim = !g:has_nvim
+
 " XDG setup
+let b:home_suffix = g:has_nvim ? '/nvim' : '/vim'
 let use_xdg_config_home = strlen($XDG_CONFIG_HOME) > 0
 let use_xdg_data_home = strlen($XDG_DATA_HOME) > 0
 if use_xdg_data_home
-	let g:vim_data_home = expand($XDG_DATA_HOME . '/vim')
+	let g:vim_data_home = expand($XDG_DATA_HOME . b:home_suffix)
 else
-	let g:vim_data_home = expand($HOME . '/.local/share/vim')
+	let g:vim_data_home = expand($HOME . '/.local/share' . b:home_suffix)
 endif
 if use_xdg_config_home
-	let g:vim_config_home = expand($XDG_CONFIG_HOME . '/vim')
+	let g:vim_config_home = expand($XDG_CONFIG_HOME . b:home_suffix)
 else
-	let g:vim_config_home = expand($HOME . '.config/vim')
+	let g:vim_config_home = expand($HOME . '/.config' . b_home_suffix)
 endif
 
 " As suggested by Arch Wiki, but with some changes disabled
-call mkdir(g:vim_data_home, 'p', 0700)
-call mkdir(g:vim_data_home . '/undo', 'p', 0700)
-" mkdir(g:vim_data_home . '/swap', 'p', 0700)
-" mkdir(g:vim_data_home . '/backup', 'p', 0700)
-call mkdir(g:vim_data_home . '/view', 'p', 0700)
-let &undodir = g:vim_data_home . '/undo'
-" set directory=g:vim_data_home . '/swap'
-" set backupdir=g:vim_data_home . '/backup'
-let &viewdir = g:vim_data_home . '/view'
-exe "set viminfo+='1000,n" . g:vim_data_home . '/viminfo'
+if g:not_nvim
+	call mkdir(g:vim_data_home, 'p', 0700)
+	call mkdir(g:vim_data_home . '/undo', 'p', 0700)
+	" mkdir(g:vim_data_home . '/swap', 'p', 0700)
+	" mkdir(g:vim_data_home . '/backup', 'p', 0700)
+	call mkdir(g:vim_data_home . '/view', 'p', 0700)
+	let &undodir = g:vim_data_home . '/undo'
+	" set directory=g:vim_data_home . '/swap'
+	" set backupdir=g:vim_data_home . '/backup'
+	let &viewdir = g:vim_data_home . '/view'
+	exe "set viminfo+='1000,n" . g:vim_data_home . '/viminfo'
+endif
 
 let &rtp = join([g:vim_config_home, g:vim_data_home, $VIMRUNTIME, g:vim_config_home . '/after'], ',')
 
@@ -51,4 +58,4 @@ source <sfile>:h/init/22-plugin-settings.vim
 source <sfile>:h/init/23-autocommands.vim
 
 " Init
-autocmd VimEnter * set nolazyredraw lazyredraw
+" autocmd VimEnter * set nolazyredraw lazyredraw
