@@ -6,9 +6,11 @@ let maplocalleader = '+'
 
 map <C-Tab> :tabnext<CR>
 nmap <C-Tab> :tabnext<CR>
+" imap <C-Tab> <Esc>:tabnext<CR>i
 
 map <C-S-Tab> :tabprevious<CR>
 nmap <C-S-Tab> :tabprevious<CR>
+" imap <C-S-Tab> <Esc>:tabprevious<CR>i
 
 " Move across wrapped lines like regular lines
 " noremap 0 ^ " Go to the first non-blank character of a line
@@ -34,11 +36,8 @@ endif
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
 let s:darwin = 0
-if has("unix")
-	let s:uname = system("uname -s")
-	if s:uname == "Darwin"
-		let s:darwin = 1
-	endif
+if has('mac')
+	let s:darwin = 1
 endif
 
 if s:darwin

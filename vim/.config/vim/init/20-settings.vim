@@ -17,6 +17,9 @@ set smarttab
 
 set modeline
 set laststatus=2
-set updatetime=800
+set updatetime=400
+
+set history=1000
+set tabpagemax=50
 
 " let $BASH_ENV = "$HOME/.bash_aliases"

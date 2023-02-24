@@ -9,3 +9,8 @@ augroup numbertoggle
 	\ | set norelativenumber
 	\ | endif
 augroup END
+
+augroup autoloader
+  autocmd!
+  autocmd CursorHold * silent! checktime
+augroup END

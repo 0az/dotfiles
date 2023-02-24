@@ -147,6 +147,8 @@ let g:ycm_filter_diagnostics = {
 let g:ycm_filetype_blacklist = {
 	\ "javascript": 1,
 	\ "typescript": 1,
+	\ "javascriptreact": 1,
+	\ "typescriptreact": 1,
 \ }
 
 " Syntastic

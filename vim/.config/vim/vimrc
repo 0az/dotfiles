@@ -5,8 +5,8 @@
 set nocompatible              		" Disable vi compat
 
 " Vim doesn't work very well with fish
-if &shell =~# 'fish$'
-    set shell=sh
+if &shell =~# 'fish$' && (v:version < 704 || v:version == 704 && !has('patch276'))
+    set shell=/usr/bin/env\ bash
 endif
 
 " Neovim compat
