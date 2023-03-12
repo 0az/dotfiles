@@ -1,2 +1,2 @@
 source <sfile>:h:h/vim/vimrc
-luafile init.lua
+luafile <sfile>:h/init.lua
