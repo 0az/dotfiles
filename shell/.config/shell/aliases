@@ -35,7 +35,8 @@ alias wget="wget --hsts-file=\$XDG_CACHE_HOME/wget-hsts"
 alias e='$EDITOR'
 alias gd=mvimdiff
 alias ge=mvim
-alias vi=vim
 alias nv=nvim
+alias vi=vim
+
 alias code=code-insiders
 alias vsc=code-insiders
