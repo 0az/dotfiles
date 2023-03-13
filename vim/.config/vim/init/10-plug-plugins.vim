@@ -87,6 +87,20 @@ Plug 'tpope/vim-fugitive'		" Git porcelain
 					" ^ High init time!
 Plug 'jeetsukumaran/vim-pythonsense'	" Better Python textobjs/motions
 
+NvimPlug 'neovim/nvim-lspconfig'	" Community LSP configs for nvim-lsp
+NvimPlug 'nvim-lua/plenary.nvim'
+NvimPlug 'mfussenegger/nvim-dap'
+
+NvimPlug 'hrsh7th/nvim-cmp'		" Nvim completion engine with plugins
+
+NvimPlug 'hrsh7th/cmp-buffer'
+NvimPlug 'hrsh7th/cmp-cmdline'
+NvimPlug 'hrsh7th/cmp-nvim-lsp'
+NvimPlug 'hrsh7th/cmp-path'
+NvimPlug 'quangnguyen30192/cmp-nvim-ultisnips'
+
+NvimPlug 'simrat39/rust-tools.nvim'	" Rust, Batteries-included
+
 " Formatting Plugins
 " Plug 'dimbleby/black.vim'		" Black!
 " 					" Pulled from GitHub
