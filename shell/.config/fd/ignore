@@ -25,6 +25,7 @@
 /.config/launchd
 /.config/litecli
 /.config/npm
+/.config/nvim
 /.config/pgcli
 /.config/ptpython
 /.config/vim
