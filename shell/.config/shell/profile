@@ -225,9 +225,9 @@ export UNISON="$XDG_DATA_HOME"/unison
 
 # Vim: XDG
 # shellcheck disable=SC2016
-export VIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/vimrc | endif'
+export VIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/vimrc | else | source $XDG_CONFIG_HOME/nvim/init.vim | endif'
 # shellcheck disable=SC2016
-export GVIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/gvimrc | endif'
+export GVIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/gvimrc | else | source $XDG_CONFIG_HOME/nvim/ginit.vim | endif'
 
 # Byobu: Python
 # export BYOBU_PYTHON=/usr/local/bin/python3
