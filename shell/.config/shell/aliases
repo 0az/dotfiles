@@ -36,5 +36,6 @@ alias e='$EDITOR'
 alias gd=mvimdiff
 alias ge=mvim
 alias vi=vim
+alias nv=nvim
 alias code=code-insiders
 alias vsc=code-insiders
