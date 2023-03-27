@@ -36,6 +36,10 @@ Plug 'junegunn/limelight.vim'		" Highlight current paragraph
 Plug 'tpope/vim-repeat'			" Repeat plugin maps
 Plug 'unblevable/quick-scope'		" Quick character motion
 Plug 'preservim/tagbar'			" Tagbar
+Plug 'junegunn/fzf', {
+	\ 'do': { -> fzf#install() }
+\ }
+Plug 'junegunn/fzf.vim'
 
 " Color Scheme
 " Plug 'arcticicestudio/nord-vim'		" Nord Theme
@@ -85,7 +89,11 @@ Plug 'lervag/vimtex'			" Tex
 Plug 'tpope/vim-fugitive'		" Git porcelain
 " Plug 'xolox/vim-easytags'		" Magical ctags support
 					" ^ High init time!
-Plug 'jeetsukumaran/vim-pythonsense'	" Better Python textobjs/motions
+Plug 'ludovicchabant/vim-gutentags'	" Better-maintained ctags plugin
+Plug 'jeetsukumaran/vim-pythonsense', {
+	\ 'for': 'python',
+\ }
+" Better Python textobjs/motions
 
 NvimPlug 'neovim/nvim-lspconfig'	" Community LSP configs for nvim-lsp
 NvimPlug 'nvim-lua/plenary.nvim'
