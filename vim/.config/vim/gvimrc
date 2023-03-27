@@ -6,5 +6,7 @@ colorscheme solarized8
 " set guifont=Anonymice\ Nerd\ Font\ Complete\ Mono:h16
 " set guifont=DejaVu\ Sans\ Mono:h18
 " set guifont=Menlo:h15
-set guifont=Comic\ Code\ Regular:h18
+if g:not_nvim
+	set guifont=Comic\ Code\ Regular:h18
+endif
 set lines=32 columns=90
