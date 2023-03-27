@@ -1,0 +1,3 @@
+#! /bin/sh
+
+exec "$(rustc --print sysroot)/bin/rust-analyzer"
