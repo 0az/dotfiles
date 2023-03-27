@@ -28,6 +28,14 @@ else
 	let g:vim_config_home = expand($HOME . '/.config' . b_home_suffix)
 endif
 
+if g:has_nvim
+	let b:nvim_python_venv = g:vim_data_home . '/venv'
+	let b:python_host_prog = b:nvim_python_venv . '/bin/python3'
+	if executable(b:python_host_prog)
+		let g:python3_host_prog = b:python_host_prog
+	endif
+endif
+
 " As suggested by Arch Wiki, but with some changes disabled
 if g:not_nvim
 	call mkdir(g:vim_data_home, 'p', 0700)
