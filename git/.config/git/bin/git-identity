@@ -37,16 +37,16 @@ Usage
     {prog} show
 
 select
-    Locally set user config values from the given identity. Implicitly runs {prog} reset.
+    Set user configuration for the current repository using the given identity.
 
 reset
-    Locally remove the user section.
+    Reset the current repository's user configuration.
 
 list
     Print all identities.
 
 show
-    Print the current local identity.
+    Print the currently active identity.
 
 eject
     Print a shell invocation that sets the currently active identity.
