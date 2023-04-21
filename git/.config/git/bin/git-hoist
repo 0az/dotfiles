@@ -1,0 +1,26 @@
+#! /bin/bash
+# Hoist an older branch on top of the current branch via rebase
+
+set -euo pipefail
+
+if test $# -lt 1 -o $# -gt 2; then
+	exit 1
+fi
+
+abort() {
+	echo "$@" >&2
+	exit 1
+}
+
+target_branch="$1"
+
+# Quickly check that the target branch exists
+git rev-parse --verify --quiet "$target_branch" >/dev/null \
+	|| abort "Could not find target branch $target_branch"
+# Make sure that there's no pending changes
+git diff -q || exit 1
+
+current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
+
+git rebase HEAD "$target_branch" || git rebase --abort
+git switch "$current_branch_name"
