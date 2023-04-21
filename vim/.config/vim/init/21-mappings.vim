@@ -20,7 +20,7 @@ if g:has_nvim
 	unmap Y
 endif
 
-if exists('loaded_ale')
+if exists('loaded_ale') || exists('plugs') && has_key(g:plugs, 'ale')
 	nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 	nmap <silent> <C-j> <Plug>(ale_next_wrap)
 	nmap <leader>b <Plug>(ale_fix)
