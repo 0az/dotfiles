@@ -35,3 +35,4 @@
 /.npm/_*
 __pycache__
 node_modules
+python*/site-packages
