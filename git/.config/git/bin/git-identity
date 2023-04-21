@@ -15,10 +15,23 @@ import subprocess
 import sys
 from os.path import basename
 
+try:
+    from subprocess import DEVNULL
+except ImportError:
+    from os import O_RDRW, devnull
+
+    DEVNULL = open(devnull, O_RDRW)
+
+    # TODO: Implement support for Windows
+    # See https://github.com/python/cpython/blob/main/Lib/subprocess.py
+
+    del O_RDRW, devnull
+
 USAGE = '''
 Usage
     {prog} [ help | -h | --help ]
     {prog} select <identity>
+    {prog} eject <identity>
     {prog} reset
     {prog} list
     {prog} show
@@ -34,6 +47,9 @@ list
 
 show
     Print the current local identity.
+
+eject
+    Print a shell invocation that sets the currently active identity.
 '''.strip().format(
     prog=basename(sys.argv[0])
 )
@@ -47,12 +63,24 @@ def call_silent(cmd):
     return subprocess.call(cmd, stderr=subprocess.DEVNULL)
 
 
-def set_config(key, value, location='local', add=False):
+def build_config_command(key, value, location='local', add=False):
     if location not in ('local', 'global'):
         raise ValueError('Location must be local or global!')
 
     cmd = ['git', 'config', '--includes', '--' + location, key, value]
-    subprocess.check_call(cmd)
+
+    return cmd
+
+
+def set_config(key, value, location='local', add=False, dry_run=False):
+    if location not in ('local', 'global'):
+        raise ValueError('Location must be local or global!')
+
+    cmd = build_config_command(key, value, location, add)
+    if not dry_run:
+        subprocess.check_call(cmd)
+    else:
+        print(' '.join(cmd))
 
 
 def parse_line(line):
@@ -152,6 +180,26 @@ def select(identity):
     return 0
 
 
+def eject(identity, one_line=False):
+    """
+    Print a shell invocation for the given identity.
+    """
+    subsection = get_identities().get(identity)
+    if not subsection:
+        error('Identity {} does not exist!'.format(identity))
+        return 1
+
+    key = 'user.{}'
+    cmds = []
+    for var, vals in subsection.items():
+        for val in vals:
+            cmd = build_config_command(key.format(var), val, add=True)
+            cmds.append(' '.join(cmd))
+    joiner = '; ' if one_line else '\n'
+    print(joiner.join(cmds))
+    return 0
+
+
 def show():
     config = get_config('local')
     identity = config.get('x-identity', {}).get('active')
@@ -161,9 +209,9 @@ def show():
     return 0
 
 
-def usage():
+def usage(status=0):
     error(USAGE)
-    return 0
+    return status
 
 
 ########
@@ -172,41 +220,49 @@ def usage():
 
 
 def main(argv):
-    if len(argv) < 2:
+    argc = len(argv)
+    if argc < 2:
         usage()
         return 1
 
     command = argv[1].lower()
+    flags = []
+    for arg in argv[2:]:
+        if not arg.startswith('-'):
+            break
+        flags.append(arg)
 
     if command in ('help', '-h', '--help'):
         return usage()
 
     if command == 'list':
-        if len(argv) != 2:
-            usage()
-            return 1
+        if argc != 2:
+            return usage(1)
 
         list_identities()
         return 0
 
     if command == 'reset':
-        if len(argv) != 2:
-            usage()
-            return 1
+        if argc != 2:
+            return usage(1)
 
         return reset()
 
     if command == 'select':
-        if len(argv) != 3:
-            error(USAGE)
-            return 1
+        if argc != 3:
+            return usage(1)
         return select(argv[2])
+
+    if command == 'eject':
+        if argc < 3 or argc > 4:
+            return usage(1)
+
+        return eject(*argv[2:])
 
     if command == 'show':
         return show()
 
-    usage()
-    return 1
+    return usage(1)
 
 
 if __name__ == '__main__':
