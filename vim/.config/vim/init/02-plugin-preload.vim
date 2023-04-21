@@ -22,7 +22,8 @@ let g:polyglot_disabled = [
 	\ 'sensible',
 	\ 'javascript.plugin',
 	\ 'typescript.plugin',
-	\ 'rust'
+	\ 'rust',
+	\ 'terraform',
 \]
 
 let g:no_synstack_maps = 0
