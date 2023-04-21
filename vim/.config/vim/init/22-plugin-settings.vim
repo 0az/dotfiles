@@ -70,9 +70,12 @@ let g:ale_linters = {
 	\ ],
 	\ 'python': [
 		"\ 'flake8',
-		"\ 'mypy',
+		\ 'mypy',
 		"\ 'pylint',
-		\ 'pyls',
+		"\ 'pyls',
+		"\ 'pyright',
+		\ 'jedils',
+		\ 'ruff',
 	\ ],
 	\ 'rust': [
 		\ 'analyzer',
@@ -93,10 +96,12 @@ let g:ale_fixers = {
 		\ 'goimports'
 	\ ],
 	\ 'python': [
-		"\ 'isort',
-		"\ 'add_blank_lines_for_python_control_statements',
-		"\ 'remove_trailing_lines',
-		"\ 'trim_whitespace',
+		\ 'add_blank_lines_for_python_control_statements',
+		\ 'remove_trailing_lines',
+		\ 'trim_whitespace',
+		\ 'isort',
+		\ 'ruff',
+		\ 'black',
 	\ ],
 	\ 'rust': [
 		\ 'rustfmt',
