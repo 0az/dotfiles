@@ -42,7 +42,11 @@ def _get_python_binary(exec_prefix):
         return default
     if sys.platform[:3] == "win":
         return exec_prefix / 'python.exe'
-    return exec_prefix / 'bin' / 'python3'
+    bin_dir = exec_prefix / 'bin'
+    path = bin_dir / 'python3'
+    if path.is_file():
+        return path
+    return bin_dir / f'python3.{sys.version_info[1]}'
 
 
 def _get_pip(venv_path):
@@ -72,12 +76,15 @@ def _initialize_black_env(upgrade=False):
         _get_virtualenv_site_packages(virtualenv_path, pyver)
     )
     first_install = False
-    if not virtualenv_path.is_dir():
+    _executable = sys.executable
+    _base_executable = getattr(sys, "_base_executable", _executable)
+    executable = str(_get_python_binary(Path(sys.exec_prefix)))
+    if (
+        not virtualenv_path.is_dir()
+        or not Path(virtualenv_site_packages).is_dir()
+    ):
         print('Please wait, one time setup for Black.')
-        _executable = sys.executable
-        _base_executable = getattr(sys, "_base_executable", _executable)
         try:
-            executable = str(_get_python_binary(Path(sys.exec_prefix)))
             sys.executable = executable
             sys._base_executable = executable
             print(f'Creating a virtualenv in {virtualenv_path}...')
