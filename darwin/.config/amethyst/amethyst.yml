@@ -212,6 +212,9 @@ select-wide-layout:
 select-fullscreen-layout:
   mod: mod1
   key: f
+select-column-layout:
+  mod: mod1
+  key: g
 select-two-pane-layout:
   mod: mod1
   key: d
