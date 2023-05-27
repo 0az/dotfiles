@@ -40,3 +40,7 @@ alias vi=vim
 
 alias code=code-insiders
 alias vsc=code-insiders
+
+# Environment Variables
+alias rails-env-dev='export RAILS_ENV=development NODE_ENV=development'
+alias rails-env-test='export RAILS_ENV=test NODE_ENV=production'
