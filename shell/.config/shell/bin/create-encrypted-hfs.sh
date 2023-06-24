@@ -16,7 +16,7 @@ if test $# -lt 2 -o $# -gt 2; then
 fi
 
 name="$1"
-path="$2"
+path="${2%%/}"
 
 if test -d "$path"; then
 	path="$path/$name.dmg"
