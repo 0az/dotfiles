@@ -183,12 +183,14 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 # export PATH="/Users/az/Library/Python/3.7/bin:$PATH"
 
 # Python: Pipenv
-export PIPENV_VENV_IN_PROJECT=1
-export PIPENV_DEFAULT_PYTHON_VERSION='3.10'
-export PIPENV_IGNORE_VIRTUALENVS=1
+# export PIPENV_VENV_IN_PROJECT=1
+# export PIPENV_DEFAULT_PYTHON_VERSION='3.10'
+# export PIPENV_IGNORE_VIRTUALENVS=1
 
 # Python: Pylint XDG
 export PYLINTHOME="$XDG_CACHE_HOME"/pylint
+
+export JUPYTER_PLATFORM_DIRS=1
 
 # Python: NLTK Data Directory
 # export NLTK_DATA="$XDG_DATA_HOME"/nltk_data
@@ -219,6 +221,8 @@ export PATH="$CARGO_HOME/bin:$PATH"
 #########
 
 # path="/usr/local/opt/berkeley-db@4/bin:$PATH"
+
+export LIMA_HOME="$XDG_DATA_HOME/lima"
 
 # Unison: XDG
 export UNISON="$XDG_DATA_HOME"/unison
