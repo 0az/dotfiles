@@ -34,6 +34,9 @@ if g:has_nvim
 	if executable(b:python_host_prog)
 		let g:python3_host_prog = b:python_host_prog
 	endif
+	" Run the following to set this up:
+	"   python3 -m venv $XDG_DATA_HOME/nvim/venv
+	"   $XDG_DATA_HOME/nvim/venv/bin/pip install -U pynvim
 endif
 
 " As suggested by Arch Wiki, but with some changes disabled
