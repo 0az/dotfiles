@@ -9,7 +9,7 @@ function venv-up --description 'Activate a Python venv'
 	end
 
 	if set -q VIRTUAL_ENV
-		echo "Error: venv already active: $VIRTUAL_ENV"
+		echo "Error: venv already active: $VIRTUAL_ENV" >&2
 		return 1
 	end
 
@@ -43,7 +43,7 @@ function venv-up --description 'Activate a Python venv'
 	else
 		set prefix (echo $_flag_d | string trim -r -c '/')
 		if ! test -e "$prefix/bin/activate.fish"
-			echo "No venv detected at $prefix" >&2
+			echo "Error: No venv detected at $prefix" >&2
 			return 1
 		end
 	end
@@ -78,27 +78,27 @@ function _venv_up_config_prompt
 			python --version \
 			&| awk '
 				BEGIN {
-					version = "";
-					suffix = "";
+					version = ""
+					suffix = ""
 				}
 				NR == 1 {
-					version = $2;
-					gsub("\.[0-9]+$", "", version);
+					version = $2
+					gsub("\.[0-9]+$", "", version)
 				}
 				NR == 2 {
 					$1 = tolower($1)
 				}
 				NR > 2 {
-					exit;
+					exit
 				}
 				$1 ~ /pypy/ {
-					suffix = "-pypy";
+					suffix = "-pypy"
 				}
 				$1 ~ /jython/ {
-					suffix = "-jython";
+					suffix = "-jython"
 				}
 				END {
-					printf("py%s%s", version, suffix);
+					printf("py%s%s", version, suffix)
 				}
 			'
 		)
