@@ -1,4 +1,4 @@
-prefix=/Users/az/.local/share/npm
-cache=/Users/az/.cache/npm
-init-module=/Users/az/.config/npm/config/npm-init.js
-store-dir=/Users/az/.local/share/pnpm-store
+prefix=~/.local/share/npm
+cache=~/.cache/npm
+init-module=~/.config/npm/config/npm-init.js
+store-dir=~/.local/share/pnpm-store
