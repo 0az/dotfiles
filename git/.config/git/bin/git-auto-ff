@@ -1,0 +1,48 @@
+#! /bin/bash
+
+set -euo pipefail
+
+refs_tmp="$(mktemp /tmp/git-auto-pull.XXXX)"
+update_tmp="$(mktemp /tmp/git-auto-pull.XXXX)"
+
+cleanup() {
+	rm -f "$refs_tmp"
+	rm -f "$update_tmp"
+}
+trap cleanup EXIT
+
+git for-each-ref refs/heads --format '%(objecttype) %(refname) %(objectname) %(upstream) %(upstream:trackshort)' \
+>"$refs_tmp"
+
+if ! grep -Eq '^commit ([^ ]+) ([0-9a-f]+) (refs/remotes/origin/[^ ]+) <$' "$refs_tmp"; then
+	echo 'No refs need fast-forwarding!'
+	echo ---
+	git for-each-ref refs/heads --format '%(objecttype) %(refname:short) %(upstream:short) %(upstream:track)' \
+	| awk '$1 == "commit" && $3 != "" { for (i = 2; i <= NF; i++) printf("%s%s", $i, i == NF ? RS : OFS) }'
+	exit 0
+fi
+
+cut -d' ' -f 2,4 "$refs_tmp"
+echo ---
+
+awk '
+BEGIN {
+	print "start"
+}
+NF == 5 \
+&& /^commit/ \
+&& $3 ~ /[0-9a-f]+/ \
+&& $4 ~ /refs\/remotes\/origin\/[^ ]+/ \
+&& $5 == "<" {
+	print "update", $2, $4, $3
+}
+END {
+	print "prepare"
+	print "commit"
+}
+' "$refs_tmp" \
+| tee "$update_tmp"
+echo ---
+
+git update-ref -m "git-auto-pull: $(date -Iminutes)" --create-reflog --stdin <"$update_tmp"
+echo ---
