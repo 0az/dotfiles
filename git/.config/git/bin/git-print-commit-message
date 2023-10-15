@@ -1,0 +1,12 @@
+#! /bin/bash
+
+ref=
+if test $# -eq 0; then
+	ref=HEAD
+elif test $# -eq 1; then
+	ref="$1"
+else
+	exit 1
+fi
+
+git rev-list --format=%B --max-count=1 "$ref" | sed '1d; $d'
