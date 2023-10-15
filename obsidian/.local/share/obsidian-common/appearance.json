@@ -1,0 +1,15 @@
+{
+  "cssTheme": "Obsidian Nord Enhanced",
+  "theme": "obsidian",
+  "monospaceFontFamily": "DejaVu Sans Mono",
+  "baseFontSize": 18,
+  "baseFontSizeAction": false,
+  "textFontFamily": "Fira Sans,SF Mono",
+  "translucency": false,
+  "enabledCssSnippets": [
+    "fix-code-block-copy-button-z-index",
+    "fix-font-sizing",
+    "hide-tags-file"
+  ],
+  "accentColor": ""
+}

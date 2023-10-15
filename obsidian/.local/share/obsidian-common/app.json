@@ -1,0 +1,19 @@
+{
+  "legacyEditor": false,
+  "showFrontmatter": true,
+  "showLineNumber": true,
+  "spellcheck": true,
+  "vimMode": true,
+  "livePreview": false,
+  "promptDelete": false,
+  "alwaysUpdateLinks": true,
+  "showUnsupportedFiles": true,
+  "attachmentFolderPath": "./",
+  "lineWrap": true,
+  "useTab": false,
+  "tabSize": 4,
+  "strictLineBreaks": true,
+  "userIgnoreFilters": [
+    "tags"
+  ]
+}
