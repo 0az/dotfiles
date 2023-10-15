@@ -1,7 +1,19 @@
 #! /bin/bash
 
-if test $# -ne 1; then
+set -euo pipefail
+
+if test $# -lt 1; then
 	exit 1
 fi
 
-exec git push --set-upstream "$1" "$(git symbolic-ref --short HEAD)"
+remote="$1"
+shift
+
+declare -a targets
+if test $# -eq 0; then
+	targets+=("$(git symbolic-ref --short HEAD)")
+else
+	targets+=("$@")
+fi
+
+exec git push --set-upstream "$remote" "${targets[@]}"
