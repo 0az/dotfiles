@@ -81,7 +81,7 @@ if_fish_eval 'alias set_="set -g"'
 if_posixish_eval 'unset_() { unset "$1"; }'
 if_fish_eval 'alias unset_="set -ge"'
 # shellcheck disable=SC2016
-if_posixish_eval 'command_() { command -v "$2" >/dev/null; }'
+if_posixish_eval 'command_() { command -v "$1" >/dev/null; return $?; }'
 if_fish_eval 'alias command_="command -q"'
 
 # Define Teardown
