@@ -7,7 +7,7 @@ function source-env --description 'Read environment variables from .env files'
     end
 
     for f in $argv
-        if ! dash -n "$f" && grep -Eqvx "\w+=.+|\s+" "$f"
+        if ! "$shell" -n "$f" && grep -Eqvx "\w+=.+|\s+" "$f"
             echo "Invalid env file: $f" >&2
             return 1
         end
