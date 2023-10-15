@@ -83,10 +83,14 @@ if_fish_eval 'alias unset_="set -ge"'
 # shellcheck disable=SC2016
 if_posixish_eval 'command_() { command -v "$1" >/dev/null; return $?; }'
 if_fish_eval 'alias command_="command -q"'
+# shellcheck disable=SC2016
+if_posixish_eval 'check_term() { test "$TERM" = "$1"; return $?; }'
+# shellcheck disable=SC2016
+if_fish_eval 'function check_term -a term; test "$TERM" = "$term"; return $status; end'
 
 # Define Teardown
 set_ aliases 'if_bash if_fish if_zsh if_bash_eval if_fish_eval if_zsh_eval if_posixish if_posixish_eval'
-set_ functions 'set_ unset_ command_'
+set_ functions 'set_ unset_ command_ check_term'
 set_ variables aliases functions variables
 # shellcheck disable=SC2016,2154
 if_posixish_eval "
@@ -275,6 +279,12 @@ export HOMEBREW_AUTO_UPDATE_SECS=1200
 
 # Packer
 export PACKER_PLUGIN_PATH="$XDG_DATA_HOME/packer/plugins"
+
+# icat
+alias icat=false
+check_term xterm-kitty && eval 'alias icat="kitty +kitten icat"'
+check_term WezTerm && eval 'alias icat="wezterm imgcat"'
+
 
 ############
 # Includes #
