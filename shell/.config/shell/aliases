@@ -9,7 +9,6 @@ alias py39=python3.9
 alias ipy=ipython
 alias doctest='python -m doctest'
 alias ungron='gron --ungron'
-alias icat='kitty +kitten icat'
 
 # Mini-functions
 alias add-ssh-keys="ssh-add -t 6000 ~/.ssh/keys/autoload/*"
