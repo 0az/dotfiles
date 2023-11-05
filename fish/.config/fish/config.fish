@@ -2,9 +2,12 @@ source ~/.config/shell/profile
 
 if status is-interactive
 	source ~/.config/shell/aliases
+	mkdir -p $XDG_CACHE_HOME/dotfiles
 
 	if command -q brew
-		set -l brew_prefix (brew --prefix)
+		if test -z "$brew_prefix" -o ! -d "$brew_prefix"
+			set -U brew_prefix (brew --prefix)
+		end
 		if test -d "$brew_prefix/share/fish/completions"
 			set -gx fish_complete_path $fish_complete_path $brew_prefix/share/fish/completions
 		end
