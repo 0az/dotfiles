@@ -18,6 +18,8 @@ nmap <C-S-Tab> :tabprevious<CR>
 
 if g:has_nvim
 	unmap Y
+	noremap <ScrollWheelUp> <Up>
+	noremap <ScrollWheelDown> <Down>
 endif
 
 if exists('loaded_ale') || exists('plugs') && has_key(g:plugs, 'ale')
