@@ -166,6 +166,8 @@ export PATH="$GOPATH/bin:$PATH"
 
 # FIXME: jenv rehash takes ~100ms to run (20% of `fish -i` runtime)
 
+export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle 
+
 ##############
 # JavaScript #
 ##############
