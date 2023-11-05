@@ -20,6 +20,17 @@ indent_style = tab
 [*.{js,json,jsx,ts,tsx,yaml,yml}]
 indent_size = 2
 
+[*.lua]
+max_line_length = 100
+# Stylua
+call_parentheses = always
+quote_type = single
+sort_requires = true
+
+[vim/**.lua]
+# Stylua
+call_parentheses = none
+
 [*.py]
 indent_size = 4
 
