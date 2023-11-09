@@ -1,17 +1,22 @@
 " vim: set tabstop=8 shiftwidth=8:
 
 " Prelude
+" ... or at least the parts that affect vim at a deep level
 
-set nocompatible              		" Disable vi compat
+set nocompatible	" Disable vi compat
 
 " Vim doesn't work very well with fish
 if &shell =~# 'fish$' && (v:version < 704 || v:version == 704 && !has('patch276'))
-    set shell=/usr/bin/env\ bash
+	set shell=/usr/bin/env\ bash
 endif
 
 " Neovim compat
 let g:has_nvim = has('nvim')
 let g:not_nvim = !g:has_nvim
+
+" macOS detection
+let g:has_mac = has('mac')
+let g:not_mac = !g:has_mac
 
 " XDG setup
 let b:home_suffix = g:has_nvim ? '/nvim' : '/vim'

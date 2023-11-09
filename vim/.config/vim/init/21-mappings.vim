@@ -41,13 +41,7 @@ endif
 
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
-let s:darwin = 0
-if has('mac')
-	let s:darwin = 1
-endif
-
-if s:darwin
+if g:has_mac
 	nmap <D-Bslash> :NERDTreeToggle<CR>
 	imap <D-Bslash> <C-O>:NERDTreeToggle<CR>
-
 endif
