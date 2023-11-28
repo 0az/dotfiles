@@ -168,13 +168,13 @@ let g:ycm_filetype_blacklist = {
 \ }
 
 " Syntastic
-" let g:syntastic_swift_swiftlint_use_defaults = 1 
-" let g:syntastic_swift_checkers = ['swiftlint', 'swiftpm'] 
+" let g:syntastic_swift_swiftlint_use_defaults = 1
+" let g:syntastic_swift_checkers = ['swiftlint', 'swiftpm']
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger = '<c-j>'
 " let g:UltiSnipsJumpForwardTrigger = '<tab>'
-" let g:UltiSnipsJumpBackwardTrigger = '<s-tab>' 
+" let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
 " Tex
 let g:vimtex_compiler_method = 'latexmk'

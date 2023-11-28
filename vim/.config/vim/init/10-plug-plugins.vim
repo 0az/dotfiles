@@ -78,8 +78,9 @@ Plug 'dense-analysis/ale'		" Linting/Fixing, Language Server Protocol
 VimPlug 'neoclide/coc.nvim', {
 	\ 'branch': 'release',
 	\ 'for': [
+		\ 'java',
 		\ 'javascript',
-		\ 'typescript'
+		\ 'typescript',
 	\ ]
 \ }
 					" Language Server Protocol
