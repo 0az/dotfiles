@@ -5,6 +5,10 @@ setlocal tabstop=2
 setlocal textwidth=80
 setlocal wrap
 
+if g:has_nvim
+	let b:ale_enabled = 0
+endif
+
 function! s:prettier()
 	if &modified || ! &modifiable
 		let pos = winsaveview()

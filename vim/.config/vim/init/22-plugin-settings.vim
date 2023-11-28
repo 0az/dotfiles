@@ -40,19 +40,20 @@ function! s:lightline_update()
 	endtry
 endfunction
 
-let s:js_ale_linters = [
+let s:js_ale_linters = g:has_nvim ? [] : [
 	\ 'importjs',
 	\ 'prettier',
 	\ 'eslint',
 	\ 'tsserver',
 	\ 'xo',
 \ ]
-let s:js_ale_fixers = [
+let s:js_ale_fixers = g:has_nvim ? [] : [
 	\ 'importjs',
 	\ 'prettier',
 	\ 'eslint',
 	\ 'xo',
 \ ]
+
 let g:ale_linters = {
 	\ 'java': [
 		\ 'checkstyle',
@@ -114,6 +115,11 @@ let g:ale_python_auto_pipenv = 1
 let g:ale_python_auto_poetry = 1
 let g:ale_python_pyls_use_global = 1
 let g:ale_sh_shellcheck_options = '-x'
+
+if g:has_nvim
+	let g:ale_use_neovim_diagnostics_api = 1
+endif
+
 let s:yaml_lint_options =<< END
 --config-data "
 indentation:
