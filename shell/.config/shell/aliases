@@ -2,7 +2,7 @@
 
 # Abbreviations
 alias l='ls -CFG'
-alias lx='exa --git-ignore'
+alias lx='eza --git-ignore'
 alias py=python
 alias py38=python3.8
 alias py39=python3.9
@@ -18,7 +18,7 @@ alias open-mpv='mpv --video-unscaled=yes --idle=once --force-window=yes'
 
 # Configuration
 alias black='black -l 80 -S'
-alias exa='exa --group-directories-first'
+alias eza='eza --group-directories-first'
 alias ffprobe='ffprobe -hide_banner'
 alias irssi='irssi --home="$XDG_CONFIG_HOME/irssi"'
 alias kssh='kitty +kitten ssh'
