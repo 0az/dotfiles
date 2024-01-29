@@ -1,19 +1,19 @@
 {
+  "alwaysUpdateLinks": true,
+  "attachmentFolderPath": "./",
   "legacyEditor": false,
-  "showFrontmatter": true,
-  "showLineNumber": true,
-  "spellcheck": true,
-  "vimMode": true,
+  "lineWrap": true,
   "livePreview": false,
   "promptDelete": false,
-  "alwaysUpdateLinks": true,
+  "showFrontmatter": true,
+  "showLineNumber": true,
   "showUnsupportedFiles": true,
-  "attachmentFolderPath": "./",
-  "lineWrap": true,
-  "useTab": false,
-  "tabSize": 4,
+  "spellcheck": true,
   "strictLineBreaks": true,
+  "tabSize": 2,
+  "useTab": false,
   "userIgnoreFilters": [
     "tags"
-  ]
+  ],
+  "vimMode": true
 }
