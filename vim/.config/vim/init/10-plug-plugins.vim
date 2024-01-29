@@ -108,7 +108,7 @@ NvimPlug 'hrsh7th/cmp-nvim-lsp'
 NvimPlug 'hrsh7th/cmp-path'
 NvimPlug 'quangnguyen30192/cmp-nvim-ultisnips'
 
-NvimPlug 'simrat39/rust-tools.nvim'	" Rust, Batteries-included
+NvimPlug 'mrcjkb/rustaceanvim'	" Rust, Batteries-included
 
 " Formatting Plugins
 " Plug 'dimbleby/black.vim'		" Black!
