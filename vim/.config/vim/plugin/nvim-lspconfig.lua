@@ -11,6 +11,15 @@ lspconfig.rust_analyzer.setup {
 	},
 }
 
+vim.diagnostic.config {
+	virtual_text = {
+		source = 'if_many',
+	},
+	float = {
+		source = 'always',
+	},
+}
+
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
