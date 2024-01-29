@@ -47,3 +47,14 @@ if g:has_mac
 	nmap <D-Bslash> :NERDTreeToggle<CR>
 	imap <D-Bslash> <C-O>:NERDTreeToggle<CR>
 endif
+
+" Emacs mappings in the command line, from `:h emacs-keys`
+cnoremap <C-A> <Home>
+cnoremap <C-B> <Left>
+cnoremap <C-D> <Del>
+cnoremap <C-E> <End>
+" cnoremap <C-F> <Right>
+cnoremap <C-N> <Down>
+cnoremap <C-P> <Up>
+cnoremap <M-b> <S-Left>
+cnoremap <M-f> <S-Right>
