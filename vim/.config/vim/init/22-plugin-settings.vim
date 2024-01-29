@@ -40,14 +40,22 @@ function! s:lightline_update()
 	endtry
 endfunction
 
-let s:js_ale_linters = g:has_nvim ? [] : [
+let g:ale_history_log_output = 0
+
+let s:js_ale_linters = g:has_nvim ? [
+	\ 'prettier',
+	\ 'eslint',
+\ ] : [
 	\ 'importjs',
 	\ 'prettier',
 	\ 'eslint',
 	\ 'tsserver',
 	\ 'xo',
 \ ]
-let s:js_ale_fixers = g:has_nvim ? [] : [
+let s:js_ale_fixers = g:has_nvim ? [
+	\ 'prettier',
+	\ 'eslint',
+\ ] : [
 	\ 'importjs',
 	\ 'prettier',
 	\ 'eslint',
@@ -62,10 +70,10 @@ let g:ale_linters = {
 		"\ 'javalsp',
 		"\ 'pmd',
 	\ ],
-	"\ 'javascript': s:js_ale_linters,
-	"\ 'javascriptreact': s:js_ale_linters,
-	"\ 'typescript': s:js_ale_linters,
-	"\ 'typescriptreact': s:js_ale_linters,
+	\ 'javascript': s:js_ale_linters,
+	\ 'javascriptreact': s:js_ale_linters,
+	\ 'typescript': s:js_ale_linters,
+	\ 'typescriptreact': s:js_ale_linters,
 	\ 'go': [
 		\ 'gopls'
 	\ ],
@@ -81,6 +89,12 @@ let g:ale_linters = {
 	\ 'rust': [
 		\ 'analyzer',
 		\ 'clippy',
+	\ ],
+\ }
+
+let g:ale_linters_ignore = {
+	\ 'ruby': [
+		\ 'standardrb',
 	\ ],
 \ }
 
@@ -104,13 +118,25 @@ let g:ale_fixers = {
 		\ 'ruff',
 		\ 'black',
 	\ ],
+	\ 'ruby': [
+		\ 'rubocop',
+		"\ 'rufo',
+		\ 'remove_trailing_lines',
+		\ 'trim_whitespace',
+	\ ],
 	\ 'rust': [
 		\ 'rustfmt',
 	\ ],
 \ }
 
 let g:ale_javascript_eslint_options = '--env browser,node --parser-options=ecmaVersion:latest'
+
 let g:ale_javascript_eslint_use_global = 0
+if executable('eslint_d')
+	let g:ale_javascript_eslint_use_global = 1
+	let g:ale_javascript_eslint_executable = 'eslint_d'
+endif
+
 let g:ale_python_auto_pipenv = 1
 let g:ale_python_auto_poetry = 1
 let g:ale_python_pyls_use_global = 1
