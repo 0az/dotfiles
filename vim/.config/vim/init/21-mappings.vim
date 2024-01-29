@@ -17,7 +17,7 @@ nmap <C-S-Tab> :tabprevious<CR>
 " noremap ^ 0 " Just in case you need to go to the very beginning of a line
 
 if g:has_nvim
-	unmap Y
+	silent! unmap Y
 	noremap <ScrollWheelUp> <Up>
 	noremap <ScrollWheelDown> <Down>
 endif
