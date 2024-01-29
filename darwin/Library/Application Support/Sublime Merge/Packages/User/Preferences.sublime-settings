@@ -1,10 +1,11 @@
 {
 	"editor_path": "/opt/homebrew/bin/mvim",
-	"font_size": 14,
+	"font_size": 18,
 	"time_format": "24h",
 	"side_bar_layout": "commit_graph_as_column",
 	/*"theme": "Merge Dark.sublime-theme",*/
 	"editor_argument_format": "${file} +${line}",
 	"editor_wait_args": "--nofork",
 	"theme": "Merge Dark.sublime-theme",
+	"diff_style": "inline",
 }
