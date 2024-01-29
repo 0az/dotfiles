@@ -13,17 +13,29 @@ target_branch="$1"
 git rev-parse --verify --quiet "$target_branch" >/dev/null \
 	&& exit 1
 # Make sure that there's no pending changes
-git diff -q || exit 1
+git diff -s -q || exit 1
 
 current_branch_sha="$(git rev-parse HEAD)"
 current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
-upstream_value="origin/$current_branch_name"
 
-git update-ref --stdin <<EOF
+get-base() {
+	git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null \
+		&& return
+	base="origin/$current_branch_name"
+	echo "$base"
+	# candidates="$(git show-ref "$base")"
+}
+upstream_value="$()"
+
+echo "update refs/heads/$current_branch_name $upstream_value $current_branch_sha"
+
+{
+git update-ref --create-reflog --stdin <<EOF
 start
 create refs/heads/$target_branch $current_branch_sha
 update refs/heads/$current_branch_name $upstream_value $current_branch_sha
-update HEAD 'ref: refs/heads/$target_branch'
+option no-deref
 prepare
 commit
 EOF
+} && git switch "$target_branch"
