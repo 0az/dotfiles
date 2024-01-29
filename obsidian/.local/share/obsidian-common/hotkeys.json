@@ -51,5 +51,22 @@
       ],
       "key": "T"
     }
+  ],
+  "insert-template": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "T"
+    }
+  ],
+  "file-explorer:move-file": [
+    {
+      "modifiers": [
+        "Shift"
+      ],
+      "key": "F2"
+    }
   ]
 }
