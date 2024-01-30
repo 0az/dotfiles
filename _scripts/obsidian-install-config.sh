@@ -19,6 +19,12 @@ if test "$cwd_name" != '.obsidian'; then
 	cd .obsidian || exit 1
 fi
 
+if command -v delta >/dev/null; then
+	diff() { delta --paging never "$@"; }
+else
+	diff() { command diff -u "$@"; }
+fi
+
 errors=()
 for f in "$obsidian_common"/*; do
 	name="${f##*/}"
@@ -27,12 +33,6 @@ for f in "$obsidian_common"/*; do
 		errors+=("$name")
 	fi
 done
-
-if command -v delta >/dev/null; then
-	diff() { delta --paging never "$@"; }
-else
-	diff() { command diff -u "$@"; }
-fi
 
 if test "${#errors[@]}" -ne 0; then
 	echo 'Encountered conflicting files!' >&2
