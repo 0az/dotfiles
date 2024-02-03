@@ -96,6 +96,9 @@ let g:ale_linters_ignore = {
 	\ 'ruby': [
 		\ 'standardrb',
 	\ ],
+	\ 'swift': [
+		\ 'apple-swift-format',
+	\ ],
 \ }
 
 let g:ale_fixers = {
@@ -126,6 +129,9 @@ let g:ale_fixers = {
 	\ ],
 	\ 'rust': [
 		\ 'rustfmt',
+	\ ],
+	\ 'swift': [
+		\ 'swiftformat',
 	\ ],
 \ }
 
