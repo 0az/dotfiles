@@ -10,6 +10,10 @@ nmap <C-Tab> :tabnext<CR>
 
 map <C-S-Tab> :tabprevious<CR>
 nmap <C-S-Tab> :tabprevious<CR>
+inoremap <M-BS> <C-O>b<C-O>dw
+nmap <C-S> :%s/
+imap <C-S> <C-O>:%s/
+
 " imap <C-S-Tab> <Esc>:tabprevious<CR>i
 
 " Move across wrapped lines like regular lines
@@ -46,6 +50,7 @@ nnoremap <silent> <F8> :TagbarToggle<CR>
 if g:has_mac
 	nmap <D-Bslash> :NERDTreeToggle<CR>
 	imap <D-Bslash> <C-O>:NERDTreeToggle<CR>
+	inoremap <D-BS> ^<C-O>d$
 endif
 
 " Emacs mappings in the command line, from `:h emacs-keys`
