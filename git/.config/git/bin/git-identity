@@ -120,7 +120,12 @@ def get_config(location):
 
 
 def get_identities():
-    return get_config('global').get('x-identity', {})
+    result = get_config('global').get('x-identity')
+    if not result:
+        raise RuntimeError('No identities found!')
+    if all(not d.get('name') and not d.get('email') for d in result.values()):
+        raise RuntimeError('No valid identities!')
+    return result
 
 
 def format_identities():
