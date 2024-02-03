@@ -11,7 +11,6 @@ alias doctest='python -m doctest'
 alias ungron='gron --ungron'
 
 # Mini-functions
-alias add-ssh-keys="ssh-add -t 6000 ~/.ssh/keys/autoload/*"
 alias fixup='git commit --fixup HEAD'
 alias rebase='git rebase -i'
 alias open-mpv='mpv --video-unscaled=yes --idle=once --force-window=yes'
@@ -28,7 +27,8 @@ alias ptipy=ptipython
 alias ptipython='ptipython --config-file=$XDG_CONFIG_HOME/ptpython/config.py'
 alias ptpy=ptpython
 alias ptpython='ptpython --config-file=$XDG_CONFIG_HOME/ptpython/config.py'
-alias wget="wget --hsts-file=\$XDG_CACHE_HOME/wget-hsts"
+alias wget='wget --hsts-file=\$XDG_CACHE_HOME/wget-hsts'
+alias nix='LESS="--RAW-CONTROL-CHARS --quit-if-one-screen --no-lessopen --mouse" command nix'
 
 # Editors
 alias e='$EDITOR'
