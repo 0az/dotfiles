@@ -37,3 +37,6 @@
 
 [user]
 	useConfigOnly = true
+
+[alias]
+	stash-untracked = !sh -c 'git stash --keep-index && git stash --keep-index --include-untracked && git stash pop stash@{1}'
