@@ -227,6 +227,8 @@ export PATH="$CARGO_HOME/bin:$PATH"
 #########
 
 # path="/usr/local/opt/berkeley-db@4/bin:$PATH"
+export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/asdf/asdfrc"
+export ASDF_DATA_DIR="$XDG_DATA_HOME/asdf"
 
 export LIMA_HOME="$XDG_DATA_HOME/lima"
 
