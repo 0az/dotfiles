@@ -1,15 +1,17 @@
 function ls --description 'List contents of directory'
-    set -l opt
-	isatty stdout
-	and set -a opt -F
+    set -l opts
+    isatty stdout
+    and set -a opts -F
 
-	if command -q gls
-		set -a opt -h
-		set -a opt --color=auto --group-directories-first
-		command gls $opt $argv
-	else
-		set -a opt -Gh
+    if command -q gls
+        set -a opts -h --color=auto --group-directories-first
+        command gls $opts $argv
+    else
+        set -a opts -Gh
 
-		command ls $opt $argv
-	end
+        test "$TERM_PROGRAM" = Apple_Terminal
+        and set -lx CLICOLOR 1
+
+        command ls $opts $argv
+    end
 end
