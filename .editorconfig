@@ -27,7 +27,7 @@ call_parentheses = always
 quote_type = single
 sort_requires = true
 
-[vim/**.lua]
+[{vim,wezterm}/**.lua]
 # Stylua
 call_parentheses = none
 
