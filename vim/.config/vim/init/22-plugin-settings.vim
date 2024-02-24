@@ -216,3 +216,8 @@ let g:vim_markdown_new_list_item_indent = 0
 
 " EasyTags
 let g:easytags_file = g:vim_data_home . '/tags'
+
+" Gutentags
+let g:gutentags_cache_dir = g:vim_data_home
+
+set statusline+=%{gutentags#statusline()}
