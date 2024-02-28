@@ -121,5 +121,7 @@ Plug 'andrewradev/bufferize.vim'	" Send command output to buffer
 					" ^ High init time!
 Plug 'dylnmc/synstack.vim'		" Syntax debugging
 
+runtime! local/init-hooks/plug-plugins.vim
+
 " Initialize plugin system
 call plug#end()

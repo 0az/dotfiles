@@ -1,0 +1,14 @@
+" vim: set ft=vim:
+
+" This file is sourced during vim-plug initialization, inside the plugin
+" definition block (between `plug#begin()` and `plug#end()`).
+
+if exists('g:loaded_local_init_hook_plug_plugins')
+	finish
+endif
+
+let g:loaded_local_init_hook_plug_plugins = 1
+
+" Add machine-specific plugins here:
+"
+" Plug '~/tmp/example-local-plugin'

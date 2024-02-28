@@ -31,3 +31,8 @@ shell/.config/shell/includes.d/*.sh
 # litecli, pgcli, etc
 shell/.config/*cli/history
 shell/.config/*cli/log
+
+########
+# Vim
+####
+vim/.config/*/local/*.vim
