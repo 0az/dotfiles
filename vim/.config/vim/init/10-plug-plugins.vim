@@ -67,7 +67,11 @@ Plug 'vim-pandoc/vim-pandoc-syntax'	" Pandoc syntax
 Plug 'ipkiss42/xwiki.vim'		" XWiki syntax
 
 " Completion plugins
-Plug 'mattn/emmet-vim'			" Emmet
+Plug 'mattn/emmet-vim', {
+	\ 'for': [
+		\ 'html',
+	\ ],
+\ }
 VimPlug 'ycm-core/YouCompleteMe', {
 	\ 'do': 'python3 ./install.py',
 \ }
