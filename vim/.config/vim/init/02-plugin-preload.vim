@@ -6,6 +6,7 @@
 " let g:ale_cursor_detail = 1
 let g:ale_set_balloons = 1
 let g:coc_config_home = g:vim_config_home
+let g:ycm_key_list_stop_completion = ['<C-e>']
 
 " let s:python_dll_script = ''
 " set pythonthreehome=system(python_dll_script)
