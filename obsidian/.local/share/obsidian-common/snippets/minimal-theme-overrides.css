@@ -1,0 +1,9 @@
+body.minimal-theme {
+	--heading-spacing: 1em !important;
+	--p-spacing: 1rem !important;
+
+	.cm-formatting {
+		&.cm-formatting-header, &.cm-formatting-list, &.cm-formatting-task {
+			font-family: var(--font-monospace);
+		}
+	}

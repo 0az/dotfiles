@@ -1,0 +1,3 @@
+.view-content > .markdown-source-view > .cm-editor .cm-contentContainer {
+	font-family: var(--font-monospace);
+}
