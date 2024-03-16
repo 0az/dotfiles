@@ -1,0 +1,8 @@
+body.minimal-theme {
+	input[data-task="/"]:checked:after,
+	li[data-task="/"] > input:checked:after,
+	li[data-task="/"] > p > input:checked:after {
+		transform: rotate(0.125turn);
+		transform-origin: right;
+	}
+}
