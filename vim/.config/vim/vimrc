@@ -18,6 +18,10 @@ let g:not_nvim = !g:has_nvim
 let g:has_mac = has('mac')
 let g:not_mac = !g:has_mac
 
+" VimR detection
+let g:has_vimr = exists('g:gui_vimr') && g:gui_vimr
+let g:not_vimr = !g:has_vimr
+
 " XDG setup
 let b:home_suffix = g:has_nvim ? '/nvim' : '/vim'
 let use_xdg_config_home = strlen($XDG_CONFIG_HOME) > 0

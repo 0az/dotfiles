@@ -9,4 +9,11 @@ colorscheme solarized8
 if g:not_nvim
 	set guifont=Comic\ Code\ Regular:h18
 endif
-set lines=32 columns=90
+
+if g:has_vimr
+	VimRSetFontAndSize "Comic Code", 18
+endif
+
+if g:not_vimr
+	set lines=32 columns=90
+endif
