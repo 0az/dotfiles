@@ -5,6 +5,12 @@ local lspconfig = require 'lspconfig'
 
 lspconfig.hls.setup {}
 lspconfig.pyright.setup {}
+lspconfig.ruff_lsp.setup {
+	on_attach = function(client)
+		client.server_capabilities.hoverProvider = false
+	end,
+}
+
 lspconfig.rust_analyzer.setup {
 	-- Server-specific settings. See `:help lspconfig-setup`
 	settings = {
