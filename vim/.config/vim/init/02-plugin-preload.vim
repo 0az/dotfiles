@@ -10,7 +10,7 @@ let g:ycm_key_list_stop_completion = ['<C-e>']
 
 " let s:python_dll_script = ''
 " set pythonthreehome=system(python_dll_script)
-"
+
 let g:tex_flavor = 'latex'
 
 if executable('fd')
@@ -30,4 +30,8 @@ let g:polyglot_disabled = [
 let g:no_synstack_maps = 0
 if has('popupwin')
 	let g:synstack_popup = 1
+endif
+
+if $COLORTERM == 'truecolor'
+	set termguicolors
 endif
