@@ -101,6 +101,13 @@ let g:ale_linters_ignore = {
 	\ ],
 \ }
 
+let s:c_ale_linters_ignore = ['clangcheck', 'clangtidy', 'cppcheck']
+if g:has_nvim
+	let s:c_ale_linters_ignore += ['cc', 'ccls', 'clangd']
+	let g:ale_linters_ignore['c'] = s:c_ale_linters_ignore
+	let g:ale_linters_ignore['cpp'] = s:c_ale_linters_ignore
+endif
+
 let g:ale_fixers = {
 	\ 'java': [
 		\ 'google_java_format',

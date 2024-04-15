@@ -3,6 +3,7 @@
 -- Setup language servers.
 local lspconfig = require 'lspconfig'
 
+lspconfig.clangd.setup {}
 lspconfig.hls.setup {}
 lspconfig.pyright.setup {}
 lspconfig.ruff_lsp.setup {
@@ -17,7 +18,9 @@ lspconfig.rust_analyzer.setup {
 		['rust-analyzer'] = {},
 	},
 }
-lspconfig.sourcekit.setup {}
+lspconfig.sourcekit.setup {
+	filetypes = { 'swift', 'objective-c', 'objective-cpp' },
+}
 lspconfig.tsserver.setup {}
 
 vim.diagnostic.config {
