@@ -116,6 +116,8 @@ NvimPlug 'hrsh7th/cmp-path'
 NvimPlug 'quangnguyen30192/cmp-nvim-ultisnips'
 
 NvimPlug 'mrcjkb/rustaceanvim'	" Rust, Batteries-included
+NvimPlug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+					" Treesitter manager
 
 " Formatting Plugins
 " Plug 'dimbleby/black.vim'		" Black!
