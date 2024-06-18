@@ -5,14 +5,13 @@ let mapleader = '\'
 let maplocalleader = '+'
 
 map <C-Tab> :tabnext<CR>
-nmap <C-Tab> :tabnext<CR>
 " imap <C-Tab> <Esc>:tabnext<CR>i
 
 map <C-S-Tab> :tabprevious<CR>
 nmap <C-S-Tab> :tabprevious<CR>
 inoremap <M-BS> <C-O>b<C-O>dw
-nmap <C-S> :%s/
-imap <C-S> <C-O>:%s/
+nnoremap <C-S> :%s/
+inoremap <C-S> <C-O>:%s/
 
 " imap <C-S-Tab> <Esc>:tabprevious<CR>i
 
@@ -48,8 +47,8 @@ endif
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
 if g:has_mac
-	nmap <D-Bslash> :NERDTreeToggle<CR>
-	imap <D-Bslash> <C-O>:NERDTreeToggle<CR>
+	nnoremap <D-Bslash> :NERDTreeToggle<CR>
+	inoremap <D-Bslash> <C-O>:NERDTreeToggle<CR>
 	inoremap <D-BS> ^<C-O>d$
 endif
 
@@ -61,5 +60,5 @@ cnoremap <C-E> <End>
 " cnoremap <C-F> <Right>
 cnoremap <C-N> <Down>
 cnoremap <C-P> <Up>
-cnoremap <M-b> <S-Left>
-cnoremap <M-f> <S-Right>
+cnoremap <M-B> <S-Left>
+cnoremap <M-F> <S-Right>
