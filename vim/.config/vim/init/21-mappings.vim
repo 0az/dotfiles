@@ -66,3 +66,11 @@ cnoremap <C-N> <Down>
 cnoremap <C-P> <Up>
 cnoremap <M-B> <S-Left>
 cnoremap <M-F> <S-Right>
+
+function CmdLineKillToEnd()
+	let l:pos = getcmdpos()
+
+	return l:pos == 1 ? "" : getcmdline()[:l:pos-2]
+endfunction
+
+cnoremap <C-K> <C-\>eCmdLineKillToEnd()<CR>
