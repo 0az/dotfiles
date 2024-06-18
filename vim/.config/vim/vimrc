@@ -55,18 +55,25 @@ if g:has_nvim
 	"   $XDG_DATA_HOME/nvim/venv/bin/pip install -U pynvim
 endif
 
-" As suggested by Arch Wiki, but with some changes disabled
+" As suggested by Arch Wiki, but with some changes
+call mkdir(g:vim_data_home, 'p', 0700)
+call mkdir(g:vim_data_home . '/backup', 'p', 0700)
+call mkdir(g:vim_data_home . '/swap', 'p', 0700)
+call mkdir(g:vim_data_home . '/undo', 'p', 0700)
+call mkdir(g:vim_data_home . '/view', 'p', 0700)
+
+let &backupdir = g:vim_data_home . '/backup,' . &backupdir
+let &undodir = g:vim_data_home . '/undo'
+let &viewdir = g:vim_data_home . '/view'
+
+let &directory = g:vim_data_home . '/swap'
+set directory+=.
+set directory+=~/tmp
+
 if g:not_nvim
-	call mkdir(g:vim_data_home, 'p', 0700)
-	call mkdir(g:vim_data_home . '/undo', 'p', 0700)
-	" mkdir(g:vim_data_home . '/swap', 'p', 0700)
-	" mkdir(g:vim_data_home . '/backup', 'p', 0700)
-	call mkdir(g:vim_data_home . '/view', 'p', 0700)
-	let &undodir = g:vim_data_home . '/undo'
-	" set directory=g:vim_data_home . '/swap'
-	" set backupdir=g:vim_data_home . '/backup'
-	let &viewdir = g:vim_data_home . '/view'
-	exe "set viminfo+='1000,n" . g:vim_data_home . '/viminfo'
+	" exe "set directory^=" . g:vim_data_home . '/swap'
+	set viminfo=!,'1000,<50,s10,h
+	let &viminfo .= ',n' . g:vim_data_home . '/viminfo'
 endif
 
 let b:runtimepath = [g:vim_config_home, g:vim_data_home] + split(&runtimepath, ',') + [g:vim_config_home . '/after']
