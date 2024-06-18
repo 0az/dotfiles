@@ -50,6 +50,10 @@ if g:has_mac
 	nnoremap <D-Bslash> :NERDTreeToggle<CR>
 	inoremap <D-Bslash> <C-O>:NERDTreeToggle<CR>
 	inoremap <D-BS> ^<C-O>d$
+
+	" NOTE: These mappings are case seensitive
+	nnoremap <D-s> :w<CR>
+	inoremap <D-s> <C-O>:w<CR>
 endif
 
 " Emacs mappings in the command line, from `:h emacs-keys`
