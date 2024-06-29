@@ -172,11 +172,7 @@ let g:ale_yaml_yamllint_options  = join(s:yaml_lint_options)
 let g:black_linelength = 80
 let g:black_skip_string_normalization = 1
 
-if use_xdg_data_home
-	let g:black_virtualenv = $XDG_DATA_HOME . '/vim/black'
-else
-	let g:black_virtualenv = '~/.vim/black'
-endif
+let g:black_virtualenv = g:common_cache_home . '/black.venv'
 
 " Javascript
 let g:javascript_plugin_jsdoc = 1
@@ -222,9 +218,9 @@ let g:vimtex_compiler_method = 'latexmk'
 let g:vim_markdown_new_list_item_indent = 0
 
 " EasyTags
-let g:easytags_file = g:vim_data_home . '/tags'
+let g:easytags_file = g:common_cache_home . '/tags'
 
 " Gutentags
-let g:gutentags_cache_dir = g:vim_data_home
+let g:gutentags_cache_dir = g:common_cache_home . '/gutentags'
 
 set statusline+=%{gutentags#statusline()}

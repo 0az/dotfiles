@@ -24,14 +24,21 @@ let g:not_vimr = !g:has_vimr
 
 " XDG setup
 let b:home_suffix = g:has_nvim ? '/nvim' : '/vim'
-let use_xdg_config_home = strlen($XDG_CONFIG_HOME) > 0
-let use_xdg_data_home = strlen($XDG_DATA_HOME) > 0
-if use_xdg_data_home
+let b:use_xdg_cache_home = strlen($XDG_CACHE_HOME) > 0
+let b:use_xdg_config_home = strlen($XDG_CONFIG_HOME) > 0
+let b:use_xdg_data_home = strlen($XDG_DATA_HOME) > 0
+
+let b:cache_home = b:use_xdg_cache_home ? expand($XDG_CACHE_HOME) : expand($HOME . '/.cache')
+
+let g:common_cache_home = b:cache_home . '/vim'
+let g:vim_cache_home = b:cache_home . b:home_suffix
+
+if b:use_xdg_data_home
 	let g:vim_data_home = expand($XDG_DATA_HOME . b:home_suffix)
 else
 	let g:vim_data_home = expand($HOME . '/.local/share' . b:home_suffix)
 endif
-if use_xdg_config_home
+if b:use_xdg_config_home
 	let g:vim_config_home = expand($XDG_CONFIG_HOME . b:home_suffix)
 else
 	let g:vim_config_home = expand($HOME . '/.config' . b_home_suffix)
