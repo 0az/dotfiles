@@ -2,7 +2,7 @@
 # Author: Per Bothner
 # Original: https://github.com/PerBothner/DomTerm/blob/55397ba4b95f5322cb6079d14c1ee1608c35b3c5/tools/shell-integration.fish
 
-if status --is-interactive; and test "$TERM_PROGRAM" = WezTerm
+if status is-interactive; and test "$TERM_PROGRAM" = WezTerm
   set _fishprompt_aid "fish"$fish_pid
   set _fishprompt_started 0
   # empty if running; or a numeric exit code; or CANCEL
