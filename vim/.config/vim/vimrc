@@ -69,7 +69,8 @@ if g:not_nvim
 	exe "set viminfo+='1000,n" . g:vim_data_home . '/viminfo'
 endif
 
-let &rtp = join([g:vim_config_home, g:vim_data_home, $VIMRUNTIME, g:vim_config_home . '/after'], ',')
+let b:runtimepath = [g:vim_config_home, g:vim_data_home] + split(&runtimepath, ',') + [g:vim_config_home . '/after']
+let &runtimepath = join(b:runtimepath, ',')
 
 " Plugin Preload Settings
 source <sfile>:h/init/01-plug-preload.vim
