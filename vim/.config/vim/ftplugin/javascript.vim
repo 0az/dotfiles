@@ -10,10 +10,14 @@ if g:has_nvim
 endif
 
 function! s:prettier()
-	if &modified || ! &modifiable
-		let pos = winsaveview()
+	if ! &modifiable
+		return
+	endif
+
+	if &modified
+		let l:pos = winsaveview()
 		exe '%!prettier --stdin-filepath %'
-		call winrestview(pos)
+		call winrestview(l:pos)
 	else
 		exe 'silent !prettier --write %'
 		exe 'redraw!'
