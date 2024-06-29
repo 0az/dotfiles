@@ -29,7 +29,8 @@
 /.config/pgcli
 /.config/ptpython
 /.config/vim
-/.local/share/rustup
+/.local/share/*/*
+/.local/state
 /.nix-defexpr
 /.nix-profile
 /.npm/_*
