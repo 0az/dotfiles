@@ -185,10 +185,17 @@ def select(identity):
     return 0
 
 
-def eject(identity, one_line=False):
+def eject(identity=None, one_line=False):
     """
     Print a shell invocation for the given identity.
     """
+    if not identity:
+        identity_results = get_config('local').get('x-identity', {}).get('active')
+        if not identity_results:
+            error('No identity provided, and no identity set locally!')
+            return 1
+        identity = identity_results[0]
+
     subsection = get_identities().get(identity)
     if not subsection:
         error('Identity {} does not exist!'.format(identity))
@@ -259,7 +266,7 @@ def main(argv):
         return select(argv[2])
 
     if command == 'eject':
-        if argc < 3 or argc > 4:
+        if argc < 2 or argc > 4:
             return usage(1)
 
         return eject(*argv[2:])
