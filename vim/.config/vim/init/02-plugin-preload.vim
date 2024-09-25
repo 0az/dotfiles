@@ -23,6 +23,7 @@ let g:polyglot_disabled = [
 	\ 'sensible',
 	\ 'javascript.plugin',
 	\ 'typescript.plugin',
+	\ 'python',
 	\ 'rust',
 	\ 'terraform',
 \]
