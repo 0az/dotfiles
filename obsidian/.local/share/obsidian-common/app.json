@@ -1,6 +1,6 @@
 {
   "alwaysUpdateLinks": true,
-  "attachmentFolderPath": "./",
+  "attachmentFolderPath": "Attachments",
   "legacyEditor": false,
   "lineWrap": true,
   "livePreview": false,
@@ -15,5 +15,6 @@
   "userIgnoreFilters": [
     "tags"
   ],
-  "vimMode": true
+  "vimMode": true,
+  "showIndentGuide": false
 }
