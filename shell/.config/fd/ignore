@@ -34,6 +34,7 @@
 /.nix-defexpr
 /.nix-profile
 /.npm/_*
+/.rustup/*
 __pycache__
 node_modules
 python*/site-packages
