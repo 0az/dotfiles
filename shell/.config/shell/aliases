@@ -3,13 +3,12 @@
 # Abbreviations
 alias l='ls -CFG'
 alias lx='eza --git-ignore'
-alias py=python
-alias py38=python3.8
-alias py39=python3.9
-alias ipy=ipython
+
 alias doctest='python -m doctest'
-alias ungron='gron --ungron'
 alias gsl='git branchless smartlog'
+alias ipy=ipython
+alias py=python
+alias ungron='gron --ungron'
 
 # Mini-functions
 alias fixup='git commit --fixup HEAD'
