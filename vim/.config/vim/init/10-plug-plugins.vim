@@ -2,6 +2,12 @@
 
 " Plugins (Plug)
 
+if $VIM_SKIP_PLUGINS
+	call plug#begin(g:vim_data_home . '/plugged')
+	call plug#end()
+	finish
+endif
+
 call plug#begin(g:vim_data_home . '/plugged')
 
 " Plug help:
