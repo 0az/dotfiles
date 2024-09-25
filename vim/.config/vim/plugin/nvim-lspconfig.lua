@@ -21,7 +21,18 @@ lspconfig.rust_analyzer.setup {
 lspconfig.sourcekit.setup {
 	filetypes = { 'swift', 'objective-c', 'objective-cpp' },
 }
-lspconfig.tsserver.setup {}
+
+lspconfig.tsserver.setup {
+	on_attach = function()
+		vim.api.nvim_create_user_command('TsOrganizeImports', function()
+			vim.lsp.buf.execute_command {
+				'_typescript.organizeImports',
+				{ vim.api.nvim_buf_get_name(0) },
+				'',
+			}
+		end, {})
+	end,
+}
 
 vim.diagnostic.config {
 	virtual_text = {
