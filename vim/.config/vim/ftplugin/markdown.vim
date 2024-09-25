@@ -3,4 +3,4 @@ setlocal softtabstop=2
 setlocal shiftwidth=2
 setlocal tabstop=2
 setlocal textwidth=80
-" setlocal wrap
+setlocal foldexpr=pandoc#folding#FoldExpr()
