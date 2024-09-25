@@ -36,3 +36,4 @@ shell/.config/*cli/log
 # Vim
 ####
 vim/.config/*/local/*.vim
+vim/.config/nvim/*
