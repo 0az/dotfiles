@@ -9,6 +9,7 @@ alias py39=python3.9
 alias ipy=ipython
 alias doctest='python -m doctest'
 alias ungron='gron --ungron'
+alias gsl='git branchless smartlog'
 
 # Mini-functions
 alias fixup='git commit --fixup HEAD'
