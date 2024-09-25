@@ -50,8 +50,6 @@ if !exists("g:black_quiet")
   let g:black_quiet = 0
 endif
 
-python3 << EndPython3
-EndPython3
 py3file <sfile>:h/vim_black.py
 
 function! black#Black()
