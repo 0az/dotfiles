@@ -25,6 +25,7 @@ call plug#begin(g:vim_data_home . '/plugged')
 " General Plugins
 Plug 'tpope/vim-sleuth'			" Automatically set buffer options
 Plug 'tpope/vim-sensible'		" vim-sensible
+Plug 'tpope/vim-rsi'			" Readline mappings
 
 " Editor plugins
 Plug 'editorconfig/editorconfig-vim'	" Editorconfig support
