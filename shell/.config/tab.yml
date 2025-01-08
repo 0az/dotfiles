@@ -1,6 +1,0 @@
-workspace:
-  - repo: ./dotfiles
-
-key_bindings:
-  - action: SelectInteractive
-    keys: esc t
