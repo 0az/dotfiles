@@ -3,16 +3,18 @@
 set -euo pipefail
 
 remote="${1:-origin}"
-if test $# -gt 1; then
+branch="${2:-mainline}"
+
+if test $# -gt 2; then
 	exit 1
 fi
 
 dry_run="${DRY_RUN:-}"
 
-raw_merged="$(git for-each-ref --format '%(refname) %(objectname)' --merged origin/mainline refs/heads)"
+raw_merged="$(git for-each-ref --format '%(refname) %(objectname)' --merged "$remote/$branch" refs/heads)"
 
-if ! merged="$(echo "$raw_merged" | grep -v refs/heads/mainline)"; then
-	echo 'No merged branches exist!' >&2
+if ! merged="$(echo "$raw_merged" | grep -v refs/heads/"$branch")" || test -z "$merged"; then
+	echo "No branches were merged into tracking branch '$branch'!" >&2
 	exit 0
 fi
 
@@ -27,11 +29,21 @@ if test "${#refs[@]}" -eq 0; then
 	exit 0
 fi
 
+current_head="$(git symbolic-ref HEAD || true)"
+update_head=
 remote_refs=()
 for ref in "${refs[@]}"; do
+	if test -z "$ref"; then
+		continue
+	fi
 	echo git rev-parse --verify --quiet "refs/remotes/$remote/$ref^{commit}" >&2
 	if git rev-parse --verify --quiet "refs/remotes/$remote/$ref^{commit}"; then
 		remote_refs+=("$ref")
+	fi
+
+
+	if test "$current_head" = "refs/heads/$ref" -o "$current_head" = "refs/remotes/$remote/$ref"; then
+		update_head=1
 	fi
 done
 
@@ -40,6 +52,10 @@ if test "${#remote_refs[@]}" -gt 0; then
 	if test -z "$dry_run"; then
 		git push -d origin "${remote_refs[@]}"
 	fi
+fi
+
+if test -n "$update_head"; then
+	git checkout "$branch"
 fi
 
 update_ref_script="$( \
