@@ -147,11 +147,11 @@ export XDG_DATA_HOME="$HOME/.local/share"
 # Disabled because path_helper
 # path="/usr/local/bin:$PATH"
 
-# Homebrew sbin
-export PATH="/usr/local/sbin:$PATH"
+# Homebrew
+# export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
 # MacPorts
-export PATH="/opt/local/bin:$PATH"
+# export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 
 # User local bin
 # Used by Pipx
@@ -174,7 +174,7 @@ export PATH="$GOPATH/bin:$PATH"
 # Java #
 ########
 
-# export JENV_ROOT="$XDG_DATA_HOME/jenv"
+export JENV_ROOT="$XDG_DATA_HOME/jenv"
 # shellcheck disable=SC2016
 # if_bash_eval 'command -v jenv &>/dev/null && eval "$(jenv init -)"'
 # if_fish_eval 'command -v jenv &>/dev/null && status --is-interactive && source (jenv init - | psub)'
@@ -284,6 +284,7 @@ command_ fzf && export \
 	FZF_DEFAULT_OPTS='--bind ctrl-k:kill-line' \
 	FZF_CTRL_T_COMMAND="$finder_ctrl_t_command" \
 	FZF_ALT_C_COMMAND="$finder_alt_c_command" \
+	FZF_TMUX_HEIGHT='~90%' \
 ;
 
 if_fish_eval 'sk_key_bindings || fzf_key_bindings || true'
