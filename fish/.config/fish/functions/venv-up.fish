@@ -1,10 +1,15 @@
+function _venv-up-help
+	echo 'Usage'
+	printf '\tvenv-up [ -h | --help ]\n'
+	printf '\tvenv-up [ -d/--dir DIR ] [ -e/--env ENV ] COMMAND ...\n'
+	printf '\tvenv-up [ -s/--source SOURCE ] [ -e/--env ENV ] COMMAND ...\n'
+end
+
 function venv-up --description 'Activate a Python venv'
-	argparse --name=venv-up 'd/dir=' 'e/env=+' 'h/help' -- $argv
+	argparse --name=venv-up 'h/help' 'd/dir=' 'e/env=+' 'f/activation-script=' -- $argv
 
 	if set -q _flag_h
-		echo 'Usage' >&2
-		printf '\tvenv-up [ -h | --help ]\n' >&2
-		printf '\tvenv-up [ -d | --dir ] [ -e | --env ] COMMAND ...\n' >&2
+		_venv-up-help >&2
 		return 0
 	end
 
@@ -13,9 +18,24 @@ function venv-up --description 'Activate a Python venv'
 		return 1
 	end
 
+	if set -q _flag_d && set -q _flag_f
+		_venv-up-help >&2
+		return 1
+	end
+
 	set -l prefix
-	# TODO: Clean up handling of special cases
-	if ! set -q _flag_d
+	set -l activate_script
+	if set -q _flag_f
+		set activate_script "$_flag_f"
+	else if set -q _flag_d
+		set prefix (echo $_flag_d | string trim -r -c '/')
+		set activate_script $prefix/bin/activate.fish
+		if ! test -e "$activate_script"
+			echo "Error: No venv detected at $prefix" >&2
+			return 1
+		end
+	else
+		# TODO: Clean up handling of special cases
 		if test -e .venv/bin/activate.fish
 			set prefix .venv
 		else if test -e venv/bin/activate.fish
@@ -40,18 +60,13 @@ function venv-up --description 'Activate a Python venv'
 			echo 'Error: No venv detected' >&2
 			return 1
 		end
-	else
-		set prefix (echo $_flag_d | string trim -r -c '/')
-		if ! test -e "$prefix/bin/activate.fish"
-			echo "Error: No venv detected at $prefix" >&2
-			return 1
-		end
+		set activate_script $prefix/bin/activate.fish
 	end
 
 	set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 
 	set subshell_args -i \
-		-C "source $prefix/bin/activate.fish" \
+		-C "source $activate_script" \
 		-C "source "(status -f) \
 		-C _venv_up_config_prompt \
 		;
