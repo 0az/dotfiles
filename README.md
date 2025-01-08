@@ -4,16 +4,18 @@
 
 ### Modules
 
-- Amethyst
+- Darwin
 - Fish
 - Git
 - Kitty
-- Launchd
 - MPV
-- Shell
+- Nix
+- Obsidian
 - SSH
+- Shell
 - Sublime
 - Vim
+- WezTerm
 
 ### Usage
 
