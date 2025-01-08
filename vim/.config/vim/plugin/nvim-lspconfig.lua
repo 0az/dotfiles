@@ -6,8 +6,9 @@ local lspconfig = require 'lspconfig'
 lspconfig.clangd.setup {}
 lspconfig.hls.setup {}
 lspconfig.pyright.setup {}
-lspconfig.ruff_lsp.setup {
-	on_attach = function(client)
+
+lspconfig.ruff.setup {
+	on_attach = function(client, bufnr)
 		client.server_capabilities.hoverProvider = false
 	end,
 }
@@ -22,7 +23,7 @@ lspconfig.sourcekit.setup {
 	filetypes = { 'swift', 'objective-c', 'objective-cpp' },
 }
 
-lspconfig.tsserver.setup {
+lspconfig.ts_ls.setup {
 	on_attach = function()
 		vim.api.nvim_create_user_command('TsOrganizeImports', function()
 			vim.lsp.buf.execute_command {
