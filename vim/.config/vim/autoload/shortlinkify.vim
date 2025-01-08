@@ -14,7 +14,7 @@ let g:shortlinkify_link_format['pandoc'] = get(g:shortlinkify_link_format, 'pand
 
 
 function! s:TransformPattern(pattern)
-	return '\C\%(^\|\s\|\%((<[{]]\)\@!\)\@<=\<' .. a:pattern .. '\>\%(\%([)>\]}]\)\@!\|\s\|$\)\@>'
+	return '\C' .. '\%(^\|\s\|\%([(<[{]\)\@<!\)' .. '\%(://[^ ]*/\?\)\@<!' .. '\<\zs' .. a:pattern .. '\ze\>\%(\%([)>\]}]\)\@!\|\s\|$\)'
 endfunction
 
 function! s:Shortlinkify(text)
