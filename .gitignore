@@ -15,6 +15,11 @@ fish/.config/fish/fishd.*
 git/.config/git/x-identity.conf
 
 ########
+# Nix
+####
+nix/dot-config/flakey-profile/flake.lock
+
+########
 # SSH
 ####
 ssh/.ssh/hosts.d/
