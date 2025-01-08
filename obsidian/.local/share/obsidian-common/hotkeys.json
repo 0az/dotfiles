@@ -94,5 +94,23 @@
       ],
       "key": "\\"
     }
+  ],
+  "open-with-default-app:open": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "O"
+    }
+  ],
+  "workspace:open-in-new-window": [
+    {
+      "modifiers": [
+        "Ctrl",
+        "Mod"
+      ],
+      "key": "N"
+    }
   ]
 }

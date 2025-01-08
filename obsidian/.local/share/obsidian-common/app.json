@@ -16,5 +16,6 @@
     "tags"
   ],
   "vimMode": true,
-  "showIndentGuide": false
+  "showIndentGuide": false,
+  "showRibbon": false
 }
