@@ -45,9 +45,13 @@
           pinned = {
             nixpkgs = toString nixpkgs;
           };
-          paths = with pkgs; [
-            hello
-          ];
+          paths = builtins.map (pkg: builtins.getAttr pkg pkgs) (
+            builtins.filter
+              #
+              (x: (builtins.isString x) && (null == builtins.match "#.+|\s*" x))
+              #
+              (builtins.split "\n" (builtins.readFile ./profile.conf))
+          );
         };
       }
     );
