@@ -11,8 +11,15 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils, flakey-profile }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+      flakey-profile,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = import nixpkgs {
           inherit system;
@@ -35,10 +42,13 @@
         packages.profile = flakey-profile.lib.mkProfile {
           inherit pkgs;
           # Specifies things to pin in the flake registry and in NIX_PATH.
-          pinned = { nixpkgs = toString nixpkgs; };
+          pinned = {
+            nixpkgs = toString nixpkgs;
+          };
           paths = with pkgs; [
             hello
           ];
         };
-      });
+      }
+    );
 }
