@@ -6,6 +6,6 @@
 	/*"theme": "Merge Dark.sublime-theme",*/
 	"editor_argument_format": "${file} +${line}",
 	"editor_wait_args": "--nofork",
-	"theme": "Merge Dark.sublime-theme",
+	"theme": "Merge.sublime-theme",
 	"diff_style": "inline",
 }
