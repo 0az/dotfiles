@@ -259,9 +259,6 @@ export GVIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/gvimrc | else | s
 # Byobu: Python
 # export BYOBU_PYTHON=/usr/local/bin/python3
 
-# tab: key bindings
-if_fish && command_ tab && tab_key_bindings
-
 # fzf
 set_ finder_common "command fd -HL -E .git -E .venv -E '*.app' -E node_modules -E /dev -E /sys -E /proc"
 set_ finder_trim 'sed -E s@^./@@'
