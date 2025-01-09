@@ -100,6 +100,8 @@ VimPlug 'neoclide/coc.nvim', {
 		\ 'java',
 		\ 'javascript',
 		\ 'typescript',
+		\ 'javascriptreact',
+		\ 'typescriptreact',
 	\ ]
 \ }
 					" Language Server Protocol
