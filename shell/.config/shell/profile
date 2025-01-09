@@ -174,13 +174,6 @@ export PATH="$GOPATH/bin:$PATH"
 # Java #
 ########
 
-export JENV_ROOT="$XDG_DATA_HOME/jenv"
-# shellcheck disable=SC2016
-# if_bash_eval 'command -v jenv &>/dev/null && eval "$(jenv init -)"'
-# if_fish_eval 'command -v jenv &>/dev/null && status --is-interactive && source (jenv init - | psub)'
-
-# FIXME: jenv rehash takes ~100ms to run (20% of `fish -i` runtime)
-
 export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle 
 
 ##############
