@@ -189,25 +189,19 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 # Python #
 ##########
 
-# Python: MacPorts system bin
-# - Disabled because pathhelper
-# path="/opt/local/Library/Frameworks/Python.framework/Versions/3.7/bin/:$PATH"
-
-# Python: Python 3.7 user bin
-# export PATH="/Users/az/Library/Python/3.7/bin:$PATH"
-
-# Python: Pipenv
-# export PIPENV_VENV_IN_PROJECT=1
-# export PIPENV_DEFAULT_PYTHON_VERSION='3.10'
-# export PIPENV_IGNORE_VIRTUALENVS=1
-
 # Python: Pylint XDG
 export PYLINTHOME="$XDG_CACHE_HOME"/pylint
 
 export JUPYTER_PLATFORM_DIRS=1
 
+# Python: Mypy XDG
+export MYPY_CACHE_DIR="$XDG_CACHE_HOME"/mypy
+
 # Python: NLTK Data Directory
-# export NLTK_DATA="$XDG_DATA_HOME"/nltk_data
+export NLTK_DATA="$XDG_DATA_HOME"/nltk_data
+
+# Python: Ruff XDG
+export RUFF_CACHE_DIR=$XDG_CACHE_HOME/ruff
 
 ########
 # Ruby #
@@ -234,15 +228,22 @@ export PATH="$CARGO_HOME/bin:$PATH"
 # Other #
 #########
 
-# path="/usr/local/opt/berkeley-db@4/bin:$PATH"
-export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/asdf/asdfrc"
-export ASDF_DATA_DIR="$XDG_DATA_HOME/asdf"
-
 export ANSIBLE_HOME="$XDG_CONFIG_HOME/ansible"
 export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible.cfg"
 export ANSIBLE_GALAXY_CACHE_DIR="$XDG_CACHE_HOME/ansible/galaxy_cache"
 
+export DELTA_PAGER='less -R'
+
+# Stack: XDG
+export STACK_XDG=1
+
 export LIMA_HOME="$XDG_DATA_HOME/lima"
+
+# RLWRAP: XDG
+export RLWRAP_HOME="$XDG_DATA_HOME"/rlwrap
+
+# Sage: XDG
+export DOT_SAGE="$XDG_DATA_HOME"/sage
 
 # Unison: XDG
 export UNISON="$XDG_DATA_HOME"/unison
@@ -252,9 +253,6 @@ export UNISON="$XDG_DATA_HOME"/unison
 export VIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/vimrc | else | source $XDG_CONFIG_HOME/nvim/init.vim | endif'
 # shellcheck disable=SC2016
 export GVIMINIT='if !has("nvim") | source $XDG_CONFIG_HOME/vim/gvimrc | else | source $XDG_CONFIG_HOME/nvim/ginit.vim | endif'
-
-# Byobu: Python
-# export BYOBU_PYTHON=/usr/local/bin/python3
 
 # fzf
 set_ finder_common "command fd -HL -E .git -E .venv -E '*.app' -E node_modules -E /dev -E /sys -E /proc"
@@ -298,7 +296,6 @@ export PACKER_PLUGIN_PATH="$XDG_DATA_HOME/packer/plugins"
 alias icat=false
 check_term xterm-kitty && eval 'alias icat="kitty +kitten icat"'
 check_term WezTerm && eval 'alias icat="wezterm imgcat"'
-
 
 ############
 # Includes #
