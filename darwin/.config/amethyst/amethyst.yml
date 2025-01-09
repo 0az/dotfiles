@@ -174,7 +174,7 @@ throw-space-9:
   key: 9
 throw-space-10:
   mod: mod2
-  key: 10
+  key: 0
 
 throw-space-left:
   mod: mod2
@@ -190,7 +190,7 @@ display-current-layout:
   mod: mod1
   key: i
 
-toggle-tiling: 
+toggle-tiling:
   mod: mod2
   key: t
 reevaluate-windows:
