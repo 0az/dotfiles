@@ -1,0 +1,43 @@
+# vim: set ft=dosini:
+
+# Appearance
+
+theme = KittyDefault
+
+font-family = DejaVu Sans Mono
+font-size = 20
+font-thicken = true
+
+adjust-cell-height = 2
+alpha-blending = native
+minimum-contrast = 2
+
+mouse-hide-while-typing = true
+
+macos-icon = custom-style
+macos-icon-frame = beige
+macos-option-as-alt = true
+
+# Windows
+
+unfocused-split-opacity = 0.85
+
+window-colorspace = display-p3
+window-inherit-font-size = false
+window-new-tab-position = current
+window-step-resize = true
+
+# Behavior
+
+clipboard-paste-bracketed-safe = true
+clipboard-paste-protection = true
+clipboard-read = ask
+clipboard-trim-trailing-spaces = true
+clipboard-write = allow
+
+cursor-click-to-move = true
+
+# Keybinds
+
+keybind = cmd+enter=new_split:auto
+keybind = ctrl+shift+enter=new_split:auto
