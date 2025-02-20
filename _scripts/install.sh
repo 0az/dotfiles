@@ -19,6 +19,117 @@ cleanup() {
 
 trap cleanup EXIT
 
+set +e
+read -r -d '' awk_login_defs <<'EOF'
+/SYS_UID_MIN/ {
+	uid_min = $2
+}
+
+/SYS_UID_MAX/ {
+	uid_max = $2
+}
+
+/SYS_GID_MIN/ {
+	gid_min = $2
+}
+
+/SYS_GID_MAX/ {
+	gid_max = $2
+}
+
+END {
+	if (uid_min && uid_max && gid_min && gid_max) {
+		print uid_min, uid_max, gid_min, gid_max
+	}
+}
+EOF
+
+read -r -d '' awk_number_in_range <<'EOF'
+range_min <= int($0) && int($0) <= range_max {
+	print $0
+}
+EOF
+
+read -r -d '' awk_locate_free_range <<'EOF'
+# Iterates over reverse sorted integer input, looking for a gap of at least range_size.
+# Vars: range_size, range_min, range_max
+{
+	if (!lowest_used) {
+		lowest_used = $0
+		next
+	}
+	if (lowest_used - range_size > $0) {
+		found = 1
+		print lowest_used - range_size, lowest_used - 1
+		exit 0
+	}
+	lowest_used = $0
+}
+
+END {
+	if (found) {
+		exit 0
+	}
+
+	if (lowest_used - range_size < range_min) {
+		exit 1
+	}
+
+	print lowest_used - range_size, lowest_used - 1
+}
+EOF
+set -e
+
+awk-number-in-range() {
+	awk \
+		-v range_min="$1" \
+		-v range_max="$2" \
+		"$awk_number_in_range" \
+	|| return $?
+}
+
+awk-locate-free-range() {
+	awk \
+		-v range_size="$1" \
+		-v range_min="$2" \
+		-v range_max="$3" \
+		"$awk_locate_free_range" \
+	|| return $?
+}
+
+configure-lix-nixbld() {
+	declare lix_uid_base lix_uid_min lix_uid_max lix_gid
+
+	# Find a safe range, or fall back to defaults
+	read -r sys_uid_min sys_uid_max sys_gid_min sys_gid_max < <(
+		awk "$awk_login_defs" /etc/login.defs
+	) || return 0
+
+	# shellcheck disable=SC2034
+	read -r lix_uid_min lix_uid_max < <(
+		cut -d : -f 3 /etc/passwd \
+		| awk-number-in-range "$sys_uid_min" "$sys_uid_max" \
+		| sort -nr \
+		| awk-locate-free-range 32 "$sys_uid_min" "$sys_uid_max"
+	) || return 0
+
+	lix_uid_base=$((lix_uid_min - 1))
+
+	# Check if $lix_uid_base is available, or search for an alternative otherwise
+	if cut -d : -f 3 /etc/group | grep -q "$lix_uid_base"; then
+		read -r lix_gid lix_gid < <(
+			cut -d : -f 3 /etc/group \
+			| awk-number-in-range "$sys_gid_min" "$sys_gid_max" \
+			| sort -nr \
+			| awk-locate-free-range 1 "$sys_gid_min" "$sys_gid_max" /etc/group
+		) || [[ -n "$lix_gid" ]]
+	else
+		lix_gid="$lix_uid_min"
+	fi
+
+	echo "$lix_uid_base" "$lix_gid"
+}
+
 ensure-tmpdir() {
 	if test -n "$tmpdir" -a -d "$tmpdir"; then
 		test "$TMPDIR" != "$tmpdir" || exit 2
@@ -102,7 +213,23 @@ section-homebrew() {
 
 section-lix() {
 	start-section 'Install Lix (Like Nix)'
-	PATH="$PATH:/sbin" run-curl-bash https://install.lix.systems/lix install --no-modify-profile --enable-flakes --extra-conf 'use-xdg-base-directories = true'
+
+	declare lix_uid_base lix_gid
+	declare -a lix_nixbld_opts=()
+
+	if test "$(uname)" = Linux -a -r /etc/login.defs; then
+		echo 'Checking for free UIDs/GIDs...'
+		echo
+
+		if read -r lix_uid_base lix_gid < <(configure-lix-nixbld) || test -n "$lix_uid_base" -a "$lix_gid"; then
+			lix_nixbld_opts+=(
+				--nix-build-user-id-base "$lix_uid_base"
+				--nix-build-group-id "$lix_gid"
+			)
+		fi
+	fi
+
+	PATH="$PATH:/sbin" run-curl-bash https://install.lix.systems/lix install --no-modify-profile --enable-flakes "${lix_nixbld_opts[@]+"${lix_nixbld_opts[@]}"}" --extra-conf 'use-xdg-base-directories = true'
 
 	echo 'CAVEAT:'
 	echo
