@@ -4,9 +4,10 @@ set -euo pipefail
 
 tmpdir=
 
+DRY_RUN="${DRY_RUN:-}"
+
 cleanup() {
-	echo
-	echo
+	start-section Cleanup
 	echo "Cleaning up! tmpdir=$tmpdir"
 	if test -n "$tmpdir" -a -d "$tmpdir"; then
 		echo
@@ -23,6 +24,11 @@ ensure-tmpdir() {
 		test "$TMPDIR" != "$tmpdir" || exit 2
 		return
 	fi
+
+	if test -n "$DRY_RUN"; then
+		return
+	fi
+
 	tmpdir="$(mktemp -d -t dotfiles-install.XXXX)"
 	export TMPDIR="$tmpdir"
 	test -d "$tmpdir" || exit 1
@@ -32,6 +38,7 @@ ensure-tmpfile() {
 	if test $# -ge 2; then
 		exit 2
 	fi
+
 	suffix="${1:-}"
 	printf '%s%s\n' "$(mktemp)" "$suffix"
 }
@@ -41,6 +48,10 @@ request-confirmation() {
 	echo
 	printf '\t%s\n' "$*"
 	echo
+
+	if test -n "$DRY_RUN"; then
+		return
+	fi
 
 	read -rp 'Execute? [Y/n] ' REPLY
 	echo
@@ -62,6 +73,11 @@ request-confirmation() {
 
 run-command() {
 	request-confirmation "$@"
+
+	if test -n "$DRY_RUN"; then
+		return
+	fi
+
 	"$@" || exit 1
 	echo
 }
@@ -79,12 +95,12 @@ start-section() {
 	printf '\n# %s\n\n' "$name"
 }
 
-install-homebrew() {
+section-homebrew() {
 	start-section 'Install Homebrew'
 	run-curl-bash https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
 }
 
-install-lix() {
+section-lix() {
 	start-section 'Install Lix (Like Nix)'
 	PATH="$PATH:/sbin" run-curl-bash https://install.lix.systems/lix install --no-modify-profile --enable-flakes --extra-conf 'use-xdg-base-directories = true'
 
@@ -96,12 +112,42 @@ install-lix() {
 	echo
 }
 
+run-sections() {
+	section_cmds=()
+	for section in "$@"; do
+		case "$section" in
+			homebrew)
+				section_cmds+=(section-homebrew)
+				;;
+			lix)
+				section_cmds+=(section-lix)
+				;;
+			*)
+				echo "Invalid section! $section" >&2
+				return 1
+				;;
+		esac
+	done
+
+	for section in "${section_cmds[@]}"; do
+		"$section"
+	done
+}
+
+sections=()
+
+if test $# -eq 0 -o $# -eq 1 -a "${1:-}" = all; then
+	if test -z "${SKIP_HOMEBREW:-}" -a "$(uname)" = Darwin; then
+		sections+=(homebrew)
+	fi
+
+	if test -z "${SKIP_NIX:-}"; then
+		sections+=(lix)
+	fi
+else
+	sections=("$@")
+fi
+
 ensure-tmpdir
 
-if test -z "${SKIP_HOMEBREW:-}" -a "$(uname)" = Darwin; then
-	install-homebrew
-fi
-
-if test -z "${SKIP_NIX:-}"; then
-	install-lix
-fi
+run-sections "${sections[@]}"
