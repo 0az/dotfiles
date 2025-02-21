@@ -230,6 +230,19 @@ section-homebrew() {
 	run-curl-bash https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
 }
 
+section-homebrew-packages() {
+	local brew=
+	if test -x /opt/homebrew/bin/brew; then
+		brew=/opt/homebrew/bin/brew
+	elif test -x /usr/local/bin/brew; then
+		brew=/usr/local/bin/brew
+	else
+		abort 'ERROR: Could not locate Homebrew installation'
+	fi
+
+	run-command "$brew" install bash git fish
+}
+
 section-lix() {
 	start-section 'Install Lix (Like Nix)'
 
@@ -264,6 +277,9 @@ run-sections() {
 		case "$section" in
 			homebrew)
 				section_cmds+=(section-homebrew)
+				;;
+			homebrew-packages)
+				section_cmds+=(section-homebrew-packages)
 				;;
 			lix)
 				section_cmds+=(section-lix)
@@ -305,6 +321,9 @@ if test $# -eq 0 -o $# -eq 1 -a "${1:-}" = all; then
 		no_homebrew=1
 	fi
 
+	# Homebrew package installation is idempotent enough
+	no_homebrew_packages="${SKIP_HOMEBREW_PACKAGES:-${no_homebrew}}"
+
 	no_lix="${SKIP_LIX:-}"
 	if test -x /nix/nix-installer -a -r /nix/receipt.json; then
 		echo 'Found (partial?) Lix install at /nix/nix-installer and/or /nix/receipt.json...'
@@ -312,6 +331,7 @@ if test $# -eq 0 -o $# -eq 1 -a "${1:-}" = all; then
 	fi
 
 	check-section homebrew "$no_homebrew"
+	check-section homebrew-packages "$no_homebrew_packages"
 	check-section lix "$no_lix"
 else
 	sections=("$@")
