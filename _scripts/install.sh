@@ -225,6 +225,12 @@ start-section() {
 	printf '\n# %s\n\n' "$name"
 }
 
+section-dotfiles() {
+	start-section 'Clone dotfiles repository'
+
+	run-command git clone https://github.com/0az/dotfiles.git ~/dotfiles
+}
+
 section-homebrew() {
 	start-section 'Install Homebrew'
 	run-curl-bash https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
@@ -275,6 +281,9 @@ run-sections() {
 	section_cmds=()
 	for section in "$@"; do
 		case "$section" in
+			dotfiles)
+				section_cmds+=(section-dotfiles)
+				;;
 			homebrew)
 				section_cmds+=(section-homebrew)
 				;;
@@ -316,6 +325,11 @@ check-section() {
 start-section 'Plan installation'
 
 if test $# -eq 0 -o $# -eq 1 -a "${1:-}" = all; then
+	no_dotfiles="${SKIP_DOTFILES:-}"
+	if test -d "$HOME/dotfiles"; then
+		no_dotfiles=1
+	fi
+
 	no_homebrew="${SKIP_HOMEBREW:-}"
 	if test "$(uname)" != Darwin || command -v brew >/dev/null; then
 		no_homebrew=1
@@ -330,6 +344,7 @@ if test $# -eq 0 -o $# -eq 1 -a "${1:-}" = all; then
 		no_lix=1
 	fi
 
+	check-section dotfiles "$no_dotfiles"
 	check-section homebrew "$no_homebrew"
 	check-section homebrew-packages "$no_homebrew_packages"
 	check-section lix "$no_lix"
