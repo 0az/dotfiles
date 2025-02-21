@@ -45,13 +45,20 @@
           pinned = {
             nixpkgs = toString nixpkgs;
           };
-          paths = builtins.map (pkg: builtins.getAttr pkg pkgs) (
+          paths =
             builtins.filter
               #
-              (x: (builtins.isString x) && (null == builtins.match "#.+|\s*" x))
+              (pkg: (pkgs.lib.meta.availableOn pkgs.stdenv.hostPlatform pkg))
               #
-              (builtins.split "\n" (builtins.readFile ./profile.conf))
-          );
+              (
+                builtins.map (pkg: builtins.getAttr pkg pkgs) (
+                  builtins.filter
+                    #
+                    (x: (builtins.isString x) && (null == builtins.match "#.+|\s*" x))
+                    #
+                    (builtins.split "\n" (builtins.readFile ./profile.conf))
+                )
+              );
         };
       }
     );
