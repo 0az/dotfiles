@@ -287,14 +287,32 @@ run-sections() {
 
 sections=()
 
+# $1: Section name
+# $2: Skip flag. Skips this section if present or non-empty.
+check-section() {
+	if test -n "${2:-}"; then
+		echo "Skipping section $1..."
+		return
+	fi
+	sections+=("$1")
+}
+
+start-section 'Plan installation'
+
 if test $# -eq 0 -o $# -eq 1 -a "${1:-}" = all; then
-	if test -z "${SKIP_HOMEBREW:-}" -a "$(uname)" = Darwin; then
-		sections+=(homebrew)
+	no_homebrew="${SKIP_HOMEBREW:-}"
+	if test "$(uname)" != Darwin || command -v brew >/dev/null; then
+		no_homebrew=1
 	fi
 
-	if test -z "${SKIP_NIX:-}"; then
-		sections+=(lix)
+	no_lix="${SKIP_LIX:-}"
+	if test -x /nix/nix-installer -a -r /nix/receipt.json; then
+		echo 'Found (partial?) Lix install at /nix/nix-installer and/or /nix/receipt.json...'
+		no_lix=1
 	fi
+
+	check-section homebrew "$no_homebrew"
+	check-section lix "$no_lix"
 else
 	sections=("$@")
 fi
