@@ -19,6 +19,17 @@ cleanup() {
 
 trap cleanup EXIT
 
+abort() {
+	if test $# -eq 1; then
+		echo "ERROR: $1" >&2
+	elif test $# -eq 2; then
+		echo "ERROR($1): $2" >&2
+	else
+		echo "ERROR: $*" >&2
+	fi
+	exit 1
+}
+
 set +e
 read -r -d '' awk_login_defs <<'EOF'
 /SYS_UID_MIN/ {
@@ -132,7 +143,7 @@ configure-lix-nixbld() {
 
 ensure-tmpdir() {
 	if test -n "$tmpdir" -a -d "$tmpdir"; then
-		test "$TMPDIR" != "$tmpdir" || exit 2
+		test "$TMPDIR" != "$tmpdir" || abort ensure-tmpdir "TMPDIR ($TMPDIR) does not match tmpdir ($tmpdir)"
 		return
 	fi
 
@@ -142,13 +153,11 @@ ensure-tmpdir() {
 
 	tmpdir="$(mktemp -d -t dotfiles-install.XXXX)"
 	export TMPDIR="$tmpdir"
-	test -d "$tmpdir" || exit 1
+	test -d "$tmpdir" || abort 'Could not create tmpdir!'
 }
 
 ensure-tmpfile() {
-	if test $# -ge 2; then
-		exit 2
-	fi
+	test $# -le 1 || abort ensure-tmpfile 'Invalid argument count'
 
 	suffix="${1:-}"
 	printf '%s%s\n' "$(mktemp)" "$suffix"
@@ -176,7 +185,7 @@ request-confirmation() {
 			# Intentionally left blank
 			;;
 		*)
-			exit 1
+			abort 'Unexpected input'
 			;;
 	esac
 
@@ -189,7 +198,7 @@ run-command() {
 		return
 	fi
 
-	"$@" || exit 1
+	"$@" || abort 'Command exited with non-zero status!'
 	echo
 }
 
