@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 # Move commits to a new PR branch, resetting the current branch to upstream.
 
 set -euo pipefail
