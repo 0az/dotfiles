@@ -7,10 +7,16 @@ if test -n "${DEBUG:-}"; then
 fi
 
 tmpdir=
+skip_cleanup=
 
 DRY_RUN="${DRY_RUN:-}"
 
 cleanup() {
+	if test -n "$skip_cleanup"; then
+		echo 'Skipping cleanup!'
+		return 0
+	fi
+
 	start-section Cleanup
 	echo "Cleaning up! tmpdir=$tmpdir"
 	if test -n "$tmpdir" -a -d "$tmpdir"; then
@@ -269,6 +275,11 @@ run-sections() {
 		esac
 	done
 
+	echo
+	echo 'Running the following installer sections:'
+	printf '\t%s\n' "$@" >&2
+	echo
+
 	for section in "${section_cmds[@]}"; do
 		"$section"
 	done
@@ -286,6 +297,14 @@ if test $# -eq 0 -o $# -eq 1 -a "${1:-}" = all; then
 	fi
 else
 	sections=("$@")
+fi
+
+if test ${#sections[@]} -eq 0; then
+	skip_cleanup=1
+	echo
+	echo 'No installer sections scheduled!'
+	echo
+	exit
 fi
 
 ensure-tmpdir
