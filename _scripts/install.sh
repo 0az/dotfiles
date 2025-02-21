@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+if test -n "${DEBUG:-}"; then
+	set -x
+fi
+
 tmpdir=
 
 DRY_RUN="${DRY_RUN:-}"
