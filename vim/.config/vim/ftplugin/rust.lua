@@ -1,13 +1,5 @@
+-- vim: set noexpandtab ts=4 sw=4:
 local bufnr = vim.api.nvim_get_current_buf()
-
-vim.g.rustaceanvim = {
-	tools = {
-		code_actions = {
-			ui_select_fallback = true,
-		},
-		test_executor = 'background',
-	},
-}
 
 local opts = { buffer = bufnr }
 
