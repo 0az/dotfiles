@@ -277,19 +277,38 @@ section-lix() {
 	local lix_uid_base lix_gid
 	declare -a lix_args
 
-	if test "$(uname)" = Linux -a -r /etc/login.defs; then
-		echo 'Checking for free UIDs/GIDs...'
-		echo
+	local is_linux=
+	if test "$(uname)" = Linux; then
+		is_linux=1
+		lix_args+=(linux)
+	fi
 
-		if read -r lix_uid_base lix_gid < <(configure-lix-nixbld) || test -n "$lix_uid_base" -a "$lix_gid"; then
-			lix_nixbld_opts+=(
-				--nix-build-user-id-base "$lix_uid_base"
-				--nix-build-group-id "$lix_gid"
-			)
+	lix_args+=(
+		--no-modify-profile
+		--enable-flakes
+		"${lix_nixbld_opts[@]+"${lix_nixbld_opts[@]}"}"
+		--extra-conf 'use-xdg-base-directories = true'
+	)
+
+	if test -n "$is_linux"; then
+		if test ! -d /run/systemd/system; then
+			lix_args+=(--init none)
+		fi
+
+		if test -r /etc/login.defs; then
+			echo 'Checking for free UIDs/GIDs...'
+			echo
+
+			if read -r lix_uid_base lix_gid < <(configure-lix-nixbld) || test -n "$lix_uid_base" -a "$lix_gid"; then
+				lix_args+=(
+					--nix-build-user-id-base "$lix_uid_base"
+					--nix-build-group-id "$lix_gid"
+				)
+			fi
 		fi
 	fi
 
-	PATH="$PATH:/sbin" run-curl-bash https://install.lix.systems/lix install --no-modify-profile --enable-flakes "${lix_nixbld_opts[@]+"${lix_nixbld_opts[@]}"}" --extra-conf 'use-xdg-base-directories = true'
+	PATH="$PATH:/sbin" run-curl-bash https://install.lix.systems/lix install "${lix_args[@]}"
 
 	echo 'CAVEAT:'
 	echo
