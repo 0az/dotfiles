@@ -11,14 +11,21 @@ if !filereadable(s:plug_path)
 	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+let s:plug = function('plug#')
+
 function s:VimPlug(...)
 	if g:not_nvim
-		call call(function('plug#'), a:000)
+		call call(s:plug, a:000)
+	else
+		call call(s:plug, [a:1, {'on': []}])
 	endif
 endfunc
+
 function s:NvimPlug(...)
 	if g:has_nvim
-		call call(function('plug#'), a:000)
+		call call(s:plug, a:000)
+	else
+		call call(s:plug, [a:1, {'on': []}])
 	endif
 endfunc
 
