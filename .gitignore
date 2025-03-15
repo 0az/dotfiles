@@ -22,6 +22,7 @@ nix/dot-config/flakey-profile/flake.lock
 ########
 # SSH
 ####
+ssh/.ssh/authorized_keys
 ssh/.ssh/hosts.d/
 ssh/.ssh/id_*
 ssh/.ssh/keys/
