@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # vim: set ft=python:expandtab:textwidth=80:ts=4:sw=4:
 
 # SPDX-License-Identifier: MIT
@@ -9,23 +9,11 @@
 Manage separate Git identities.
 """
 
-from __future__ import print_function
-
 import subprocess
 import sys
 from os.path import basename
 
-try:
-    from subprocess import DEVNULL
-except ImportError:
-    from os import O_RDRW, devnull
-
-    DEVNULL = open(devnull, O_RDRW)
-
-    # TODO: Implement support for Windows
-    # See https://github.com/python/cpython/blob/main/Lib/subprocess.py
-
-    del O_RDRW, devnull
+from subprocess import DEVNULL
 
 USAGE = '''
 Usage
@@ -60,10 +48,10 @@ def error(*args, **kwargs):
 
 
 def call_silent(cmd):
-    return subprocess.call(cmd, stderr=subprocess.DEVNULL)
+    return subprocess.call(cmd, stderr=DEVNULL)
 
 
-def build_config_command(key, value, location='local', add=False):
+def build_config_command(key, value, location='local'):
     if location not in ('local', 'global'):
         raise ValueError('Location must be local or global!')
 
@@ -72,11 +60,11 @@ def build_config_command(key, value, location='local', add=False):
     return cmd
 
 
-def set_config(key, value, location='local', add=False, dry_run=False):
+def set_config(key, value, location='local', dry_run=False):
     if location not in ('local', 'global'):
         raise ValueError('Location must be local or global!')
 
-    cmd = build_config_command(key, value, location, add)
+    cmd = build_config_command(key, value, location)
     if not dry_run:
         subprocess.check_call(cmd)
     else:
@@ -180,7 +168,7 @@ def select(identity):
     key = 'user.{}'
     for var, vals in subsection.items():
         for val in vals:
-            set_config(key.format(var), val, add=True)
+            set_config(key.format(var), val)
     set_config('x-identity.active', identity)
     return 0
 
@@ -205,7 +193,7 @@ def eject(identity=None, one_line=False):
     cmds = []
     for var, vals in subsection.items():
         for val in vals:
-            cmd = build_config_command(key.format(var), val, add=True)
+            cmd = build_config_command(key.format(var), val)
             cmds.append(' '.join(cmd))
     joiner = '; ' if one_line else '\n'
     print(joiner.join(cmds))
