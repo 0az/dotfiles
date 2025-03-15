@@ -139,13 +139,20 @@ def get_config(location):
     return config
 
 
-def get_identities():
+def get_identities(*, casefold: bool = False):
     result = get_config('global').get('x-identity')
+
     if not result:
         raise RuntimeError('No identities found!')
     if all(not d.get('name') and not d.get('email') for d in result.values()):
         raise RuntimeError('No valid identities!')
-    return result
+
+    casefolded = {k.casefold(): v for k, v in result.items()}
+
+    if len(result.keys()) != len(casefolded.keys()):
+        raise RuntimeError('Non-unique identities!')
+
+    return casefolded if casefold else result
 
 
 def format_identities():
@@ -192,7 +199,7 @@ def select(identity):
     Select an identity for the local config context.
     """
     reset()
-    subsection = get_identities().get(identity)
+    subsection = get_identities(casefold=True).get(identity.casefold())
     if not subsection:
         error('Identity {} does not exist!'.format(identity))
         return 1
@@ -201,7 +208,7 @@ def select(identity):
     for var, vals in subsection.items():
         for val in vals:
             set_config(key.format(var), val)
-    set_config('x-identity.active', identity)
+    set_config('x-identity.active', identity.lower())
     return 0
 
 
@@ -216,7 +223,7 @@ def eject(identity=None, one_line=False):
             return 1
         identity = identity_results[0]
 
-    subsection = get_identities().get(identity)
+    subsection = get_identities(casefold=True).get(identity.casefold())
     if not subsection:
         error('Identity {} does not exist!'.format(identity))
         return 1
