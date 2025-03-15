@@ -21,8 +21,8 @@ cleanup() {
 	echo "Cleaning up! tmpdir=$tmpdir"
 	if test -n "$tmpdir" -a -d "$tmpdir"; then
 		echo
-		echo rm -Irf "$tmpdir"
-		rm -Irf "$tmpdir"
+		echo rm -ir "$tmpdir"
+		rm -ir "$tmpdir"
 	fi
 	echo
 }
@@ -117,7 +117,7 @@ awk-locate-free-range() {
 }
 
 configure-lix-nixbld() {
-	declare lix_uid_base lix_uid_min lix_uid_max lix_gid
+	local lix_uid_base lix_uid_min lix_uid_max lix_gid
 
 	# Find a safe range, or fall back to defaults
 	read -r sys_uid_min sys_uid_max sys_gid_min sys_gid_max < <(
@@ -159,7 +159,7 @@ ensure-tmpdir() {
 		return
 	fi
 
-	tmpdir="$(mktemp -d -t dotfiles-install.XXXX)"
+	tmpdir="$(mktemp -d -t dotfiles-install.XXXXXX)"
 	export TMPDIR="$tmpdir"
 	test -d "$tmpdir" || abort 'Could not create tmpdir!'
 }
@@ -167,14 +167,14 @@ ensure-tmpdir() {
 ensure-tmpfile() {
 	test $# -le 1 || abort 'Invalid argument count'
 
-	suffix="${1:-}"
+	local suffix="${1:-}"
 	printf '%s%s\n' "$(mktemp)" "$suffix"
 }
 
 request-confirmation() {
 	echo "Proposed command:"
 	echo
-	printf '\t%s\n' "$*"
+	printf '\t%s\n' "${@@Q}"
 	echo
 
 	if test -n "$DRY_RUN"; then
@@ -211,15 +211,18 @@ run-command() {
 }
 
 run-curl-bash() {
+	local url dest
+
 	url="$1"
 	shift 1
+
 	dest="$(ensure-tmpfile .sh)"
 	run-command curl -#fSL "$url" -o "$dest"
 	run-command /bin/bash "$dest" "$@"
 }
 
 start-section() {
-	name="$1"
+	local name="$1"
 	printf '\n# %s\n\n' "$name"
 }
 
@@ -250,8 +253,8 @@ section-homebrew-packages() {
 section-lix() {
 	start-section 'Install Lix (Like Nix)'
 
-	declare lix_uid_base lix_gid
-	declare -a lix_nixbld_opts=()
+	local lix_uid_base lix_gid
+	declare -a lix_args
 
 	if test "$(uname)" = Linux -a -r /etc/login.defs; then
 		echo 'Checking for free UIDs/GIDs...'
@@ -276,7 +279,8 @@ section-lix() {
 }
 
 run-sections() {
-	section_cmds=()
+	declare -a section_cmds invalid_sections
+
 	for section in "$@"; do
 		case "$section" in
 			dotfiles)
