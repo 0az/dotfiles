@@ -7,6 +7,21 @@ lspconfig.clangd.setup {}
 lspconfig.hls.setup {}
 lspconfig.pyright.setup {}
 
+lspconfig.gopls.setup {
+	settings = {
+		gopls = {
+			['ui.inlayhint.hints'] = {
+				['assignVariableTypes'] = true,
+				['constantValues'] = true,
+				['functionTypeParameters'] = true,
+			},
+		},
+	},
+	on_attach = function(client, bufnr)
+		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+	end,
+}
+
 lspconfig.ruff.setup {
 	on_attach = function(client, bufnr)
 		client.server_capabilities.hoverProvider = false
