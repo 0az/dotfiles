@@ -30,10 +30,8 @@ cleanup() {
 trap cleanup EXIT
 
 abort() {
-	if test $# -eq 1; then
-		echo "ERROR: $1" >&2
-	elif test $# -eq 2; then
-		echo "ERROR($1): $2" >&2
+	if test ${#FUNCNAME[@]} -gt 1; then
+		echo "ERROR(${FUNCNAME[1]}): $*" >&2
 	else
 		echo "ERROR: $*" >&2
 	fi
@@ -153,7 +151,7 @@ configure-lix-nixbld() {
 
 ensure-tmpdir() {
 	if test -n "$tmpdir" -a -d "$tmpdir"; then
-		test "$TMPDIR" != "$tmpdir" || abort ensure-tmpdir "TMPDIR ($TMPDIR) does not match tmpdir ($tmpdir)"
+		test "$TMPDIR" != "$tmpdir" || abort "TMPDIR ($TMPDIR) does not match tmpdir ($tmpdir)"
 		return
 	fi
 
@@ -167,7 +165,7 @@ ensure-tmpdir() {
 }
 
 ensure-tmpfile() {
-	test $# -le 1 || abort ensure-tmpfile 'Invalid argument count'
+	test $# -le 1 || abort 'Invalid argument count'
 
 	suffix="${1:-}"
 	printf '%s%s\n' "$(mktemp)" "$suffix"
