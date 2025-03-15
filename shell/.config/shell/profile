@@ -60,7 +60,7 @@ alias if_posixish=true
 '
 test -n "$FISH_VERSION" && eval '
 function if_bash; return 1; end
-function if_fish; return 0; end
+function if_fish; end
 function if_zsh; return 1; end
 
 function if_bash_eval; return 1; end
@@ -69,6 +69,12 @@ function if_zsh_eval; return 1; end
 
 function if_posixish; return 1; end
 function if_posixish_eval; return 1; end
+
+if status is-login
+	function if_login_export; export $argv; end
+else
+	function if_login_export; end
+end
 '
 test -n "$ZSH_VERSION" && eval '
 alias if_bash=false
@@ -80,6 +86,8 @@ alias if_fish_eval=false
 alias if_zsh_eval=eval
 
 alias if_posixish=true
+
+alias if_login_export=export
 '
 
 if_fish || eval 'test -z "${0##*dash}" && alias if_posixish=true'
@@ -104,7 +112,7 @@ function check_term -a term; test "$TERM" = "$term"; return $status; end
 '
 
 # Define Teardown
-set_ aliases 'if_bash if_fish if_zsh if_bash_eval if_fish_eval if_zsh_eval if_posixish if_posixish_eval'
+set_ aliases 'if_bash if_fish if_zsh if_bash_eval if_fish_eval if_zsh_eval if_posixish if_posixish_eval if_login_export'
 set_ functions 'set_ unset_ command_ check_term'
 set_ variables aliases functions variables
 # shellcheck disable=SC2016,2154
@@ -134,9 +142,9 @@ if_bash && export PS1='\u@\h:\W \\$ '
 #######
 # XDG #
 #######
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DATA_HOME="$HOME/.local/share"
+if_login_export XDG_CONFIG_HOME="$HOME/.config"
+if_login_export XDG_CACHE_HOME="$HOME/.cache"
+if_login_export XDG_DATA_HOME="$HOME/.local/share"
 
 ########
 # PATH #
@@ -148,27 +156,27 @@ export XDG_DATA_HOME="$HOME/.local/share"
 # path="/usr/local/bin:$PATH"
 
 # Homebrew
-# export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+# if_login_export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
 # MacPorts
-# export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# if_login_export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 
 # User local bin
 # Used by Pipx
-export PATH="$HOME/.local/bin:$PATH"
+if_login_export PATH="$HOME/.local/bin:$PATH"
 
 # Shell config bin
 # Used for cross-platform utility scripts
-export PATH="$XDG_CONFIG_HOME/shell/bin:$PATH"
+if_login_export PATH="$XDG_CONFIG_HOME/shell/bin:$PATH"
 
 # Git scripts bin
-export PATH="$XDG_CONFIG_HOME/git/bin:$PATH"
+if_login_export PATH="$XDG_CONFIG_HOME/git/bin:$PATH"
 
 ######
 # Go #
 ######
-export GOPATH="$HOME/.local/share/go"
-export PATH="$GOPATH/bin:$PATH"
+if_login_export GOPATH="$HOME/.local/share/go"
+if_login_export PATH="$GOPATH/bin:$PATH"
 
 ########
 # Java #
@@ -183,7 +191,7 @@ export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
 export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
 export VOLTA_HOME="$XDG_DATA_HOME/volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+if_login_export PATH="$VOLTA_HOME/bin:$PATH"
 
 ##########
 # Python #
@@ -207,22 +215,22 @@ export RUFF_CACHE_DIR=$XDG_CACHE_HOME/ruff
 # Ruby #
 ########
 
-export GEM_HOME="$XDG_DATA_HOME/gem"
-export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem"
-export BUNDLE_USER_CONFIG="$XDG_CONFIG_HOME/bundle"
-export BUNDLE_USER_CACHE="$XDG_CACHE_HOME/bundle"
-export BUNDLE_USER_PLUGIN="$XDG_DATA_HOME/bundle"
+if_login_export GEM_HOME="$XDG_DATA_HOME/gem"
+if_login_export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem"
+if_login_export BUNDLE_USER_CONFIG="$XDG_CONFIG_HOME/bundle"
+if_login_export BUNDLE_USER_CACHE="$XDG_CACHE_HOME/bundle"
+if_login_export BUNDLE_USER_PLUGIN="$XDG_DATA_HOME/bundle"
 
 ########
 # Rust #
 ########
 
 # Rust: Rustup and Cargo XDG
-export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
-export CARGO_HOME="$XDG_DATA_HOME/cargo"
+if_login_export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+if_login_export CARGO_HOME="$XDG_DATA_HOME/cargo"
 
 # Rust: Cargo path
-export PATH="$CARGO_HOME/bin:$PATH"
+if_login_export PATH="$CARGO_HOME/bin:$PATH"
 
 #########
 # Other #
