@@ -2,13 +2,12 @@
 
 " Plug Preload
 
-let plug_path = g:vim_data_home . '/autoload/plug.vim'
+let s:plug_path = g:vim_data_home . '/autoload/plug.vim'
 
-if empty(glob(plug_path))
-	echo "plug path: " . plug_path
+if !filereadable(s:plug_path)
+	echom "plug path: " . s:plug_path
 	let plug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-	" silent execute '!curl -fLo ' . plug_path . ' --create-dirs ' . plug_url
-	execute '!curl -fLo ' . plug_path . ' --create-dirs ' . plug_url
+	execute '!curl -fLo ' . s:plug_path . ' --create-dirs ' . plug_url
 	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
