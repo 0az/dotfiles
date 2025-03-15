@@ -38,6 +38,27 @@ abort() {
 	exit 1
 }
 
+escape-array() {
+	for s in "$@"; do
+		echo "${s@Q}"
+	done
+}
+
+join-array() {
+	# printf '%s\n' "$@"
+	# echo ---
+	# echo $#
+	if test $# -le 1; then
+		return
+	fi
+
+	local first="${2-}"
+	local IFS="$1"
+	# echo "$IFS"
+	shift 2
+	printf %s "$first" "${@/#/ }"
+}
+
 set +e
 read -r -d '' awk_login_defs <<'EOF'
 /SYS_UID_MIN/ {
@@ -296,10 +317,13 @@ run-sections() {
 				section_cmds+=(section-lix)
 				;;
 			*)
-				echo "Invalid section! $section" >&2
-				return 1
+				invalid_sections+=("$section")
 				;;
 		esac
+
+		if test -n "${invalid_sections[0]+.}"; then
+			abort "Invalid section: $(join-array "$(escape-array "${invalid_sections[@]}")")"
+		fi
 	done
 
 	echo
