@@ -1,1 +1,1 @@
-source ~/.config/shell/profile
+../../../../shell/.config/shell/profile
