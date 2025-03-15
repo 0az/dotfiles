@@ -2,7 +2,8 @@
 
 " Plug Preload
 
-let s:plug_path = g:vim_data_home . '/autoload/plug.vim'
+let g:plug_home = g:common_data_home . '/plugged'
+let s:plug_path = g:common_data_home . '/autoload/plug.vim'
 
 if !filereadable(s:plug_path)
 	echom "plug path: " . s:plug_path

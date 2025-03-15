@@ -29,8 +29,10 @@ let s:use_xdg_config_home = strlen($XDG_CONFIG_HOME) > 0
 let s:use_xdg_data_home = strlen($XDG_DATA_HOME) > 0
 
 let s:cache_home = s:use_xdg_cache_home ? expand($XDG_CACHE_HOME) : expand($HOME . '/.cache')
+let s:data_home = s:use_xdg_data_home ? expand($XDG_DATA_HOME) : expand($HOME . '/.local/share')
 
 let g:common_cache_home = s:cache_home . '/vim'
+let g:common_data_home = s:data_home . '/vim'
 let g:vim_cache_home = s:cache_home . s:home_suffix
 
 if s:use_xdg_data_home

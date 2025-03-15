@@ -3,12 +3,12 @@
 " Plugins (Plug)
 
 if $VIM_SKIP_PLUGINS
-	call plug#begin(g:vim_data_home . '/plugged')
+	call plug#begin(g:plug_home)
 	call plug#end()
 	finish
 endif
 
-call plug#begin(g:vim_data_home . '/plugged')
+call plug#begin(g:plug_home)
 
 " Plug help:
 " | PlugInstall [name ...] [#threads]	| Install plugins
