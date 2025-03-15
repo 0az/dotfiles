@@ -6,17 +6,39 @@
 # Copyright (c) 2023 0az
 
 """
-Manage separate Git identities.
+Manage separate Git identities using the Git configuration system.
+
+You can open your user-global configuration file using:
+
+    git config edit --global
+
+To define an identity, add this block to your configuration:
+
+    [x-identity "sample"]
+    name = "ASAHI Lina"
+    email = "linaa@example.com"
+
+Then, you can select it using:
+
+    git identity select sample
+
+For more about the Git configuration system, see git-config(1).
 """
 
 import subprocess
 import sys
+import textwrap
 from os.path import basename
 
 from subprocess import DEVNULL
 
+_doc_summary, _doc_details = __doc__.split('\n\n', maxsplit=1)
+
 USAGE = '''
-Usage
+{summary}
+
+Usage:
+
     {prog} [ help | -h | --help ]
     {prog} select <identity>
     {prog} eject <identity>
@@ -24,22 +46,32 @@ Usage
     {prog} list
     {prog} show
 
-select
-    Set user configuration for the current repository using the given identity.
+Commands:
 
-reset
-    Reset the current repository's user configuration.
+    select
+        Set user configuration for the current repository using the
+        given identity.
 
-list
-    Print all identities.
+    reset
+        Reset the current repository's user configuration.
 
-show
-    Print the currently active identity.
+    list
+        Print all identities.
 
-eject
-    Print a shell invocation that sets the currently active identity.
+    show
+        Print the currently active identity.
+
+    eject
+        Print a shell invocation that manually sets the currently
+        active identity.
+
+Description:
+
+{details}
 '''.strip().format(
-    prog=basename(sys.argv[0])
+    prog=basename(sys.argv[0]),
+    summary=_doc_summary.strip(),
+    details=textwrap.indent(_doc_details.lstrip(), ' ' * 4),
 )
 
 
