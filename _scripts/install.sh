@@ -14,7 +14,7 @@ DRY_RUN="${DRY_RUN:-}"
 cleanup() {
 	if test -n "$skip_cleanup"; then
 		echo 'Skipping cleanup!'
-		return 0
+		return
 	fi
 
 	start-section Cleanup
@@ -124,8 +124,7 @@ awk-number-in-range() {
 	awk \
 		-v range_min="$1" \
 		-v range_max="$2" \
-		"$awk_number_in_range" \
-	|| return $?
+		"$awk_number_in_range"
 }
 
 awk-locate-free-range() {
@@ -133,8 +132,7 @@ awk-locate-free-range() {
 		-v range_size="$1" \
 		-v range_min="$2" \
 		-v range_max="$3" \
-		"$awk_locate_free_range" \
-	|| return $?
+		"$awk_locate_free_range"
 }
 
 configure-lix-nixbld() {
@@ -143,7 +141,7 @@ configure-lix-nixbld() {
 	# Find a safe range, or fall back to defaults
 	read -r sys_uid_min sys_uid_max sys_gid_min sys_gid_max < <(
 		awk "$awk_login_defs" /etc/login.defs
-	) || return 0
+	) || return
 
 	# shellcheck disable=SC2034
 	read -r lix_uid_min lix_uid_max < <(
@@ -151,7 +149,7 @@ configure-lix-nixbld() {
 		| awk-number-in-range "$sys_uid_min" "$sys_uid_max" \
 		| sort -nr \
 		| awk-locate-free-range 32 "$sys_uid_min" "$sys_uid_max"
-	) || return 0
+	) || return
 
 	lix_uid_base=$((lix_uid_min - 1))
 
