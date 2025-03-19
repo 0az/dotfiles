@@ -40,7 +40,6 @@ Plug 'airblade/vim-gitgutter'		" Add git diff info to gutter
 " vim-css-color breaks things
 " Plug 'ap/vim-css-color'			" ???
 Plug 'ctrlpvim/ctrlp.vim'		" Fuzzy finder
-Plug 'itchyny/lightline.vim'		" Lightline
 Plug 'junegunn/goyo.vim'		" Minimalist mode
 Plug 'junegunn/limelight.vim'		" Highlight current paragraph
 Plug 'tpope/vim-repeat'			" Repeat plugin maps
@@ -50,6 +49,8 @@ Plug 'junegunn/fzf', {
 	\ 'do': { -> fzf#install() }
 \ }
 Plug 'junegunn/fzf.vim'
+
+Plug 'itchyny/lightline.vim'		" Lightline
 
 " Color Scheme
 " Plug 'arcticicestudio/nord-vim'		" Nord Theme
@@ -105,7 +106,6 @@ VimPlug 'neoclide/coc.nvim', {
 	\ ]
 \ }
 					" Language Server Protocol
-Plug 'maximbaz/lightline-ale'		" ALE support for Lightline
 Plug 'hashivim/vim-terraform'		" Terraform/HCL
 Plug 'lervag/vimtex'			" Tex
 Plug 'tpope/vim-fugitive'		" Git porcelain
