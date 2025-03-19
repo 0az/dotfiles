@@ -42,4 +42,5 @@
 	useConfigOnly = true
 
 [alias]
+	reset-time-with-rebase = rebase -i -x 'git commit --amend --no-edit --date=now'
 	stash-untracked = !sh -c 'git stash --keep-index && git stash --keep-index --include-untracked && git stash pop stash@{1}'
