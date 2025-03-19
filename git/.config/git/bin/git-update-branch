@@ -1,0 +1,43 @@
+#! /usr/bin/env bash
+
+set -euo pipefail
+
+test -n "${DEBUG:-}" && set -x
+
+if test $# -lt 2; then
+	exit 1
+fi
+
+if ! existing_rev="$(git rev-parse "$1^{commit}" 2>/dev/null)"; then
+	existing_rev=''
+fi
+new_rev="$(git rev-parse "$2^{commit}" 2>/dev/null)"
+
+if test "$2" = "$new_rev"; then
+	new_rev_msg="$2"
+else
+	new_rev_msg="[$2]($new_rev)"
+fi
+
+target_ref="refs/heads/$1"
+
+cmd=(git update-ref --create-reflog)
+
+case $# in
+	2)
+		message="git-update-branch: Updating branch [$1] to $new_rev_msg"
+		if test -n "$existing_rev"; then
+			message="$message from [$existing_rev]"
+		fi
+		cmd+=(-m "$message" "$target_ref" "$2")
+		if git rev-parse --verify --end-of-options "$1^{commit}" 2>/dev/null; then
+			cmd+=("$existing_rev")
+		fi
+		;;
+	3)
+		cmd+=(-m "git-update-branch: Updating branch [$1] to $new_rev_msg from [$3]" "$target_ref" "$2" "$3")
+		;;
+esac
+
+echo "${cmd[@]@Q}"
+exec "${cmd[@]}"
