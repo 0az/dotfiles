@@ -17,6 +17,7 @@
 .venv
 .yarn
 .zsh_sessions
+/.cargo
 /.config/bat
 /.config/fd
 /.config/fish
