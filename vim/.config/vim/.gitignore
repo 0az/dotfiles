@@ -1,2 +1,4 @@
-/lua/before
-/lua/local
+/local/**/*.lua
+/local/**/*.vim
+/lua/before/**
+/lua/local/**
