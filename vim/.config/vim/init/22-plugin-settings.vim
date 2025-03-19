@@ -9,8 +9,44 @@ let g:qs_hi_priority = 2
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
+let s:lightline_default_active_left = [['mode', 'paste'], ['readonly', 'filename', 'modified']]
+let s:lightline_default_active_right = [['lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
+
 let g:lightline = {
-\}
+	\ 'active': {},
+	\ 'component_expand': {},
+	\ 'component_function': {},
+	\ 'component_type': {},
+\ }
+
+if g:has_nvim
+	let s:lightline_left = deepcopy(s:lightline_default_active_left)
+
+	if has_key(g:plugs, 'nvim-lightline-lsp')
+		let s:lightline_lsp = [
+			\ ['lsp_errors', 'lsp_warnings'],
+		\ ]
+		call extend(s:lightline_left, s:lightline_lsp)
+
+		let s:lightline_lsp_component_expand = {
+			\ 'lsp_errors': 'lightline#lsp#errors',
+			\ 'lsp_warnings': 'lightline#lsp#warnings',
+			\ 'lsp_status': 'lightline#lsp#status',
+		\ }
+		call extend(g:lightline.component_expand, s:lightline_lsp_component_expand)
+
+		let s:lightline_lsp_component_type = {
+			\ 'lsp_errors': 'left',
+			\ 'lsp_hints': 'hints',
+			\ 'lsp_info': 'info',
+			\ 'lsp_ok': 'left',
+			\ 'lsp_warnings': 'left',
+		\ }
+		call extend(g:lightline.component_type, s:lightline_lsp_component_type)
+	endif
+
+	let g:lightline.active.left = s:lightline_left
+endif
 
 if ! has('gui_running') || ! exists('g:colors_name')
 	" Wombat has a sensibly neutral look
@@ -24,6 +60,7 @@ augroup LightlineColorscheme
 	autocmd!
 	autocmd ColorScheme * call s:lightline_update()
 augroup END
+
 function! s:lightline_update()
 	if !exists('g:loaded_lightline')
 		return
