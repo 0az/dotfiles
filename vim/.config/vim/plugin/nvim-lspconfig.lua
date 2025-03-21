@@ -28,12 +28,15 @@ lspconfig.ruff.setup {
 	end,
 }
 
-lspconfig.rust_analyzer.setup {
-	-- Server-specific settings. See `:help lspconfig-setup`
-	settings = {
-		['rust-analyzer'] = {},
-	},
-}
+if not vim.g.loaded_rustaceanvim then
+	lspconfig.rust_analyzer.setup {
+		-- Server-specific settings. See `:help lspconfig-setup`
+		settings = {
+			['rust-analyzer'] = {},
+		},
+	}
+end
+
 lspconfig.sourcekit.setup {
 	filetypes = { 'swift', 'objective-c', 'objective-cpp' },
 }
