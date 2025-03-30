@@ -15,6 +15,7 @@ lspconfig.gopls.setup {
 				['constantValues'] = true,
 				['functionTypeParameters'] = true,
 			},
+			['staticcheck'] = true,
 		},
 	},
 	on_attach = function(client, bufnr)
