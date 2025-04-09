@@ -15,15 +15,16 @@ git for-each-ref refs/heads --format '%(objecttype) %(refname) %(objectname) %(u
 >"$refs_tmp"
 
 if ! grep -Eq '^commit ([^ ]+) ([0-9a-f]+) (refs/remotes/origin/[^ ]+) <$' "$refs_tmp"; then
-	echo 'No refs need fast-forwarding!'
-	echo ---
+	echo 'No refs need fast-forwarding!' >&2
+	echo --- >&2
 	git for-each-ref refs/heads --format '%(objecttype) %(refname:short) %(upstream:short) %(upstream:track)' \
 	| awk '$1 == "commit" && $3 != "" { for (i = 2; i <= NF; i++) printf("%s%s", $i, i == NF ? RS : OFS) }'
+	echo --- >&2
 	exit 0
 fi
 
 cut -d' ' -f 2,4 "$refs_tmp"
-echo ---
+echo --- >&2
 
 awk '
 BEGIN {
@@ -42,7 +43,7 @@ END {
 }
 ' "$refs_tmp" \
 | tee "$update_tmp"
-echo ---
+echo --- >&2
 
 git update-ref -m "git-auto-pull: $(date -Iminutes)" --create-reflog --stdin <"$update_tmp"
-echo ---
+echo --- >&2
