@@ -3,7 +3,9 @@
 set -euo pipefail
 
 remote="${1:-origin}"
-branch="${2:-mainline}"
+
+branch="${2:-"$(git symbolic-ref refs/remotes/"$remote"/HEAD)"}"
+branch="${branch#refs/remotes/"$remote"/}" # Strip prefix
 
 if test $# -gt 2; then
 	exit 1
