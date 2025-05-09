@@ -5,6 +5,7 @@ local lspconfig = require 'lspconfig'
 
 lspconfig.clangd.setup {}
 lspconfig.hls.setup {}
+lspconfig.nixd.setup {}
 lspconfig.pyright.setup {}
 
 lspconfig.gopls.setup {
