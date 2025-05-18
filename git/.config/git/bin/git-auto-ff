@@ -2,8 +2,9 @@
 
 set -euo pipefail
 
-refs_tmp="$(mktemp /tmp/git-auto-pull.XXXX)"
-update_tmp="$(mktemp /tmp/git-auto-pull.XXXX)"
+refs_tmp="$(mktemp /tmp/git-auto-ff.XXXX)"
+detach_head_tmp="$(mktemp /tmp/git-auto-ff.XXXX)"
+update_tmp="$(mktemp /tmp/git-auto-ff.XXXX)"
 
 cleanup() {
 	rm -f "$refs_tmp"
@@ -12,7 +13,7 @@ cleanup() {
 trap cleanup EXIT
 
 git for-each-ref refs/heads --format '%(objecttype) %(refname) %(objectname) %(upstream) %(upstream:trackshort)' \
->"$refs_tmp"
+| tee "$refs_tmp"
 
 if ! grep -Eq '^commit ([^ ]+) ([0-9a-f]+) (refs/remotes/origin/[^ ]+) <$' "$refs_tmp"; then
 	echo 'No refs need fast-forwarding!' >&2
@@ -26,10 +27,34 @@ fi
 cut -d' ' -f 2,4 "$refs_tmp"
 echo --- >&2
 
-awk '
+head="$(git symbolic-ref HEAD 2>/dev/null || true)"
+head_oid="$(git for-each-ref --include-root-refs --format='%(objectname)' HEAD)"
+
+message="git-auto-ff: $(date -Iseconds)"
+
+echo --- >&2
+
+if test -z "$head"; then
+	echo 'HEAD does not need fast-forwarding, skipping detach!'
+else
+	tee "$detach_head_tmp" <<EOF
+start
+option no-deref
+update HEAD $head_oid $head_oid
+prepare
+commit
+EOF
+
+	git update-ref -m "$message" --create-reflog --stdin <"$detach_head_tmp"
+fi
+
+echo --- >&2
+
+awk -v head="$head" -v head_oid="$head_oid" '
 BEGIN {
 	print "start"
 }
+
 NF == 5 \
 && /^commit/ \
 && $3 ~ /[0-9a-f]+/ \
@@ -37,6 +62,7 @@ NF == 5 \
 && $5 == "<" {
 	print "update", $2, $4, $3
 }
+
 END {
 	print "prepare"
 	print "commit"
@@ -45,5 +71,5 @@ END {
 | tee "$update_tmp"
 echo --- >&2
 
-git update-ref -m "git-auto-pull: $(date -Iminutes)" --create-reflog --stdin <"$update_tmp"
+git update-ref -m "$message" --create-reflog --stdin <"$update_tmp"
 echo --- >&2
