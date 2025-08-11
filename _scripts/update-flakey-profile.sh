@@ -9,3 +9,4 @@ flake="path:$root/nix/dot-config/flakey-profile"
 
 nix flake update nixpkgs --flake "$flake"
 nix run "$flake#profile.switch"
+nix-collect-garbage --delete-older-than "${PROFILE_RETENTION:-7d}"
