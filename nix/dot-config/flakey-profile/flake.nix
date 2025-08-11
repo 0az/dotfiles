@@ -46,17 +46,36 @@
             nixpkgs = toString nixpkgs;
           };
           paths =
+            let
+              splitString = (
+                pattern: string:
+                #
+                builtins.filter
+                  #
+                  (x: builtins.isString x)
+                  (builtins.split pattern string)
+              );
+              getDottedAttr = (
+                path: obj:
+                let
+                  segments = splitString "\\." path;
+                in
+                builtins.foldl'
+                  #
+                  (current: segment: builtins.getAttr segment current)
+                  obj
+                  segments
+              );
+            in
             builtins.filter
               #
               (pkg: (pkgs.lib.meta.availableOn pkgs.stdenv.hostPlatform pkg))
-              #
               (
-                builtins.map (pkg: builtins.getAttr pkg pkgs) (
+                builtins.map (pkg: getDottedAttr pkg pkgs) (
                   builtins.filter
                     #
-                    (x: (builtins.isString x) && (null == builtins.match "#.+|\s*" x))
-                    #
-                    (builtins.split "\n" (builtins.readFile ./profile.conf))
+                    (x: (null == builtins.match "#.+|\s*" x))
+                    (splitString "\n" (builtins.readFile ./profile.conf))
                 )
               );
         };
