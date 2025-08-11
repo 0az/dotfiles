@@ -19,10 +19,16 @@ default_packages=(
 	fish
 )
 
+package_exclusions=("${default_packages[@]}")
+
+if ! uname -a | grep -q Darwin; then
+	package_exclusions+=(darwin)
+fi
+
 mapfile -t other_packages < <(
 	find ~/dotfiles -mindepth 1 -maxdepth 1 -type d \
 	| sed "s@$HOME/dotfiles/@@; /[_.-]/d" \
-	| grep -vxF -f <(printf '%s\n' "${default_packages[@]}") \
+	| grep -v -ixF -f <(printf '%s\n' "${package_exclusions[@]}") \
 	| sort \
 )
 
