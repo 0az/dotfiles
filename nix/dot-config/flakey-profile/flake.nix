@@ -66,17 +66,37 @@
                   obj
                   segments
               );
+              pkgPathsFromConfFile = (
+                path:
+                builtins.filter
+                  #
+                  (x: (null == builtins.match "#.+|\s*" x))
+                  (splitString "\n" (builtins.readFile path))
+              );
+              pkgPathsFromConfFiles = (
+                paths:
+                #
+                pkgs.lib.lists.unique (pkgs.lib.lists.concatMap pkgPathsFromConfFile (builtins.filter builtins.pathExists paths))
+              );
+              pkgsFromPkgPaths = (
+                paths:
+                #
+                builtins.map (pkg: getDottedAttr pkg pkgs) paths
+              );
+              isPkgAvailableOnHostPlatform = (
+                #
+                pkg: (pkgs.lib.meta.availableOn pkgs.stdenv.hostPlatform pkg)
+              );
             in
             builtins.filter
               #
-              (pkg: (pkgs.lib.meta.availableOn pkgs.stdenv.hostPlatform pkg))
+              isPkgAvailableOnHostPlatform
               (
-                builtins.map (pkg: getDottedAttr pkg pkgs) (
-                  builtins.filter
-                    #
-                    (x: (null == builtins.match "#.+|\s*" x))
-                    (splitString "\n" (builtins.readFile ./profile.conf))
-                )
+                pkgsFromPkgPaths (pkgPathsFromConfFiles [
+                  #
+                  ./profile.default.conf
+                  ./profile.local.conf
+                ])
               );
         };
       }

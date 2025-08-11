@@ -1,0 +1,16 @@
+# vim: ft=conf:
+
+# Copy this file to ./profile.local.conf:
+#
+# 	cp ~/dotfiles/nix/dot-config/flakey-profile/profile.local.conf{.sample,}
+#
+# Then, add local packages to this file.
+
+# Example: nixpkgs.hello
+hello
+
+# Example: nixpkgs.cmake
+cmake
+
+# Example: nixpkgs.llvmPackages_20.clang-unwrapped
+llvmPackages_20.clang-unwrapped
