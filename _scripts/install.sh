@@ -38,11 +38,24 @@ abort() {
 	exit 1
 }
 
-escape-array() {
-	for s in "$@"; do
-		echo "${s@Q}"
-	done
-}
+case "$BASH_VERSION" in
+	1.*|2.*|3.*|4.0.*|4.1.*|4.2.*|4.3.*)
+		escape-array() {
+			# Supported at least since Bash v4.2
+			printf '%q' "${1:-}"
+			if test $# -gt 1; then
+				for s in "${@:2}"; do
+					printf ' %q' "$s"
+				done
+			fi
+			echo
+		}
+		;;
+	*)
+		escape-array() {
+			echo "${@@Q}"
+		}
+esac
 
 join-array() {
 	# printf '%s\n' "$@"
@@ -193,7 +206,7 @@ ensure-tmpfile() {
 request-confirmation() {
 	echo "Proposed command:"
 	echo
-	printf '\t%s\n' "${@@Q}"
+	printf '\t%s\n' "$(escape-array "$@")"
 	echo
 
 	if test -n "$DRY_RUN"; then
