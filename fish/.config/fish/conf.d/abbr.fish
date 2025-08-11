@@ -14,4 +14,5 @@ abbr -a gri 'git rebase -i'
 
 abbr -a gbl 'git branchless'
 abbr -a gbh 'git branchless help'
+abbr -a grw 'git branchless reword'
 abbr -a gsl 'git branchless smartlog'
