@@ -5,8 +5,15 @@ set -euo pipefail
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null 2>&1 && pwd || exit 1)"
 . "$root/_scripts/_common.sh"
 
+extra_args=()
+
+if test -n "${DEBUG:-}"; then
+	extra_args+=(--show-trace)
+	set -x
+fi
+
 flake="path:$root/nix/dot-config/flakey-profile"
 
-nix flake update nixpkgs --flake "$flake"
-nix run "$flake#profile.switch"
+nix flake update nixpkgs "${extra_args[@]}" --flake "$flake"
+nix run "${extra_args[@]}" "$flake#profile.switch"
 nix-collect-garbage --delete-older-than "${PROFILE_RETENTION:-7d}" --dry-run
