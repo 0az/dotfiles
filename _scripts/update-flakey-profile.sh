@@ -12,8 +12,14 @@ if test -n "${DEBUG:-}"; then
 	set -x
 fi
 
+extra_args+=(--no-use-registries)
+
 flake="path:$root/nix/dot-config/flakey-profile"
 
-nix flake update nixpkgs "${extra_args[@]}" --flake "$flake"
+if test -z "${SKIP_NIXPKGS_UPDATE:-}"; then
+	nix flake update nixpkgs "${extra_args[@]}" --flake "$flake"
+fi
+
 nix run "${extra_args[@]}" "$flake#profile.switch"
+
 nix-collect-garbage --delete-older-than "${PROFILE_RETENTION:-7d}" --dry-run
