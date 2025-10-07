@@ -1,32 +1,42 @@
 #! /usr/bin/env bash
 
+# Fast-forward all branches which correspond to an 'origin' branch of the same name
+
 set -euo pipefail
 
-refs_tmp="$(mktemp /tmp/git-auto-ff.XXXX)"
-detach_head_tmp="$(mktemp /tmp/git-auto-ff.XXXX)"
-update_tmp="$(mktemp /tmp/git-auto-ff.XXXX)"
+refs_tmp="$(mktemp /tmp/git-auto-ff.refs.XXXX)"
+detach_head_tmp="$(mktemp /tmp/git-auto-ff.detach.XXXX)"
+update_tmp="$(mktemp /tmp/git-auto-ff.update.XXXX)"
 
 cleanup() {
 	rm -f "$refs_tmp"
+	rm -f "$detach_head_tmp"
 	rm -f "$update_tmp"
 }
 trap cleanup EXIT
 
+# List all branches
 git for-each-ref refs/heads --format '%(objecttype) %(refname) %(objectname) %(upstream) %(upstream:trackshort)' \
-| tee "$refs_tmp"
+| tee "$refs_tmp" \
+>&2
 
 if ! grep -Eq '^commit ([^ ]+) ([0-9a-f]+) (refs/remotes/origin/[^ ]+) <$' "$refs_tmp"; then
 	echo 'No refs need fast-forwarding!' >&2
 	echo --- >&2
 	git for-each-ref refs/heads --format '%(objecttype) %(refname:short) %(upstream:short) %(upstream:track)' \
-	| awk '$1 == "commit" && $3 != "" { for (i = 2; i <= NF; i++) printf("%s%s", $i, i == NF ? RS : OFS) }'
+	| awk '$1 == "commit" && $3 != "" { for (i = 2; i <= NF; i++) printf("%s%s", $i, i == NF ? RS : OFS) }' \
+	>&2
 	echo --- >&2
 	exit 0
 fi
 
-cut -d' ' -f 2,4 "$refs_tmp"
+cut -d' ' -f 2,4 "$refs_tmp" >&2
 echo --- >&2
 
+# Check if HEAD would be affected by this fast-forward.
+#
+# Running update-ref on the current HEAD ref is roughly equivalent to a
+# `git reset --soft`. That isn't what we want, so we detach HEAD first.
 head="$(git symbolic-ref HEAD 2>/dev/null || true)"
 head_oid="$(git for-each-ref --include-root-refs --format='%(objectname)' HEAD)"
 
@@ -37,7 +47,7 @@ echo --- >&2
 if test -z "$head"; then
 	echo 'HEAD does not need fast-forwarding, skipping detach!'
 else
-	tee "$detach_head_tmp" <<EOF
+	tee "$detach_head_tmp" >&2 <<EOF
 start
 option no-deref
 update HEAD $head_oid $head_oid
@@ -50,7 +60,7 @@ fi
 
 echo --- >&2
 
-awk -v head="$head" -v head_oid="$head_oid" '
+awk '
 BEGIN {
 	print "start"
 }
@@ -68,7 +78,8 @@ END {
 	print "commit"
 }
 ' "$refs_tmp" \
-| tee "$update_tmp"
+| tee "$update_tmp" \
+>&2
 echo --- >&2
 
 git update-ref -m "$message" --create-reflog --stdin <"$update_tmp"
