@@ -190,8 +190,6 @@ export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
 
 export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
-export VOLTA_HOME="$XDG_DATA_HOME/volta"
-if_login_export PATH="$VOLTA_HOME/bin:$PATH"
 
 ##########
 # Python #
