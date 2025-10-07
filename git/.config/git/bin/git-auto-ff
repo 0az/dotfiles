@@ -38,14 +38,15 @@ echo --- >&2
 # Running update-ref on the current HEAD ref is roughly equivalent to a
 # `git reset --soft`. That isn't what we want, so we detach HEAD first.
 head="$(git symbolic-ref HEAD 2>/dev/null || true)"
-head_oid="$(git for-each-ref --include-root-refs --format='%(objectname)' HEAD)"
+head_upstream="$(git for-each-ref --include-root-refs --format='%(upstream)' "$head")"
+head_oid="$(git for-each-ref --include-root-refs --format='%(objectname)' "$head")"
 
 message="git-auto-ff: $(date -Iseconds)"
 
 echo --- >&2
 
-if test -z "$head"; then
-	echo 'HEAD does not need fast-forwarding, skipping detach!'
+if test -z "$head" || ! grep -Eq "^commit $head $head_oid $head_upstream <$" "$refs_tmp"; then
+	echo 'HEAD does not need fast-forwarding, skipping detach!' >&2
 else
 	tee "$detach_head_tmp" >&2 <<EOF
 start
