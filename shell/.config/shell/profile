@@ -285,8 +285,6 @@ command_ fzf && export \
 	FZF_TMUX_HEIGHT='~90%' \
 ;
 
-if_fish_eval 'sk_key_bindings || fzf_key_bindings || true'
-
 unset_ finder_common
 unset_ finder_trim
 unset_ finder_ctrl_t_command
