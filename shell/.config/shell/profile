@@ -230,6 +230,9 @@ if_login_export CARGO_HOME="$XDG_DATA_HOME/cargo"
 # Rust: Cargo path
 if_login_export PATH="$CARGO_HOME/bin:$PATH"
 
+# Rust: Bacon global preferences
+if_login_export BACON_PREFS="$XDG_CONFIG_HOME/org.dystroy.bacon/prefs.toml"
+
 #########
 # Other #
 #########
