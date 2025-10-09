@@ -296,9 +296,10 @@ section-lix() {
 
 	lix_args+=(
 		--no-modify-profile
-		--enable-flakes
 		"${lix_nixbld_opts[@]+"${lix_nixbld_opts[@]}"}"
 		--extra-conf 'use-xdg-base-directories = true'
+		# HACK: lix-installer's --enable-flakes actually turns off flakes?
+		--extra-conf 'experimental-features = nix-command flakes'
 	)
 
 	if test -n "$is_linux"; then
