@@ -11,8 +11,10 @@ abbr -a ptpy ptpython
 abbr -a gco 'git checkout'
 abbr -a gfi 'git commit --fixup HEAD'
 abbr -a gri 'git rebase -i'
+abbr -a gst 'git status'
 
 abbr -a gbl 'git branchless'
 abbr -a gbh 'git branchless help'
 abbr -a grw 'git branchless reword'
 abbr -a gsl 'git branchless smartlog'
+abbr -a grc 'git branchless record'
