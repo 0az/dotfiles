@@ -1,0 +1,7 @@
+!fish/.config/fish/*/**
+
+!git/.config/git/x-identity.conf
+
+!ssh/.ssh/**
+
+!vim/.config/vim/local/*
