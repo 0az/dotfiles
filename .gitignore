@@ -5,6 +5,7 @@
 ####
 # Guard against generated completion scripts
 fish/.config/fish/completions/
+fish/.config/fish/conf.d/*.local.fish
 fish/.config/fish/fish_variables
 fish/.config/fish/fishd.*
 
