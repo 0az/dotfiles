@@ -49,7 +49,8 @@ Plug 'junegunn/fzf', {
 Plug 'junegunn/fzf.vim'
 
 Plug 'itchyny/lightline.vim'		" Lightline
-NvimPlug 'josa42/nvim-lightline-lsp'	" Neovim LSP support for Lightline
+" NvimPlug 'josa42/nvim-lightline-lsp'	" Neovim LSP support for Lightline
+NvimPlug '0az/nvim-lightline-lsp'	" Neovim LSP support for Lightline
 
 " Color Scheme
 " Plug 'arcticicestudio/nord-vim'		" Nord Theme
