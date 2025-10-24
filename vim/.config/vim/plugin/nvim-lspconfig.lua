@@ -3,10 +3,12 @@
 -- Setup language servers.
 local lspconfig = require 'lspconfig'
 
-lspconfig.clangd.setup {}
-lspconfig.hls.setup {}
-lspconfig.nixd.setup {}
-lspconfig.pyright.setup {}
+vim.lsp.enable {
+	'clangd',
+	'hls',
+	'nixd',
+	'pyright',
+}
 
 lspconfig.gopls.setup {
 	settings = {
