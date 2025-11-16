@@ -1,7 +1,10 @@
 -- https://github.com/neovim/nvim-lspconfig/blob/5f7a8311dd6e67de74c12fa9ac2f1aa75f72b19e/README.md
 
 -- Setup language servers.
-local lspconfig = require 'lspconfig'
+
+if vim.env.VIM_LSP_DEBUG and vim.env.VIM_LSP_DEBUG ~= '' then
+	vim.lsp.set_log_level 'debug'
+end
 
 vim.lsp.enable {
 	'clangd',
@@ -10,42 +13,28 @@ vim.lsp.enable {
 	'pyright',
 }
 
-lspconfig.gopls.setup {
-	settings = {
-		gopls = {
-			['ui.inlayhint.hints'] = {
-				['assignVariableTypes'] = true,
-				['constantValues'] = true,
-				['functionTypeParameters'] = true,
-			},
-			['staticcheck'] = true,
-		},
-	},
-	on_attach = function(client, bufnr)
-		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-	end,
-}
-
-lspconfig.ruff.setup {
+vim.lsp.config('ruff', {
 	on_attach = function(client, bufnr)
 		client.server_capabilities.hoverProvider = false
 	end,
-}
+})
+vim.lsp.enable 'ruff'
 
 if not vim.g.loaded_rustaceanvim then
-	lspconfig.rust_analyzer.setup {
+	vim.lsp.config('rust_analyzer', {
 		-- Server-specific settings. See `:help lspconfig-setup`
 		settings = {
 			['rust-analyzer'] = {},
 		},
-	}
+	})
 end
 
-lspconfig.sourcekit.setup {
+vim.lsp.config('sourcekit', {
 	filetypes = { 'swift', 'objective-c', 'objective-cpp' },
-}
+})
+vim.lsp.enable 'sourcekit'
 
-lspconfig.ts_ls.setup {
+vim.lsp.config('ts_ls', {
 	on_attach = function()
 		vim.api.nvim_create_user_command('TsOrganizeImports', function()
 			vim.lsp.buf.execute_command {
@@ -55,4 +44,5 @@ lspconfig.ts_ls.setup {
 			}
 		end, {})
 	end,
-}
+})
+vim.lsp.enable 'ts_ls'
