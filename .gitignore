@@ -38,6 +38,12 @@ shell/.config/*cli/history
 shell/.config/*cli/log
 
 ########
+# Syncthing
+####
+.stfolder
+.stversions
+
+########
 # Vim
 ####
 vim/.config/nvim/*
