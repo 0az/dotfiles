@@ -2,7 +2,7 @@ local M = {}
 
 function M.setup()
 	vim.g.rustaceanvim = function()
-		local rust_hooks = require 'local.ftplugin-hooks.rust'
+		local rust_hooks = try_require 'local.ftplugin-hooks.rust' or {}
 
 		local config = {
 			server = {},

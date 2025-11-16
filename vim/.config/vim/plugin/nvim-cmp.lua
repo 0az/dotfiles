@@ -2,8 +2,37 @@
 -- SPDX-License-Identifier: MIT
 
 -- Set up nvim-cmp.
-local cmp = require 'cmp'
-local cmp_ultisnips_mappings = require 'cmp_nvim_ultisnips.mappings'
+local cmp = try_require 'cmp'
+if not cmp then
+	return
+end
+
+local cmp_ultisnips_mappings = try_require 'cmp_nvim_ultisnips.mappings'
+
+local cmp_mapping = {
+	['<C-b>'] = cmp.mapping.scroll_docs(-4),
+	['<C-f>'] = cmp.mapping.scroll_docs(4),
+	['<C-Space>'] = cmp.mapping.complete(),
+	['<C-e>'] = cmp.mapping.abort(),
+	['<CR>'] = cmp.mapping.confirm { select = true }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+}
+
+if cmp_nvim_ultisnips then
+	vim.tbl_extend(cmp_mapping, {
+		['<Tab>'] = cmp.mapping(function(fallback)
+			cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
+		end, {
+			'i',
+			's', --[[ "c" (to enable the mapping in command mode) ]]
+		}),
+		['<S-Tab>'] = cmp.mapping(function(fallback)
+			cmp_ultisnips_mappings.jump_backwards(fallback)
+		end, {
+			'i',
+			's', --[[ "c" (to enable the mapping in command mode) ]]
+		}),
+	})
+end
 
 cmp.setup {
 	snippet = {
@@ -19,25 +48,7 @@ cmp.setup {
 		-- completion = cmp.config.window.bordered(),
 		-- documentation = cmp.config.window.bordered(),
 	},
-	mapping = cmp.mapping.preset.insert {
-		['<C-b>'] = cmp.mapping.scroll_docs(-4),
-		['<C-f>'] = cmp.mapping.scroll_docs(4),
-		['<C-Space>'] = cmp.mapping.complete(),
-		['<C-e>'] = cmp.mapping.abort(),
-		['<CR>'] = cmp.mapping.confirm { select = true }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-		['<Tab>'] = cmp.mapping(function(fallback)
-			cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
-		end, {
-			'i',
-			's', --[[ "c" (to enable the mapping in command mode) ]]
-		}),
-		['<S-Tab>'] = cmp.mapping(function(fallback)
-			cmp_ultisnips_mappings.jump_backwards(fallback)
-		end, {
-			'i',
-			's', --[[ "c" (to enable the mapping in command mode) ]]
-		}),
-	},
+	mapping = cmp.mapping.preset.insert(cmp_mapping),
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' },
 		-- { name = 'vsnip' }, -- For vsnip users.
@@ -71,7 +82,11 @@ cmp.setup.cmdline(':', {
 })
 
 -- Set up lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+local cmp_nvim_lsp = try_require 'cmp_nvim_lsp'
+if cmp_nvim_lsp then
+	capabilities = cmp_nvim_lsp.default_capabilities()
+end
+
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 -- require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
 --   capabilities = capabilities
