@@ -258,13 +258,25 @@ start-section() {
 	printf '\n# %s\n\n' "$name"
 }
 
-section-dotfiles() {
+section-dotfiles-clone() {
 	start-section 'Clone dotfiles repository'
 
 	run-command git clone https://github.com/0az/dotfiles.git ~/dotfiles
 }
 
-section-homebrew() {
+section-dotfiles-link() {
+	start-section 'Link dotfiles using stow'
+
+	run-command ~/dotfiles/_scripts/update-links.sh
+}
+
+section-dotfiles-configure() {
+	start-section 'Configure dotfiles before linking'
+
+	run-command ~/dotfiles/_scripts/setup-fish.sh
+}
+
+section-homebrew-install() {
 	start-section 'Install Homebrew'
 	run-curl-bash https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
 }
@@ -335,11 +347,17 @@ run-sections() {
 
 	for section in "$@"; do
 		case "$section" in
-			dotfiles)
-				section_cmds+=(section-dotfiles)
+			dotfiles-clone)
+				section_cmds+=(section-dotfiles-clone)
 				;;
-			homebrew)
-				section_cmds+=(section-homebrew)
+			dotfiles-configure)
+				section_cmds+=(section-dotfiles-configure)
+				;;
+			dotfiles-link)
+				section_cmds+=(section-dotfiles-link)
+				;;
+			homebrew-install)
+				section_cmds+=(section-homebrew-install)
 				;;
 			homebrew-packages)
 				section_cmds+=(section-homebrew-packages)
@@ -382,29 +400,52 @@ check-section() {
 start-section 'Plan installation'
 
 if test $# -eq 0 -o $# -eq 1 -a "${1:-}" = all; then
+	# Primary conditions
+
 	no_dotfiles="${SKIP_DOTFILES:-}"
-	if test -d "$HOME/dotfiles"; then
-		no_dotfiles=1
+
+	no_dotfiles_clone="${SKIP_DOTFILES_CLONE:-}"
+	if test -n "$no_dotfiles" || test -d "$HOME/dotfiles"; then
+		no_dotfiles_clone=1
 	fi
 
+	no_dotfiles_configure="${SKIP_DOTFILES_CONFIGURE:-"$no_dotfiles"}"
+	no_dotfiles_link="${SKIP_DOTFILES_LINK:-"$no_dotfiles"}"
+
 	no_homebrew="${SKIP_HOMEBREW:-}"
-	if test "$(uname)" != Darwin || command -v brew >/dev/null; then
-		no_homebrew=1
+
+	no_homebrew_install="${SKIP_HOMEBREW_INSTALL:-}"
+	if test -n "$no_homebrew" || test "$(uname)" != Darwin || command -v brew >/dev/null; then
+		no_homebrew_install=1
 	fi
 
 	# Homebrew package installation is idempotent enough
-	no_homebrew_packages="${SKIP_HOMEBREW_PACKAGES:-${no_homebrew}}"
+	no_homebrew_packages="${SKIP_HOMEBREW_PACKAGES:-}"
+	if test -n "$no_homebrew" || ! command -v brew >/dev/null; then
+		no_homebrew_packages=1
+	fi
 
 	no_lix="${SKIP_LIX:-}"
 	if test -x /nix/nix-installer -a -r /nix/receipt.json; then
-		echo 'Found (partial?) Lix install at /nix/nix-installer and/or /nix/receipt.json...'
+		echo 'Skipping section lix: Found (partial?) Lix install at /nix/nix-installer and/or /nix/receipt.json...'
 		no_lix=1
 	fi
 
-	check-section dotfiles "$no_dotfiles"
-	check-section homebrew "$no_homebrew"
+	# Secondary conditions
+
+	# Skip dotfiles-link if: stow not found in PATH
+	if ! command -v stow >/dev/null; then
+		echo 'Skipping section dotfiles-link: the GNU stow command is not installed'
+		no_dotfiles_link=1
+	fi
+
+	# Build section list in execution order
+	check-section dotfiles-clone "$no_dotfiles_clone"
+	check-section dotfiles-configure "$no_dotfiles_configure"
+	check-section homebrew-install "$no_homebrew_install"
 	check-section homebrew-packages "$no_homebrew_packages"
 	check-section lix "$no_lix"
+	check-section dotfiles-link "$no_dotfiles_link"
 else
 	sections=("$@")
 fi
