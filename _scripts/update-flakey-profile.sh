@@ -22,4 +22,12 @@ fi
 
 nix run "${extra_args[@]}" "$flake#profile.switch"
 
-nix-collect-garbage --delete-older-than "${PROFILE_RETENTION:-7d}" --dry-run
+gc_cmd=(nix-collect-garbage --delete-older-than "${PROFILE_RETENTION:-7d}")
+echo "${gc_cmd[@]}" --dry-run --quiet
+echo
+"${gc_cmd[@]}" --dry-run --quiet
+echo
+echo 'Run the following command to nix-collect-garbage previous profiles:'
+echo
+echo "    ${gc_cmd[*]}"
+echo
