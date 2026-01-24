@@ -1,5 +1,7 @@
 # vim: set ft=sh:
 
+# shellcheck shell=sh
+
 #######
 # TOC #
 #######
@@ -69,12 +71,6 @@ function if_zsh_eval; return 1; end
 
 function if_posixish; return 1; end
 function if_posixish_eval; return 1; end
-
-if status is-login
-	function if_login_export; export $argv; end
-else
-	function if_login_export; end
-end
 '
 test -n "$ZSH_VERSION" && eval '
 alias if_bash=false
@@ -86,12 +82,30 @@ alias if_fish_eval=false
 alias if_zsh_eval=eval
 
 alias if_posixish=true
-
-alias if_login_export=export
 '
 
 if_fish || eval 'test -z "${0##*dash}" && alias if_posixish=true'
 if_posixish && eval 'alias if_posixish_eval=eval'
+
+# shellcheck disable=SC2016
+if_fish_eval '
+if status is-login
+	function if_login_export; export $argv; end
+else
+	function if_login_export; end
+end
+'
+
+if_posixish_eval '
+case $- in
+  *l*)
+	  alias if_login_export=export
+	  ;;
+  *)
+	  alias if_login_export=true
+	  ;;
+esac
+'
 
 # Activate zsh emulation
 if_zsh && emulate -R bash
