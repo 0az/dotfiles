@@ -1,6 +1,26 @@
-snippet p "Println!" b
+snippet p "println!" b
 println!("$1"$2);
 $0
+endsnippet
+
+snippet ep "eprintln!" b
+eprintln!("$1"$2);
+$0
+endsnippet
+
+snippet "mod tests" "Unit tests - module" b
+#[cfg(test)]
+mod tests {
+    use super::*;
+    $0
+}
+endsnippet
+
+snippet test "Unit test" b
+#[test]
+fn $1() {
+    $0
+}
 endsnippet
 
 snippet ec "Extern Crate" b
