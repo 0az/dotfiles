@@ -23,6 +23,10 @@ if g:has_nvim
 	silent! unmap Y
 	noremap <ScrollWheelUp> <Up>
 	noremap <ScrollWheelDown> <Down>
+	noremap <C-S-l> :ClearDiagnostics<CR>
+	inoremap <C-S-l> :ClearDiagnostics<CR>
+	noremap <M-l> :ClearDiagnostics<CR>
+	inoremap <M-l> :ClearDiagnostics<CR>
 endif
 
 if exists('loaded_ale') || exists('plugs') && has_key(g:plugs, 'ale')
