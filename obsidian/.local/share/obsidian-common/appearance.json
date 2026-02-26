@@ -1,7 +1,7 @@
 {
   "cssTheme": "Obsidian Nord Enhanced",
   "theme": "obsidian",
-  "monospaceFontFamily": "DejaVu Sans Mono",
+  "monospaceFontFamily": "Comic Code,DejaVu Sans Mono",
   "baseFontSize": 18,
   "baseFontSizeAction": false,
   "textFontFamily": "Fira Sans,SF Mono",
