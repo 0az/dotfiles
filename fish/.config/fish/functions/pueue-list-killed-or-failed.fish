@@ -9,10 +9,10 @@ function pueue-list-killed-or-failed --argument group
 			'"$group_clause"'
 			and (.status | type) == "object"
 			and (
-				.status.Done == "Killed"
-				or .status.Done == "DependencyFailed"
-				or (.status.Done | type) == "object"
-					and .status.Done.Failed
+				.status.Done.result == "Killed"
+				or .status.Done.result == "DependencyFailed"
+				or (.status.Done.result | type) == "object"
+					and .status.Done.result.Failed
 			)
 		).id
 	'

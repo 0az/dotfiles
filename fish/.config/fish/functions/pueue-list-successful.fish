@@ -7,8 +7,7 @@ function pueue-list-successful --argument group
 		.tasks[]
 		| select(
 			'"$group_clause"'
-			and (.status | type) == "object"
-			and .status.Done == "Success"
+			and .status.Done.result == "Success"
 		).id
 	'
 	pueue status --json \
