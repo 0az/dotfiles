@@ -105,3 +105,11 @@ snippet rnie "Snippet: Raise NotImplementedError" b
 raise NotImplementedError
 $0
 endsnippet
+
+snippet ifmain "Snippet: if __name == '__main__':" b
+def main():
+	$0
+
+if __name__ == '__main__':
+	main()
+endsnippet
