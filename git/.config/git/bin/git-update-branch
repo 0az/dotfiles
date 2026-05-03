@@ -1,5 +1,21 @@
 #! /usr/bin/env bash
 
+# Update one $branch to target another branch or arbitrary git ref.
+#
+# If the target is HEAD and HEAD is detached, this script additionally runs
+# `git checkout $branch`.
+#
+# To test this script, run the following on a less-important repository
+# (assuming main's already checked out):
+#
+#     git checkout main
+#     git update-branch tmp-test-git-update-branch HEAD~1
+#     git checkout "$(git rev-parse --verify HEAD)"
+#     git branchless smartlog
+#     git update-branch tmp-test-git-update-branch HEAD
+#     git branchless smartlog
+#     git checkout main
+
 set -euo pipefail
 
 test -n "${DEBUG:-}" && set -x
@@ -17,6 +33,16 @@ if test "$2" = "$new_rev"; then
 	new_rev_msg="$2"
 else
 	new_rev_msg="[$2]($new_rev)"
+fi
+
+targets_head=
+if test "$new_rev" = "$(git rev-parse --verify 'HEAD^{commit}')"; then
+	targets_head=1
+fi
+
+on_detached_head=
+if ! git symbolic-ref -q HEAD >/dev/null; then
+	on_detached_head=1
 fi
 
 target_ref="refs/heads/$1"
@@ -40,4 +66,8 @@ case $# in
 esac
 
 echo "${cmd[@]@Q}"
-exec "${cmd[@]}"
+"${cmd[@]}"
+
+if test -n "$targets_head" && test -n "$on_detached_head"; then
+	git checkout "$1"
+fi
