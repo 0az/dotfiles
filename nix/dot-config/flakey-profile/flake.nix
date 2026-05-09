@@ -70,7 +70,7 @@
                 path:
                 builtins.filter
                   #
-                  (x: (null == builtins.match "#.+|\s*" x))
+                  (x: (null == builtins.match "#.*|\s*" x))
                   (splitString "\n" (builtins.readFile path))
               );
               pkgPathsFromConfFiles = (
@@ -81,7 +81,7 @@
               pkgsFromPkgPaths = (
                 paths:
                 #
-                builtins.map (pkg: getDottedAttr pkg pkgs) paths
+                map (pkg: getDottedAttr pkg pkgs) paths
               );
               isPkgAvailableOnHostPlatform = (
                 #
