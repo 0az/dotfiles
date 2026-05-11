@@ -11,6 +11,7 @@ vim.lsp.enable {
 	'hls',
 	'nixd',
 	'pyright',
+	'ty',
 }
 
 vim.lsp.config('ruff', {
