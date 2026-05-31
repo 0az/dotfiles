@@ -54,10 +54,10 @@ if g:has_nvim
 	let s:python_host_prog = s:nvim_python_venv . '/bin/python3'
 	if executable(s:python_host_prog)
 		let g:python3_host_prog = s:python_host_prog
+	end
+	if !has('python3')
+		echoe "vimrc: Could not locate python3 at " . s:python_host_prog . "\n" . "Run the following to set this up:" . "\n" . "\n\t" . "python3 -m venv --clear --upgrade-deps $XDG_DATA_HOME/nvim/venv" . "\n\t" . "$XDG_DATA_HOME/nvim/venv/bin/pip install -U pynvim" . "\n"
 	endif
-	" Run the following to set this up:
-	"   python3 -m venv $XDG_DATA_HOME/nvim/venv
-	"   $XDG_DATA_HOME/nvim/venv/bin/pip install -U pynvim
 endif
 
 " As suggested by Arch Wiki, but with some changes
