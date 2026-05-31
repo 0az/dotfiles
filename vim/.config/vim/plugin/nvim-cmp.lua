@@ -7,6 +7,8 @@ if not cmp then
 	return
 end
 
+local has_ultisnips = vim.g.did_plugin_ultisnips == 1
+
 local cmp_ultisnips_mappings = try_require 'cmp_nvim_ultisnips.mappings'
 
 local cmp_mapping = {
@@ -17,8 +19,8 @@ local cmp_mapping = {
 	['<CR>'] = cmp.mapping.confirm { select = true }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 }
 
-if cmp_nvim_ultisnips then
-	vim.tbl_extend(cmp_mapping, {
+if has_ultisnips and cmp_ultisnips_mappings then
+	cmp_mapping = vim.tbl_extend('force', cmp_mapping, {
 		['<Tab>'] = cmp.mapping(function(fallback)
 			cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
 		end, {
@@ -34,6 +36,19 @@ if cmp_nvim_ultisnips then
 	})
 end
 
+local cmp_sources_default_group = {
+	{ name = 'nvim_lsp' },
+	-- { name = 'vsnip' }, -- For vsnip users.
+	-- { name = 'luasnip' }, -- For luasnip users.
+	-- { name = 'ultisnips' }, -- For ultisnips users.
+	-- { name = 'snippy' }, -- For snippy users.
+}
+if has_ultisnips then
+	table.insert(cmp_sources_default_group, { name = 'ultisnips' })
+end
+
+local cmp_sources = cmp.config.sources(cmp_sources_default_group, { { name = 'buffer' } })
+
 cmp.setup {
 	snippet = {
 		-- REQUIRED - you must specify a snippet engine
@@ -41,7 +56,12 @@ cmp.setup {
 			-- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
 			-- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
 			-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-			vim.fn['UltiSnips#Anon'](args.body) -- For `ultisnips` users.
+
+			if has_ultisnips then
+				vim.fn['UltiSnips#Anon'](args.body) -- For `ultisnips` users.
+			else
+				vim.snippet.expand(args.body)
+			end
 		end,
 	},
 	window = {
@@ -49,19 +69,12 @@ cmp.setup {
 		-- documentation = cmp.config.window.bordered(),
 	},
 	mapping = cmp.mapping.preset.insert(cmp_mapping),
-	sources = cmp.config.sources({
-		{ name = 'nvim_lsp' },
-		-- { name = 'vsnip' }, -- For vsnip users.
-		-- { name = 'luasnip' }, -- For luasnip users.
-		{ name = 'ultisnips' }, -- For ultisnips users.
-		-- { name = 'snippy' }, -- For snippy users.
-	}, { { name = 'buffer' } }),
+	sources = cmp_sources,
 }
 
 -- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {
 	sources = cmp.config.sources(
-		-- You can specify the `cmp_git` source if you were installed it.
 		{ { name = 'cmp_git' } },
 		{ { name = 'buffer' } }
 	),
