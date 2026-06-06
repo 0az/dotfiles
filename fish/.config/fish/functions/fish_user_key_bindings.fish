@@ -1,8 +1,8 @@
 # vim: set noexpandtab:
 function fish_user_key_bindings
-	if functions -q fzf_key_bindings
+	if command -q fzf && functions -q fzf_key_bindings
 		fzf_key_bindings
-	else if functions -q sk_key_bindings
+	else if command -q sk && functions -q sk_key_bindings
 		sk_key_bindings
 	end
 
