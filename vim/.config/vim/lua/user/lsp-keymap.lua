@@ -4,6 +4,7 @@ function M.apply(bufnr)
 	-- Buffer local mappings.
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	local opts = { buffer = bufnr }
+
 	vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
 	vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
 	vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
@@ -27,6 +28,10 @@ function M.apply(bufnr)
 	vim.keymap.set('n', '<space>f', function()
 		vim.lsp.buf.format { async = false }
 	end, opts)
+
+	vim.keymap.set('n', '<leader>i', function()
+		vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+	end, { buf = bufnr })
 end
 
 return M
