@@ -3,7 +3,7 @@
 -- Setup language servers.
 
 if vim.env.VIM_LSP_DEBUG and vim.env.VIM_LSP_DEBUG ~= '' then
-	vim.lsp.set_log_level 'debug'
+	vim.lsp.log.set_level 'debug'
 end
 
 vim.lsp.enable {
@@ -30,7 +30,7 @@ vim.lsp.config('gopls', {
 vim.lsp.enable 'gopls'
 
 vim.lsp.config('ruff', {
-	on_attach = function(client, bufnr)
+	on_attach = function(client)
 		client.server_capabilities.hoverProvider = false
 	end,
 })
