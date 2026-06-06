@@ -1,5 +1,7 @@
 [
+  "dataview",
+  "markdown-table-editor",
   "obsidian-tasks-plugin",
-  "table-editor-obsidian",
+  "quickadd",
   "tag-wrangler"
 ]
