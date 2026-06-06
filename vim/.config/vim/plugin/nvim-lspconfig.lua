@@ -49,6 +49,8 @@ vim.lsp.config('sourcekit', {
 })
 vim.lsp.enable 'sourcekit'
 
+vim.lsp.enable 'tofu_ls'
+
 vim.lsp.config('ts_ls', {
 	on_attach = function()
 		local client = assert(vim.lsp.get_clients({ name = 'ts_ls' })[1])
