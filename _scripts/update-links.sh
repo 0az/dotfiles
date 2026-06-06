@@ -18,6 +18,13 @@ default_packages=(
 	ssh
 	fish
 )
+graphical_packages=(
+	darwin
+	ghostty
+	kitty
+	mpv
+	obsidian
+)
 
 package_exclusions=("${default_packages[@]}")
 
@@ -28,6 +35,7 @@ fi
 mapfile -t other_packages < <(
 	find ~/dotfiles -mindepth 1 -maxdepth 1 -type d \
 	| sed "s@$HOME/dotfiles/@@; /[_.-]/d" \
+	| grep -vxF -f <(printf '%s\n' "${default_packages[@]}" "${graphical_packages[@]}") \
 	| grep -v -ixF -f <(printf '%s\n' "${package_exclusions[@]}") \
 	| sort \
 )
@@ -54,8 +62,12 @@ echo
 
 case "$command" in
 	""|install)
+		run-command mkdir -p ~/.cache ~/.config ~/.local/share
 		run-command stow -S "${opts[@]}" "${default_packages[@]}"
 		run-command stow -S "${opts[@]}" "${other_packages[@]}"
+		if test "$(uname)" = Darwin; then
+			run-command stow -S "${opts[@]}" "${graphical_packages[@]}"
+		fi
 		;;
 
 	uninstall)
