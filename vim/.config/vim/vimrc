@@ -81,7 +81,12 @@ endif
 let s:runtimepath = [g:vim_config_home, g:vim_data_home] + split(&runtimepath, ',') + [g:vim_config_home . '/after']
 let &runtimepath = join(s:runtimepath, ',')
 
+if g:has_nvim
+	source <sfile>:h/init.before.lua
+endif
+
 " Plugin Preload Settings
+source <sfile>:h/init/00-prelude.vim
 source <sfile>:h/init/01-plug-preload.vim
 source <sfile>:h/init/02-plugin-preload.vim
 
