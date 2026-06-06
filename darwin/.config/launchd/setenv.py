@@ -32,7 +32,7 @@ if syslog_sock:
 def validate_name(name):
     if not name:
         return False
-    if not name[0] in IDENTIFIER_START:
+    if name[0] not in IDENTIFIER_START:
         return False
     if not set(name) <= IDENTIFIER:
         return False
