@@ -83,7 +83,6 @@ alias if_zsh_eval=eval
 
 alias if_posixish=true
 '
-
 if_fish || eval 'test -z "${0##*dash}" && alias if_posixish=true'
 if_posixish && eval 'alias if_posixish_eval=eval'
 
@@ -221,7 +220,7 @@ export MYPY_CACHE_DIR="$XDG_CACHE_HOME"/mypy
 export NLTK_DATA="$XDG_DATA_HOME"/nltk_data
 
 # Python: Ruff XDG
-export RUFF_CACHE_DIR=$XDG_CACHE_HOME/ruff
+export RUFF_CACHE_DIR="$XDG_CACHE_HOME"/ruff
 
 ########
 # Ruby #
