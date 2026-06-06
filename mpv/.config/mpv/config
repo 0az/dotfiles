@@ -56,7 +56,7 @@ sub-font-size=48
 # sub-font-provider=none
 # embeddedfonts=no
 demuxer-mkv-subtitle-preroll=yes
-sub-ass-vsfilter-blur-compat=no
+sub-ass-use-video-data=aspect-ratio
 sub-fix-timing=no
 
 sub-auto=fuzzy
