@@ -14,6 +14,20 @@ vim.lsp.enable {
 	'ty',
 }
 
+vim.lsp.config('gopls', {
+	settings = {
+		gopls = {
+			['ui.inlayhint.hints'] = {
+				['assignVariableTypes'] = true,
+				['constantValues'] = true,
+				['functionTypeParameters'] = true,
+			},
+			['staticcheck'] = true,
+		},
+	},
+})
+vim.lsp.enable 'gopls'
+
 vim.lsp.config('ruff', {
 	on_attach = function(client, bufnr)
 		client.server_capabilities.hoverProvider = false
