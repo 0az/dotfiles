@@ -61,3 +61,12 @@ vim.lsp.config('ts_ls', {
 	end,
 })
 vim.lsp.enable 'ts_ls'
+
+vim.diagnostic.config {
+	virtual_text = {
+		source = 'if_many',
+	},
+	float = {
+		source = true, -- Truthy means always
+	},
+}
