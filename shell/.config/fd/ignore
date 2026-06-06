@@ -15,6 +15,7 @@
 .pytest_cache
 .terraform
 .venv
+.venv-*
 .yarn
 .zsh_sessions
 /.cargo
