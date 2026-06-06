@@ -261,4 +261,6 @@ let g:easytags_file = g:common_cache_home . '/tags'
 " Gutentags
 let g:gutentags_cache_dir = g:common_cache_home . '/gutentags'
 
-set statusline+=%{gutentags#statusline()}
+if exists("gutentags#statusline")
+	set statusline+=%{gutentags#statusline()}
+endif
