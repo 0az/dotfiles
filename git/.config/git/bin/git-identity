@@ -1,12 +1,8 @@
 #! /usr/bin/env python3
 # vim: set ft=python:expandtab:textwidth=80:ts=4:sw=4:
 
-# SPDX-License-Identifier: MIT
-#
-# Copyright (c) 2023 0az
-
 """
-Manage separate Git identities using the Git configuration system.
+Manage separate Git or Jujitsu identities using the Git configuration system.
 
 You can open your user-global configuration file using:
 
@@ -22,8 +18,19 @@ Then, you can select it using:
 
     git identity select sample
 
+This will affect the current Git repository by setting these local keys:
+
+- `user.name`
+- `user.email`
+- `x-identity.active`
+
+If this Git repository is colocated with a Jujitsu repository,
+this will also affect the same keys at the Jujitsu repository's level.
+
 For more about the Git configuration system, see git-config(1).
 """
+
+# TODO: Remove Python 2 polyglot support
 
 import subprocess
 import sys
@@ -32,9 +39,9 @@ from os.path import basename
 
 from subprocess import DEVNULL
 
-_doc_summary, _doc_details = __doc__.split('\n\n', maxsplit=1)
+_doc_summary, _doc_details = (__doc__ or '').split('\n\n', maxsplit=1)
 
-USAGE = '''
+USAGE = """
 {summary}
 
 Usage:
@@ -68,7 +75,7 @@ Commands:
 Description:
 
 {details}
-'''.strip().format(
+""".strip().format(
     prog=basename(sys.argv[0]),
     summary=_doc_summary.strip(),
     details=textwrap.indent(_doc_details.lstrip(), ' ' * 4),
@@ -80,16 +87,31 @@ def error(*args, **kwargs):
 
 
 def call_silent(cmd):
-    return subprocess.call(cmd, stderr=DEVNULL)
+    return subprocess.call(cmd, stdout=DEVNULL, stderr=DEVNULL)
+
+
+def check_jj():
+    # `jj config path --quiet --repo` will return zero if the command is run
+    # from within a Jujitsu repository
+    return call_silent(['jj', 'config', 'path', '--quiet', '--repo']) == 0
+
+
+def jj_metaedit_fix_author():
+    return subprocess.check_call(['jj', 'metaedit', '--update-author'])
 
 
 def build_config_command(key, value, location='local'):
     if location not in ('local', 'global'):
         raise ValueError('Location must be local or global!')
 
-    cmd = ['git', 'config', '--includes', '--' + location, key, value]
+    return ['git', 'config', '--includes', '--' + location, key, value]
 
-    return cmd
+
+def build_jj_config_command(key, value, location='repo'):
+    if location not in ('repo',):
+        raise ValueError('Location must be repo!')
+
+    return ['jj', 'config', 'set', '--' + location, key, value]
 
 
 def set_config(key, value, location='local', dry_run=False):
@@ -101,6 +123,15 @@ def set_config(key, value, location='local', dry_run=False):
         subprocess.check_call(cmd)
     else:
         print(' '.join(cmd))
+
+    if location == 'local' and check_jj():
+        jj_cmd = build_jj_config_command(key, value, location='repo')
+        if not dry_run:
+            subprocess.check_call(jj_cmd)
+        else:
+            print(' '.join(jj_cmd))
+
+    return 0
 
 
 def parse_line(line):
@@ -129,9 +160,7 @@ def get_config(location):
 
         section_dict = config.setdefault(section, {})
         subsection_dict = (
-            section_dict.setdefault(subsection, {})
-            if subsection
-            else section_dict
+            section_dict.setdefault(subsection, {}) if subsection else section_dict
         )
         values = subsection_dict.setdefault(var, [])
         values.append(val)
@@ -199,6 +228,7 @@ def select(identity):
     Select an identity for the local config context.
     """
     reset()
+
     subsection = get_identities(casefold=True).get(identity.casefold())
     if not subsection:
         error('Identity {} does not exist!'.format(identity))
@@ -208,6 +238,7 @@ def select(identity):
     for var, vals in subsection.items():
         for val in vals:
             set_config(key.format(var), val)
+
     set_config('x-identity.active', identity.lower())
     return 0
 
