@@ -9,6 +9,7 @@ end
 vim.lsp.enable {
 	'clangd',
 	'hls',
+	'lua_ls', -- See: ftplugin/lua.lua
 	'nixd',
 	'pyright',
 	'ty',

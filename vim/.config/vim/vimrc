@@ -22,6 +22,9 @@ let g:not_mac = !g:has_mac
 let g:has_vimr = exists('g:gui_vimr') && g:gui_vimr
 let g:not_vimr = !g:has_vimr
 
+" Vim/Neovim dotfiles location, i.e. ~/dotfiles/vim/.config
+let g:vim_dotfiles_root = expand('<script>:h:h')
+
 " XDG setup
 let s:home_suffix = g:has_nvim ? '/nvim' : '/vim'
 let s:use_xdg_cache_home = strlen($XDG_CACHE_HOME) > 0
