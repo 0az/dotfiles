@@ -34,6 +34,7 @@ ssh/.ssh/known_hosts*
 # litecli, pgcli, etc
 shell/.config/*cli/history
 shell/.config/*cli/log
+shell/.config/shell/includes.d/*.local.sh
 
 ########
 # Syncthing
