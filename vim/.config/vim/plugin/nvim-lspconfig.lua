@@ -51,12 +51,12 @@ vim.lsp.enable 'sourcekit'
 
 vim.lsp.config('ts_ls', {
 	on_attach = function()
+		local client = assert(vim.lsp.get_clients({ name = 'ts_ls' })[1])
 		vim.api.nvim_create_user_command('TsOrganizeImports', function()
-			vim.lsp.buf.execute_command {
-				'_typescript.organizeImports',
-				{ vim.api.nvim_buf_get_name(0) },
-				'',
-			}
+			client:exec_cmd(
+				{ title = 'Organize Imports', command = '_typescript.organizeImports' },
+				{ bufnr = vim.api.nvim_get_current_buf() }
+			)
 		end, {})
 	end,
 })
