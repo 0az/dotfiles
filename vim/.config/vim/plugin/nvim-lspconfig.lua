@@ -73,3 +73,40 @@ vim.diagnostic.config {
 		source = true, -- Truthy means always
 	},
 }
+
+local lsp_format_on_save_allowlist = {
+	tofu_ls = true,
+}
+
+--- Inlay hint denylist.
+local lsp_inlay_hint_denylist = {
+	lua_ls = true,
+}
+
+local function augroup_name(client)
+	return 'UserLspConfig.' .. client.name .. '.' .. client.id .. '.Main'
+end
+
+require('initcore.lsp').on_attach('*', 'lspconfig', function(client, bufnr)
+	if client.server_capabilities.inlayHintProvider then
+		vim.lsp.inlay_hint.enable(not lsp_inlay_hint_denylist[client.name], { bufnr = bufnr })
+	end
+
+	local lsp_augroup = vim.api.nvim_create_augroup(augroup_name(client), { clear = false })
+
+	if lsp_format_on_save_allowlist[client.name] then
+		if client:supports_method 'textDocument/formatting' then
+			vim.api.nvim_create_autocmd('BufWritePre', {
+				group = lsp_augroup,
+				buffer = bufnr,
+				callback = function()
+					vim.lsp.buf.format { bufnr = bufnr, id = client.id, timeout_ms = 1000 }
+				end,
+			})
+		end
+	end
+end)
+
+require('initcore.lsp').on_detach('*', 'lspconfig', function(client, bufnr)
+	vim.api.nvim_clear_autocmds { group = augroup_name(client), buf = bufnr }
+end)
