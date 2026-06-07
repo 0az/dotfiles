@@ -145,6 +145,8 @@ if g:has_nvim
 	let g:ale_linters_ignore['cpp'] = s:c_ale_linters_ignore
 	let g:ale_linters_ignore['lua'] = ['lua_language_server', 'selene']
 	let g:ale_linters_ignore['go'] = ['gopls']
+
+	let g:ale_linters_ignore['rust'] = g:ale_linters['rust']
 endif
 
 let g:ale_fixers = {
