@@ -1,6 +1,6 @@
 {
   "cssTheme": "Obsidian Nord Enhanced",
-  "theme": "obsidian",
+  "theme": "system",
   "monospaceFontFamily": "Comic Code,DejaVu Sans Mono",
   "baseFontSize": 18,
   "baseFontSizeAction": false,
@@ -11,5 +11,6 @@
     "fix-font-sizing",
     "hide-tags-file"
   ],
-  "accentColor": ""
+  "accentColor": "",
+  "showRibbon": false
 }
