@@ -143,6 +143,7 @@ if g:has_nvim
 	let s:c_ale_linters_ignore += ['cc', 'ccls', 'clangd']
 	let g:ale_linters_ignore['c'] = s:c_ale_linters_ignore
 	let g:ale_linters_ignore['cpp'] = s:c_ale_linters_ignore
+	let g:ale_linters_ignore['lua'] = ['lua_language_server', 'selene']
 	let g:ale_linters_ignore['go'] = ['gopls']
 endif
 
