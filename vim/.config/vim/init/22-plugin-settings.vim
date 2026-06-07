@@ -242,6 +242,10 @@ let g:ycm_filetype_blacklist = {
 	\ "rust": 1,
 \ }
 
+if g:has_nvim
+	let g:go_gopls_enabled = 0
+endif
+
 " Syntastic
 " let g:syntastic_swift_swiftlint_use_defaults = 1
 " let g:syntastic_swift_checkers = ['swiftlint', 'swiftpm']
