@@ -22,6 +22,9 @@ set updatetime=400
 set history=1000
 set tabpagemax=50
 
+" Mouse: Normal, Visual, Insert, Command-line
+set mouse+=nvic
+
 if exists('+autoread')
 	set autoread
 endif
