@@ -112,7 +112,7 @@ let g:ale_linters = {
 	\ 'typescript': s:js_ale_linters,
 	\ 'typescriptreact': s:js_ale_linters,
 	\ 'go': [
-		\ 'gopls'
+		"\ 'gopls'
 	\ ],
 	\ 'python': [
 		"\ 'flake8',
@@ -143,6 +143,7 @@ if g:has_nvim
 	let s:c_ale_linters_ignore += ['cc', 'ccls', 'clangd']
 	let g:ale_linters_ignore['c'] = s:c_ale_linters_ignore
 	let g:ale_linters_ignore['cpp'] = s:c_ale_linters_ignore
+	let g:ale_linters_ignore['go'] = ['gopls']
 endif
 
 let g:ale_fixers = {
