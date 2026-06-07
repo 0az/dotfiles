@@ -23,12 +23,8 @@ vim.keymap.set('n', '<Space>q', vim.diagnostic.setloclist)
 
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
-vim.api.nvim_create_autocmd('LspAttach', {
-	group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-	callback = function(ev)
-		-- Enable completion triggered by <c-x><c-o>
-		vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-		lsp_keymap.apply(ev.buf)
-	end,
-})
+require('initcore.lsp').on_attach('*', 'ide-keymap', function(_client, bufnr)
+	-- Enable completion triggered by <c-x><c-o>
+	vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
+	lsp_keymap.apply(bufnr)
+end)
