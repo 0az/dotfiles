@@ -8,4 +8,5 @@
 	"editor_wait_args": "--nofork",
 	"theme": "Merge.sublime-theme",
 	"diff_style": "inline",
+	"diff_algorithm": "match_git",
 }
