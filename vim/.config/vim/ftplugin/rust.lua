@@ -3,7 +3,7 @@ local bufnr = vim.api.nvim_get_current_buf()
 
 local opts = { buffer = bufnr }
 
-if vim.g.loaded_rustaceanvim then
+if vim.g.loaded_rustaceanvim and vim.fn.exists(':RustLsp') == 2 then
 	vim.keymap.set({ 'n', 'v' }, 'J', function()
 		vim.cmd.RustLsp 'joinLines'
 	end, opts)
