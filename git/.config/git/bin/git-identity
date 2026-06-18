@@ -93,7 +93,10 @@ def call_silent(cmd):
 def check_jj():
     # `jj config path --quiet --repo` will return zero if the command is run
     # from within a Jujitsu repository
-    return call_silent(['jj', 'config', 'path', '--quiet', '--repo']) == 0
+    try:
+        return call_silent(['jj', 'config', 'path', '--quiet', '--repo']) == 0
+    except FileNotFoundError:
+        return False
 
 
 def jj_metaedit_fix_author():
