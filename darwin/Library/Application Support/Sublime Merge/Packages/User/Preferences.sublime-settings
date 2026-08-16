@@ -9,4 +9,5 @@
 	"theme": "Merge.sublime-theme",
 	"diff_style": "inline",
 	"diff_algorithm": "match_git",
+	"update_check": true,
 }
